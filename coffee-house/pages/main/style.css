@@ -188,20 +188,22 @@ h1 {
 
 .favorite {}
 
-h3 {
+.favorite__title {
   color: #403F3D;
   text-align: center;
-  font-size: 60px;
+  font-size: 59.9px;
   line-height: 125%;
   margin-bottom: 40px;
 }
 
-h3 span {
+.favorite__title span {
   color: #B0907A;
   font-style: italic;
 }
 
-.favorite__wrapper {}
+.favorite__wrapper {
+  margin-bottom: 100px;
+}
 
 .favorite__slider {
   display: flex;
@@ -279,4 +281,40 @@ h3 span {
 
 .active {
   background-color: #665F55;
+}
+
+/* ********************************** section about */
+
+.about__title {
+  color: #403F3D;
+  font-size: 59.9px;
+  line-height: 125%;
+  margin-bottom: 40px;
+}
+
+.about__title span {
+  color: #B0907A;
+  font-style: italic;
+}
+
+.about__wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 660px);
+  /* grid-template-rows: 430px 120px 430px; */
+  gap: 40px;
+  margin-bottom: 100px;
+}
+
+.about__item {
+  overflow: hidden;
+  border-radius: 20px;
+  /* scale: 1.1; */
+  transition: all 0.4s;
+}
+
+@media(hover: hover) {
+  .about__item:hover img {
+    /* scale: 1; */
+    transition: all 0.4s;
+  }
 }
