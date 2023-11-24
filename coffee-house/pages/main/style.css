@@ -12,7 +12,7 @@ html {
 
 body {
   background-color: #E1D4C9;
-  font-size: 1rem;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
   line-height: 150%;
@@ -20,8 +20,19 @@ body {
 
 a {
   text-decoration: none;
+  color: inherit;
+  transition: all 0.4s;
 }
 
+button {
+  transition: all 0.4s;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul,
+ol,
 li {
   list-style: none;
 }
@@ -38,6 +49,7 @@ li {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 26px;
 }
 
 .header__logo {
@@ -91,5 +103,78 @@ h1 {
 .header__menu-link {
   display: flex;
   gap: 8px;
-  align-items: center;
+  align-items: start;
+}
+
+.enjoy__wrapper {
+  background-image: url(../../assets/enjoy/img-hero.jpg);
+  background-size: cover;
+  background-position-y: center;
+  padding: 6.25rem;
+  border-radius: 40px;
+}
+
+.enjoy__title {
+  max-width: 530px;
+  font-size: 16px;
+  color: #E1D4C9;
+  font-size: 72px;
+  line-height: 105%;
+  margin-bottom: 40px;
+}
+
+.enjoy__title span {
+  color: #B0907A;
+  font-style: italic;
+}
+
+.enjoy__description {
+  width: 530px;
+  color: #E1D4C9;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+  margin-bottom: 42px;
+}
+
+.enjoy__button {}
+
+.enjoy__link-menu__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 8px;
+  width: 200px;
+  border-radius: 100px;
+  background-color: #E1D4C9;
+  padding: 20px 78px;
+  color: #403F3D;
+  line-height: 150%;
+  cursor: pointer;
+}
+
+.enjoy__link-menu_text {
+  position: absolute;
+  transition: all 0.4s;
+}
+
+@media(hover: hover) {
+  .enjoy__link-menu__wrapper:hover .enjoy__link-menu_text {
+    transform: translateX(-12px);
+    transition: all 0.4s;
+  }
+}
+
+.enjoy__link-menu_icon {
+  opacity: 0;
+  transform: translateX(28px);
+  transition: all 0.4s;
+}
+
+@media(hover: hover) {
+  .enjoy__link-menu__wrapper:hover .enjoy__link-menu_icon {
+    opacity: 1;
+    transition: all 0.4s;
+  }
 }
