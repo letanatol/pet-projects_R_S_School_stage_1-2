@@ -146,6 +146,99 @@ h1 {
 
 /************************************************** section menu */
 
+.menu__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 100px;
+}
+
+.menu__title {
+  max-width: 800px;
+  color: #403F3D;
+  text-align: center;
+  font-size: 60px;
+  line-height: 125%;
+}
+
+.menu__title span {
+  color: #B0907A;
+  font-style: italic;
+}
+
+.menu__tabs {
+  display: flex;
+  gap: 16px;
+}
+
+.menu__tabs-item {
+  display: flex;
+  padding: 7px 16px 7px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 100px;
+  border: 1px solid #C1B6AD;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.active {
+  background-color: #665F55;
+}
+
+.menu__tabs-item-icon {
+  display: flex;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  background-color: #C1B6AD;
+  transition: all 0.4s;
+}
+
+.menu__tabs-item-text {
+  transition: all 0.4s;
+}
+
+.menu__tabs-item.active .menu__tabs-item-text {
+  color: #E1D4C9;
+}
+
+.menu__tabs-item.active .menu__tabs-item-icon {
+  background-color: #E1D4C9;
+}
+
+@media(hover: hover) {
+
+  .menu__tabs-item:hover {
+    background-color: #665F55;
+    transition: all 0.4s;
+  }
+
+  .menu__tabs-item:hover .menu__tabs-item-icon {
+    color: #E1D4C9;
+    transition: all 0.4s;
+  }
+
+  .menu__tabs-item:hover .menu__tabs-item-text {
+    color: #E1D4C9;
+    transition: all 0.4s;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 /************************************* footer */
