@@ -1,10 +1,268 @@
-* {
+*,
+*:before,
+*:after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: #E1D4C9;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 150%;
+  font-family: 'Inter', sans-serif;
+  color: #403F3D;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.4s;
+}
+
+button {
+  transition: all 0.4s;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 15px 40px 40px;
+}
+
+.header {
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.header__logo {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 31px;
+}
+
+.header__logo-image {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.ellipse {
+  position: absolute;
+  top: 11px;
+}
+
+.resource {
+  position: absolute;
+  top: 16px;
+}
+
+h1 {
+  font-size: 0.5rem;
+  letter-spacing: 0.0313rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.nav {}
+
+.nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.nav__item {}
+
+.nav__link {
+  position: relative;
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  display: block;
+  left: 50%;
+  height: 2px;
+  bottom: -4px;
+  background: #403F3D;
+  transform: translateX(-50%);
+  width: 0;
+  transition: all 0.4s;
+}
+
+.header__menu-link::after {
+  content: '';
+  position: absolute;
+  display: block;
+  left: 50%;
+  height: 2px;
+  bottom: -4px;
+  background: #403F3D;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+@media(hover: hover) {
+
+  .nav__link:hover::after {
+    width: 100%;
+  }
+}
+
+.header__menu {
+  display: flex;
+}
+
+.header__menu-link {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: start;
+  pointer-events: none;
+}
+
+/************************************************** section menu */
+
+
+
+/************************************* footer */
+
+.footer__container {
+  display: flex;
+  max-width: 1360px;
+  padding: 100px;
+  justify-content: space-between;
+  gap: 100px;
+  border-radius: 40px;
+  background: #665F55;
+}
+
+.footer__description {
+  max-width: 530px;
+}
+
+.footer__title {
+  color: #E1D4C9;
+  font-size: 60px;
+  font-weight: 600;
+  line-height: 125%;
+  margin-bottom: 40px;
+}
+
+.footer__title span {
+  color: #B0907A;
+  font-style: italic;
+}
+
+.footer__socials {
+  display: flex;
+  gap: 12px;
+}
+
+.footer__socials-link {}
+
+.footer__socials-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 100px;
+  border: 1px solid #C1B6AD;
+  transition: all 0.4s;
+}
+
+.footer__socials-icon {
+  stroke: #E1D4C9;
+  transition: all 0.4s;
+}
+
+.footer__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 47px;
+  flex: 1 0 0;
+  color: #E1D4C9;
+  font-weight: 600;
+  line-height: 125%;
+  padding-top: 37px;
+}
+
+.footer__contacts-title {
+  font-size: 24px;
+}
+
+.footer__contacts-links {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.footer__contacts__link {
+  width: fit-content;
+}
+
+.footer__contacts__link::after {
+  content: '';
+  position: relative;
+  display: block;
+  left: 50%;
+  height: 2px;
+  bottom: -4px;
+  background: #E1D4C9;
+  transform: translateX(-50%);
+  width: 0px;
+  transition: all 0.4s;
+}
+
+.footer__contacts-wrapper {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.footer__contacts-icon {}
+
+.footer__contacts-description {
+  font-size: 16px;
+}
+
+@media(hover: hover) {
+  .footer__socials-link:hover .footer__socials-wrapper {
+    background-color: #E1D4C9;
+    border: 1px solid #E1D4C9;
+    transition: all 0.4s;
+  }
+
+  .footer__socials-link:hover .footer__socials-icon {
+    stroke: #665F55;
+    transition: all 0.4s;
+  }
+
+  .footer__contacts__link:hover::after {
+    width: 100%;
+  }
 }
