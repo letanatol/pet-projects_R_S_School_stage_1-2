@@ -230,15 +230,68 @@ h1 {
 }
 
 
+/* ****************************** menu-cards */
 
+.menu__cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
 
+}
 
+.menu__card {
+  max-width: 310px;
+  border: 1px solid #C1B6AD;
+  border-radius: 40px;
+  height: 506px;
+}
 
+.menu__card-image {
+  display: flex;
+  overflow: hidden;
+  border-radius: 40px;
+  align-items: center;
+  transition: all 0.4s;
+}
 
+.menu__card-image img {
+  width: 100%;
+  scale: 1.1;
+  transition: all 0.4s;
+}
 
+@media(hover: hover) {
+  .menu__card:hover img {
+    scale: 1;
+    transition: all 0.4s;
+  }
+}
 
+.menu__card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  height: 196px;
+}
 
+.menu__card-title {
+  font-size: 24px;
+  line-height: 125%;
+}
 
+.menu__card-description {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 150%;
+  flex: 1 1 auto;
+}
+
+.menu__card-price {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 125%;
+}
 
 
 /************************************* footer */
