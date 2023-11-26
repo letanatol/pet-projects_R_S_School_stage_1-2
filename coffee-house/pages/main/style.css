@@ -60,6 +60,7 @@ li {
   flex-direction: column;
   justify-content: center;
   gap: 31px;
+  pointer-events: none;
 }
 
 .header__logo-image {
@@ -588,6 +589,10 @@ h1 {
   gap: 22px;
 }
 
+.footer__contacts__link{
+  width: fit-content;
+}
+
 .footer__contacts__link::after {
   content: '';
   position: relative;
@@ -598,7 +603,6 @@ h1 {
   background: #E1D4C9;
   transform: translateX(-50%);
   width: 0px;
-  left: 93px;
   transition: all 0.4s;
 }
 
@@ -627,6 +631,6 @@ h1 {
   }
 
   .footer__contacts__link:hover::after {
-    width: 186px;
+    width: 100%;
   }
 }
