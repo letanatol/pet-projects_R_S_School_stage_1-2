@@ -186,6 +186,7 @@ h1 {
 
 .active {
   background-color: #665F55;
+  pointer-events: none;
 }
 
 .menu__tabs-item-icon {
