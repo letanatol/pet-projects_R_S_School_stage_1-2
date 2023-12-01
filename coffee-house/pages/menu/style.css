@@ -361,6 +361,40 @@ h1 {
   height: 506px;
 }
 
+.menu__card-refresh {
+  display: none;
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  border: 1px solid #665F55;
+}
+
+@media (max-width: 1430px) {
+  .menu__cards {
+    justify-content: center;
+  }
+
+  #card-coffee-07,
+  #card-coffee-08 {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+
+  #card-coffee-05,
+  #card-coffee-06 {
+    display: none;
+  }
+
+  .menu__card-refresh {
+    display: flex;
+  }
+}
+
+
 .menu__card-image {
   display: flex;
   overflow: hidden;
@@ -413,7 +447,6 @@ h1 {
 
 .footer__container {
   display: flex;
-  max-width: 1360px;
   padding: 100px;
   justify-content: space-between;
   gap: 100px;
@@ -421,16 +454,26 @@ h1 {
   background: #665F55;
 }
 
-@media (max-width: 1400px) {
+.footer__description {
+  max-width: 530px;
+}
+
+@media (max-width: 1220px) {
   .footer__container {
-    flex-wrap: wrap;
     padding: 100px 60px 105px;
-    gap: 68px;
+    gap: 50px;
   }
 }
 
-.footer__description {
-  max-width: 530px;
+@media (max-width: 1060px) {
+  .footer__container {
+    flex-wrap: wrap;
+    gap: 106px;
+  }
+
+  .footer__description {
+    max-width: 568px;
+  }
 }
 
 .footer__title {
@@ -472,12 +515,14 @@ h1 {
 .footer__contacts {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 47px;
   flex: 1 0 0;
   color: #E1D4C9;
   font-weight: 600;
   line-height: 125%;
-  padding-top: 37px;
+  /* padding-top: 37px; */
+  white-space: nowrap;
 }
 
 .footer__contacts-title {
