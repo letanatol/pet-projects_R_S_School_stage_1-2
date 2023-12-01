@@ -162,6 +162,7 @@ h1 {
   display: flex;
   gap: 8px;
   align-items: start;
+  /* pointer-events: none; */
 }
 
 @media (max-width: 768px) {
@@ -209,7 +210,6 @@ h1 {
     width: 40px;
     height: 40px;
   }
-
 }
 
 /* ******************************************* header hamburger */
@@ -256,7 +256,6 @@ h1 {
   top: calc(50% + 5px);
   left: 13px;
 }
-
 
 
 /************************************************** section enjoy */
@@ -919,8 +918,13 @@ h1 {
   color: #E1D4C9;
   font-weight: 600;
   line-height: 125%;
-  /* padding-top: 37px; */
   white-space: nowrap;
+}
+
+@media (max-width: 680px) {
+  .footer__contacts {
+    padding-bottom: 5px;
+  }
 }
 
 .footer__contacts-title {
