@@ -46,6 +46,12 @@ li {
   padding: 15px 40px 40px;
 }
 
+@media (max-width: 380px) {
+  .container {
+    padding: 20px 16px 40px;
+  }
+}
+
 .header {
   height: 60px;
   display: flex;
@@ -346,7 +352,6 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
-
 }
 
 .menu__card {
@@ -414,6 +419,14 @@ h1 {
   gap: 100px;
   border-radius: 40px;
   background: #665F55;
+}
+
+@media (max-width: 1400px) {
+  .footer__container {
+    flex-wrap: wrap;
+    padding: 100px 60px 105px;
+    gap: 68px;
+  }
 }
 
 .footer__description {
