@@ -516,7 +516,7 @@ h1 {
   font-style: italic;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 720px) {
   .footer__title {
     font-size: 32px;
   }
