@@ -346,7 +346,10 @@ h1 {
   padding-left: 20px;
 }
 
-/* .active {} */
+.active {
+  background-color: #665F55;
+  pointer-events: none;
+}
 
 .menu__tabs-item-icon {
   display: flex;
@@ -650,6 +653,7 @@ h1 {
 /* !!!modal-card */
 
 .modal {
+  display: none;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -666,7 +670,7 @@ h1 {
 }
 
 .modal__card {
-  display: none;
+  display: flex;
   width: 800px;
   padding: 16px;
   justify-content: center;
@@ -799,4 +803,42 @@ h1 {
   font-size: 16px;
   font-weight: 600;
   line-height: 150%;
+  cursor: pointer;
+}
+
+/* @media(hover: hover) {
+  .button {
+    background-color: #665F55;
+  }
+} */
+
+@media (max-width: 768px) {
+  .modal__card {
+    width: 688px;
+  }
+
+  .modal__card-info{
+    width: 326px;
+  }
+
+  .modal__card-button {
+    width: 326px;
+  }
+
+  .modal__card-tabs{
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal__card {
+    width: 342px;
+  }
+
+  .modal__card-image{
+    display: none;
+  }
+    .modal__card-button {
+    width: 310px;
+  }
 }
