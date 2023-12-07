@@ -8,7 +8,6 @@
 
 html {
   scroll-behavior: smooth;
-  /* font-size: calc(1.11vw); */
 }
 
 body {
@@ -39,6 +38,22 @@ ol,
 li {
   list-style: none;
 }
+
+.scroll {
+  overflow: hidden;
+}
+
+/* .blackout__open {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  height: 100vh;
+  width: 100vw;
+  background: #000;
+  opacity: 0.5;
+  transition: all 0.5s;
+} */
 
 .container {
   position: relative;
@@ -167,12 +182,12 @@ h1 {
 
 @media (max-width: 768px) {
   .header__box {
-    display: none;
-    position: absolute;
+    display: flex;
+    position: fixed;
     flex-direction: column;
     right: 0;
     top: 100px;
-    z-index: 2;
+    z-index: 3;
     width: 100%;
     height: 100vh;
     padding: 60px 40px;
@@ -238,7 +253,7 @@ h1 {
   position: absolute;
   display: block;
   height: 2px;
-  width: 17px;
+  width: 19px;
   align-items: center;
   background-color: #403F3D;
   top: calc(50% - 5px);
@@ -250,13 +265,25 @@ h1 {
   position: absolute;
   display: block;
   height: 2px;
-  width: 17px;
+  width: 19px;
   align-items: center;
   background-color: #403F3D;
   top: calc(50% + 5px);
   left: 13px;
+  transition: all 1.0s;
 }
 
+.hamburger-open>.hamburger__line::before {
+  top: 49%;
+  transform: rotate(-50deg) translate(0, -50%);
+  transition: all 1.0s;
+}
+
+.hamburger-open>.hamburger__line::after {
+  top: 45%;
+  transform: rotate(50deg) translate(0, 50%);
+  transition: all 1.0s;
+}
 
 /************************************************** section enjoy */
 

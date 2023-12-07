@@ -8,7 +8,6 @@
 
 html {
   scroll-behavior: smooth;
-  /* font-size: calc(1.11vw); */
 }
 
 body {
@@ -193,12 +192,12 @@ h1 {
 
 @media (max-width: 768px) {
   .header__box {
-    display: none;
-    position: absolute;
+    display: flex;
+    position: fixed;
     flex-direction: column;
     right: 0;
     top: 100px;
-    z-index: 2;
+    z-index: 3;
     width: 100%;
     height: 100vh;
     padding: 60px 40px;
@@ -264,7 +263,7 @@ h1 {
   position: absolute;
   display: block;
   height: 2px;
-  width: 17px;
+  width: 19px;
   align-items: center;
   background-color: #403F3D;
   top: calc(50% - 5px);
@@ -276,14 +275,25 @@ h1 {
   position: absolute;
   display: block;
   height: 2px;
-  width: 17px;
+  width: 19px;
   align-items: center;
   background-color: #403F3D;
   top: calc(50% + 5px);
   left: 13px;
+  transition: all 1.0s;
 }
 
+.hamburger-open>.hamburger__line::before {
+  top: 49%;
+  transform: rotate(-50deg) translate(0, -50%);
+  transition: all 1.0s;
+}
 
+.hamburger-open>.hamburger__line::after {
+  top: 45%;
+  transform: rotate(50deg) translate(0, 50%);
+  transition: all 1.0s;
+}
 /************************************************** section menu */
 
 .menu__wrapper {
@@ -806,7 +816,7 @@ h1 {
   cursor: pointer;
 }
 
- /* @media(hover: hover) {
+/* @media(hover: hover) {
   .button {
     background-color: #665F55;
   }
@@ -817,7 +827,7 @@ h1 {
     width: 688px;
   }
 
-  .modal__card-info{
+  .modal__card-info {
     width: 326px;
   }
 
@@ -825,7 +835,7 @@ h1 {
     width: 326px;
   }
 
-  .modal__card-tabs{
+  .modal__card-tabs {
     flex-wrap: wrap;
   }
 }
@@ -835,10 +845,11 @@ h1 {
     width: 342px;
   }
 
-  .modal__card-image{
+  .modal__card-image {
     display: none;
   }
-    .modal__card-button {
+
+  .modal__card-button {
     width: 310px;
   }
 }

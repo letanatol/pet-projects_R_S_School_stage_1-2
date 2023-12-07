@@ -10,7 +10,8 @@
   <link rel="stylesheet" href="../main/style.css">
 </head>
 
-<body>
+<body id="body">
+  <!-- <div class="blackout" id="blackout"></div> -->
   <div class="container">
     <header class="header">
       <a href="#" onclick="return false" class="header__logo">
@@ -24,7 +25,7 @@
         </div>
         <h1>Coffee House</h1>
       </a>
-      <div class="header__box">
+      <div class="header__box" id="header-box">
         <nav class="nav">
           <ul class="nav__list">
             <li class="nav__item">
@@ -48,7 +49,7 @@
           </a>
         </div>
       </div>
-      <span class="header__hamburger hamburger">
+      <span class="header__hamburger hamburger" id="hamburger">
         <span class="hamburger__line"></span>
       </span>
     </header>
@@ -265,6 +266,7 @@
   </div>
 
   <script src="../main/carousel.js"></script>
+  <script src="../main/hamburger.js"></script>
 </body>
 
 </html>
