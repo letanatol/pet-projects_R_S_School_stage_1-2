@@ -653,7 +653,7 @@ h1 {
 /* !!!modal-card */
 
 .modal {
-  display: none;
+  display: flex;
   position: fixed;
   left: 50%;
   top: 50%;
@@ -806,11 +806,11 @@ h1 {
   cursor: pointer;
 }
 
-/* @media(hover: hover) {
+ /* @media(hover: hover) {
   .button {
     background-color: #665F55;
   }
-} */
+}  */
 
 @media (max-width: 768px) {
   .modal__card {

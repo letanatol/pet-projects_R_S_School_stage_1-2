@@ -22,19 +22,19 @@ window.addEventListener(`resize`, (event) => {
 tabsMenuBlock.addEventListener('change', (event) => {
   renderCards(event.target.value);
   currentCategory = event.target.value;
-  console.log(currentCategory);
 })
 
 refresh.addEventListener('click', addProducts);
 
 function addProducts() {
   const arrayCategory = [];
-  console.log(currentCategory);
+
   for (let i = 0; i < products.length; i++) {
     if (products[i].category == currentCategory) {
       arrayCategory.push(products[i]);
     }
   }
+  
   if (arrayCategory.length > 4) {
     menuCardsBlock.innerHTML = arrayCategory.map(item => (
 
@@ -102,9 +102,9 @@ menuCardsBlock.addEventListener('click', (event) => {
   }
 });
 
-// buttonClose.addEventListener('click', () => {
-//   closeModal(modal);
-// });
+buttonClose.addEventListener('click', () => {
+  closeModal(modal);
+});
 
 // закрыть дроп-меню на blackout:
 blackout.addEventListener('click', () => {
