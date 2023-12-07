@@ -7,27 +7,49 @@ const menuCardsBlock = document.getElementById('menu-cards');
 const modalCard = document.getElementById('modal-card');
 const refresh = document.getElementById('refresh');
 
+
+let currentCategory = 'coffee';
+
 window.addEventListener('load', renderCards());
-// window.addEventListener(`resize`, renderCards(), false);
+window.addEventListener(`resize`, (event) => {
+  renderCards(currentCategory);
+}, true);
 
 tabsMenuBlock.addEventListener('change', (event) => {
   renderCards(event.target.value);
+  currentCategory = event.target.value;
+  console.log(currentCategory);
 })
 
-// function addRefresh(arrayCategory) {
-//   if (window.innerWidth <= 768) {
-//     refresh.style.display = 'flex';
+refresh.addEventListener('click', addProducts);
 
-//     if (arrayCategory.length > 4) {
-//       arrayCategory.length = 4;
-//       refresh.style.display = 'flex';
-//     } else {
-//       refresh.style.display = 'none';
-//     }
-//   } else {
-//     refresh.style.display = 'none';
-//   }
-// }
+function addProducts() {
+  const arrayCategory = [];
+console.log(currentCategory);
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].category == currentCategory) {
+      arrayCategory.push(products[i]);
+    }
+  }
+  if (arrayCategory.length > 4) {
+    menuCardsBlock.innerHTML = arrayCategory.map(item => (
+
+      `<div class="menu__card" id="card-coffee-01">
+      <div class="menu__card-image">
+        <img src=${item.image} alt="coffee-1">
+      </div>
+      <div class="menu__card-info">
+        <h3 class="menu__card-title">${item.name}</h3>
+        <p class="menu__card-description">${item.description}</p>
+        <p class="menu__card-price">$${item.price}</p>
+      </div>
+    </div>`
+    )).join(' ');
+
+    refresh.style.display = 'none';
+  }
+}
+
 
 function renderCards(category = 'coffee') {
   const arrayCategory = [];
@@ -50,8 +72,6 @@ function renderCards(category = 'coffee') {
   } else {
     refresh.style.display = 'none';
   }
-
-  // addRefresh(arrayCategory);
 
   menuCardsBlock.innerHTML = arrayCategory.map(item => (
 
@@ -82,3 +102,20 @@ function closeModal(elem) {
   body.classList.remove('scroll');
   blackout.classList.remove('blackout__open');
 }
+
+
+
+// function addRefresh(arrayCategory) {
+//   if (window.innerWidth <= 768) {
+//     refresh.style.display = 'flex';
+
+//     if (arrayCategory.length > 4) {
+//       arrayCategory.length = 4;
+//       refresh.style.display = 'flex';
+//     } else {
+//       refresh.style.display = 'none';
+//     }
+//   } else {
+//     refresh.style.display = 'none';
+//   }
+// }
