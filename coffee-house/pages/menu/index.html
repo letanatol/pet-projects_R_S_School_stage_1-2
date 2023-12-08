@@ -49,7 +49,7 @@
           </a>
         </div>
       </div>
-      <span class="header__hamburger hamburger"  id="hamburger">
+      <span class="header__hamburger hamburger" id="hamburger">
         <span class="hamburger__line"></span>
       </span>
     </header>
@@ -171,60 +171,80 @@
 
     <div class="modal modal_state_close" id="modal">
       <div class="modal__card" id="modal-card">
-        <div class="modal__card-image">
+        <!-- <div class="modal__card-image">
           <img src="../../assets/menu/coffee-1.jpg" alt="coffee-1">
         </div>
         <div class="modal__card-info">
           <h3 class="modal__card-title">Irish coffee</h3>
           <p class="modal__card-description">Fragrant black coffee with Jameson Irish whiskey and whipped milk</p>
-          <p class="modal__card-selection">Size</p>
 
-          <div class="modal__card-tabs">
-            <div class="modal__tab active">
-              <div class="modal__tab-icon">
-                <span>S</span>
+          <p class="modal__card-selection">Size</p>
+          <div class="modal__card-tabs" id="modal__tabs-sizes">
+            <label>
+              <input type="radio" class="tab__input" name="size" value="0" checked>
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>S</span>
+                </div>
+                <div class="modal__tab-text">200 ml</div>
               </div>
-              <div class="modal__tab-text">200 ml</div>
-            </div>
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>M</span>
+            </label>
+            <label>
+              <input type="radio" class="tab__input" name="size" value="0.5">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>M</span>
+                </div>
+                <div class="modal__tab-text">300 ml</div>
               </div>
-              <div class="modal__tab-text">300 ml</div>
-            </div>
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>L</span>
+            </label>
+            <label>
+              <input type="radio" class="tab__input" name="size" value="1.0">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>L</span>
+                </div>
+                <div class="modal__tab-text">400 ml</div>
               </div>
-              <div class="modal__tab-text">400 ml</div>
-            </div>
+            </label>
           </div>
 
           <p class="modal__card-selection">Additives</p>
-          <div class="modal__card-tabs">
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>1</span>
+          <div class="modal__card-tabs" id="modal__tabs-additives">
+            <label>
+              <input type="checkbox" class="tab__input" name="add" value="0.5">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>1</span>
+                </div>
+                <div class="modal__tab-text">Sugar</div>
               </div>
-              <div class="modal__tab-text">Sugar</div>
-            </div>
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>2</span>
+            </label>
+            <label>
+              <input type="checkbox" class="tab__input" name="add" value="0.5">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>2</span>
+                </div>
+                <div class="modal__tab-text">Cinnamon</div>
               </div>
-              <div class="modal__tab-text">Cinnamon</div>
-            </div>
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>3</span>
+            </label>
+            <label>
+              <input type="checkbox" class="tab__input" name="add" value="0.5">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>3</span>
+                </div>
+                <div class="modal__tab-text">Syrup</div>
               </div>
-              <div class="modal__tab-text">Syrup</div>
-            </div>
+            </label>
           </div>
+
           <div class="modal__card-price">
             <div class="price-title">Total:</div>
-            <div class="price">$7.00</div>
+            <div class="price" id="total-price">$7.00</div>
           </div>
+          
           <div class="modal__card-warning">
             <div class="warning-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -248,7 +268,7 @@
               enjoy your favorite coffee with up to 20% discount.</p>
           </div>
           <div class="button modal__card-button" id="button-close">Close</div>
-        </div>
+        </div> -->
 
       </div>
     </div>

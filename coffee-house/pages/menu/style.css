@@ -294,6 +294,7 @@ h1 {
   transform: rotate(50deg) translate(0, 50%);
   transition: all 1.0s;
 }
+
 /************************************************** section menu */
 
 .menu__wrapper {
@@ -347,7 +348,8 @@ h1 {
   transition: all 0.4s;
 }
 
-.tab__input {
+.tab__input,
+.tab__input-add {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -760,13 +762,56 @@ h1 {
 
 .modal__tab-text {}
 
-.modal__tab.active .modal__tab-icon {
+
+
+.tab__input:checked+.modal__tab {
+  background-color: #665F55;
+  pointer-events: none;
+}
+
+.tab__input-add:checked+.modal__tab {
+  background-color: #665F55;
+}
+
+.tab__input:checked~.modal__tab .modal__tab-text,
+.tab__input-add:checked~.modal__tab .modal__tab-text {
+  color: #E1D4C9;
+}
+
+.tab__input:checked~.modal__tab .modal__tab-icon,
+.tab__input-add:checked~.modal__tab .modal__tab-icon {
+  background-color: #E1D4C9;
+}
+
+@media(hover: hover) {
+
+  .menu__tabs-item:hover {
+    background-color: #665F55;
+    transition: all 0.4s;
+  }
+
+  .menu__tabs-item:hover .menu__tabs-item-icon {
+    color: #E1D4C9;
+    transition: all 0.4s;
+  }
+
+  .menu__tabs-item:hover .menu__tabs-item-text {
+    color: #E1D4C9;
+    transition: all 0.4s;
+  }
+}
+
+
+
+
+
+/* .modal__tab.active .modal__tab-icon {
   background-color: #E1D4C9;
 }
 
 .modal__tab.active .modal__tab-text {
   color: #E1D4C9;
-}
+} */
 
 .modal__card-price {
   display: flex;
@@ -822,7 +867,7 @@ h1 {
   }
 }  */
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
   .modal__card {
     width: 688px;
   }
@@ -840,7 +885,7 @@ h1 {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 720px) {
   .modal__card {
     width: 342px;
   }

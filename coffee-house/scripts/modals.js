@@ -1,7 +1,5 @@
 import products from './products.json' assert {type: 'json'};
 
-// console.log(products[0].sizes.s.size);
-
 const body = document.getElementById('body');
 const blackout = document.getElementById('blackout');
 const tabsMenuBlock = document.getElementById('tabs-menu');
@@ -9,8 +7,6 @@ const menuCardsBlock = document.getElementById('menu-cards');
 const modal = document.getElementById('modal');
 const modalCard = document.getElementById('modal-card');
 const refresh = document.getElementById('refresh');
-const buttonClose = document.getElementById('button-close');
-
 
 let currentCategory = 'coffee';
 
@@ -34,11 +30,11 @@ function addProducts() {
       arrayCategory.push(products[i]);
     }
   }
-  
+
   if (arrayCategory.length > 4) {
     menuCardsBlock.innerHTML = arrayCategory.map(item => (
 
-      `<div class="menu__card" id="card-coffee-01">
+      `<div class="menu__card" data-id="${item.name}">
       <div class="menu__card-image">
         <img src=${item.image} alt="coffee-1">
       </div>
@@ -78,7 +74,6 @@ function renderCards(category = 'coffee') {
   }
 
   menuCardsBlock.innerHTML = arrayCategory.map(item => (
-
     `<div class="menu__card" data-id="${item.name}">
       <div class="menu__card-image">
         <img src=${item.image} alt="coffee-1">
@@ -96,17 +91,48 @@ menuCardsBlock.addEventListener('click', (event) => {
   let targetItem = event.target;
 
   if (targetItem.closest('.menu__card')) {
-    let id = targetItem.closest('.menu__card').dataset.id;
-    renderModal(id);
+
+    renderModal(targetItem.closest('.menu__card').dataset.id);
     openModal(modal);
+
+    document.getElementById('button-close').addEventListener('click', () => {
+      closeModal(modal);
+    });
+
+    document.getElementById('modal-info').addEventListener('click', (event) => {
+
+      let currentPrice = document.getElementById('total-price').dataset.price;
+      let addPriceSize = 0;
+      let addPriceAdd = 0;
+
+      if (event.target.closest('.tab__input')) {
+        addPriceSize = Number(event.target.closest('.tab__input').value) + Number(currentPrice);
+
+        let addPriceAdd = document.querySelectorAll('.tab__input-add');
+        for (let i = 0; i < addPriceAdd.length; i++) {
+          if (addPriceAdd[i].checked) {
+            addPriceSize += Number(document.querySelector('.tab__input-add').value);
+          }
+        }
+
+        document.getElementById('total-price').innerHTML = `$${addPriceSize.toPrecision(3)}`;
+      }
+
+      if (event.target.closest('.tab__input-add')) {
+        let currentPriceAdd = Number((document.getElementById('total-price').innerHTML).slice(1));
+
+        if (event.target.closest('.tab__input-add').checked) {
+          addPriceAdd += Number(event.target.closest('.tab__input-add').value);
+        } else {
+          addPriceAdd -= Number(event.target.closest('.tab__input-add').value);
+        }
+
+        document.getElementById('total-price').innerHTML = `$${(currentPriceAdd + addPriceAdd).toPrecision(3)}`;
+      }
+    });
   }
 });
 
-buttonClose.addEventListener('click', () => {
-  closeModal(modal);
-});
-
-// закрыть дроп-меню на blackout:
 blackout.addEventListener('click', () => {
   closeModal(modal);
 })
@@ -130,59 +156,78 @@ function renderModal(id) {
 
       modalCard.innerHTML = (
         `<div class="modal__card-image">
-          <img src=${item.image}>
+          <img src=${item.image} alt="coffee-1">
         </div>
-        <div class="modal__card-info">
+        <div class="modal__card-info" id="modal-info">
           <h3 class="modal__card-title">${item.name}</h3>
           <p class="modal__card-description">${item.description}</p>
           <p class="modal__card-selection">Size</p>
-
-          <div class="modal__card-tabs">
-            <div class="modal__tab active">
-              <div class="modal__tab-icon">
-                <span>S</span>
+          <div class="modal__card-tabs" id="modal__tabs-sizes">
+            <label>
+              <input type="radio" class="tab__input" name="size" value="${item.sizes.s['add-price']}" checked>
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>S</span>
+                </div>
+                <div class="modal__tab-text">${item.sizes.s.size}</div>
               </div>
-              <div class="modal__tab-text">${item.sizes.s.size}</div>
-            </div>
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>M</span>
+            </label>
+            <label>
+              <input type="radio" class="tab__input" name="size" value="${item.sizes.m['add-price']}">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>M</span>
+                </div>
+                <div class="modal__tab-text">${item.sizes.m.size}</div>
               </div>
-              <div class="modal__tab-text">${item.sizes.m.size}</div>
-            </div>
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>L</span>
+            </label>
+            <label>
+              <input type="radio" class="tab__input" name="size" value="${item.sizes.l['add-price']}">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>L</span>
+                </div>
+                <div class="modal__tab-text">${item.sizes.l.size}</div>
               </div>
-              <div class="modal__tab-text">${item.sizes.l.size}</div>
-            </div>
+            </label>
           </div>
 
           <p class="modal__card-selection">Additives</p>
-          <div class="modal__card-tabs">
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>1</span>
+          <div class="modal__card-tabs" id="modal__tabs-additives">
+            <label>
+              <input type="checkbox" class="tab__input-add" name="add" value="${item.additives[0]['add-price']}">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>1</span>
+                </div>
+                <div class="modal__tab-text">${item.additives[0].name}</div>
               </div>
-              <div class="modal__tab-text">${item.additives[0].name}</div>
-            </div>
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>2</span>
+            </label>
+            <label>
+              <input type="checkbox" class="tab__input-add" name="add" value="${item.additives[1]['add-price']}">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>2</span>
+                </div>
+                <div class="modal__tab-text">${item.additives[1].name}</div>
               </div>
-              <div class="modal__tab-text">${item.additives[1].name}</div>
-            </div>
-            <div class="modal__tab">
-              <div class="modal__tab-icon">
-                <span>3</span>
+            </label>
+            <label>
+              <input type="checkbox" class="tab__input-add" name="add" value="${item.additives[2]['add-price']}">
+              <div class="modal__tab">
+                <div class="modal__tab-icon">
+                  <span>3</span>
+                </div>
+                <div class="modal__tab-text">${item.additives[2].name}</div>
               </div>
-              <div class="modal__tab-text">${item.additives[2].name}</div>
-            </div>
+            </label>
           </div>
+
           <div class="modal__card-price">
             <div class="price-title">Total:</div>
-            <div class="price">$${item.price}</div>
+            <div class="price" id="total-price" data-price="${item.price}">$${item.price}</div>
           </div>
+
           <div class="modal__card-warning">
             <div class="warning-icon">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -206,23 +251,9 @@ function renderModal(id) {
               enjoy your favorite coffee with up to 20% discount.</p>
           </div>
           <div class="button modal__card-button" id="button-close">Close</div>
-        </div>`
+        </div>
+        `
       );
     }
   }
 }
-
-// function addRefresh(arrayCategory) {
-//   if (window.innerWidth <= 768) {
-//     refresh.style.display = 'flex';
-
-//     if (arrayCategory.length > 4) {
-//       arrayCategory.length = 4;
-//       refresh.style.display = 'flex';
-//     } else {
-//       refresh.style.display = 'none';
-//     }
-//   } else {
-//     refresh.style.display = 'none';
-//   }
-// }
