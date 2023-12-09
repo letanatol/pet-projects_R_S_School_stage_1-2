@@ -549,35 +549,6 @@ h1 {
   }
 }
 
-/* 
-@keyframes move-left {
-  from {
-    transform: translateX(0px);
-  }
-
-  to {
-    transform: translateX(-33.3%);
-  }
-}
-
-.transform-left {
-  animation: move-left 1s;
-}
-
-@keyframes move-right {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(33.3%);
-  }
-}
-
-.transform-right {
-  animation: move-right 1s;
-} */
-
 .slider__item-image {
   width: 100%;
   margin-bottom: 22px;
