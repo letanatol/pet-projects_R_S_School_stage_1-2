@@ -35,8 +35,8 @@ function addTransitionRight() {
 
 // !свайп
 
-sliderLine.addEventListener('touchstart', handleTouchStart, false);
-sliderLine.addEventListener('touchend', handleTouchEnd, false);
+sliderLine.addEventListener('touchstart', handleTouchStart, { passive: true });
+sliderLine.addEventListener('touchend', handleTouchEnd);
 
 let xDown = null;
 let yDown = null;
@@ -50,7 +50,7 @@ function handleTouchStart(event) {
 function handleTouchEnd(event) {
   clearInterval(id);
   startControl = 0;
-  moveControl();
+  moveControl(point);
 
   if (!xDown || !yDown) {
     return;
@@ -61,7 +61,7 @@ function handleTouchEnd(event) {
 
   let xDiff = xDown - xUp;
   let yDiff = yDown - yUp;
-  
+
   if (Math.abs(xDiff) > Math.abs(yDiff)) {
     if (xDiff > 0) {
       addTransitionRight();
@@ -69,7 +69,7 @@ function handleTouchEnd(event) {
     } else {
       addTransitionLeft();
     }
-  } 
+  }
 
   xDown = null;
   yDown = null;
@@ -87,6 +87,11 @@ let id;
 let startControl = 0;
 let transform = selectControl();
 let point = 0;
+
+window.addEventListener('load', () => {
+  point = 0;
+  moveControl(point);
+});
 
 window.addEventListener('scroll', () => {
 
@@ -148,8 +153,7 @@ function moveControl(point) {
 sliderWrapper.addEventListener('mouseover', stopMoveControl);
 sliderWrapper.addEventListener('mouseout', continueMoveControl);
 
-
-sliderWrapper.addEventListener('touchstart', stopMoveControl);
+sliderWrapper.addEventListener('touchstart', stopMoveControl, { passive: true });
 sliderWrapper.addEventListener('touchend', continueMoveControl);
 
 
