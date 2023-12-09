@@ -1,6 +1,7 @@
 const sliderBtnLeft = document.getElementById('slider__btn-left');
 const sliderBtnRight = document.getElementById('slider__btn-right');
 const sliderLine = document.getElementById('slider-line');
+const sliderWrapper = document.getElementById('slider-wrapper');
 
 
 // ! ручное переключение карусели
@@ -51,7 +52,6 @@ function handleTouchEnd(event) {
   startControl = 0;
   moveControl();
 
-
   if (!xDown || !yDown) {
     return;
   }
@@ -61,26 +61,19 @@ function handleTouchEnd(event) {
 
   let xDiff = xDown - xUp;
   let yDiff = yDown - yUp;
-  // немного поясню здесь. Тут берутся модули движения по оси абсцисс и ординат (почему модули? потому что если движение сделано влево или вниз, то его показатель будет отрицательным) и сравнивается, чего было больше: движения по абсциссам или ординатам. Нужно это для того, чтобы, если пользователь провел вправо, но немного наискосок вниз, сработал именно коллбэк для движения вправо, а ни как-то иначе.
-  if (Math.abs(xDiff) > Math.abs(yDiff)) {/*most significant*/
+  
+  if (Math.abs(xDiff) > Math.abs(yDiff)) {
     if (xDiff > 0) {
       addTransitionRight();
 
     } else {
       addTransitionLeft();
     }
-  } else { // Это вам, в общем-то, не надо, вы ведь только влево-вправо собираетесь двигать
-    if (yDiff > 0) {
-      /* up swipe */
-    } else {
-      /* down swipe */
-    }
-  }
-  /* reset values */
+  } 
+
   xDown = null;
   yDown = null;
 };
-
 
 
 
@@ -93,16 +86,13 @@ const control03 = document.getElementById('control-03');
 let id;
 let startControl = 0;
 let transform = selectControl();
-
-
-// sliderLine.addEventListener('transitionend', moveControl(transform));
-
+let point = 0;
 
 window.addEventListener('scroll', () => {
 
   if (window.scrollY >= 300 && window.scrollY <= 1600) {
-
-    moveControl();
+    point = 0;
+    moveControl(point);
   } else {
     clearInterval(id);
     startControl = 0;
@@ -120,10 +110,10 @@ function selectControl() {
 
 let width;
 
-function moveControl() {
+function moveControl(point) {
   if (startControl == 0) {
     startControl = 1;
-    width = 0;
+    width = point;
     id = setInterval(() => frame(selectControl()), 50);
 
     function frame(transform) {
@@ -131,10 +121,9 @@ function moveControl() {
         addTransitionRight();
         clearInterval(id);
         startControl = 0;
-        moveControl(selectControl());
+        moveControl(0);
       } else {
         width++;
-        // console.log(0, 'transform', transform);
         if (transform < 33.3) {
 
           control01.style.width = width + "%";
@@ -156,21 +145,23 @@ function moveControl() {
   }
 }
 
+sliderWrapper.addEventListener('mouseover', stopMoveControl);
+sliderWrapper.addEventListener('mouseout', continueMoveControl);
 
-// sliderLine.addEventListener('animationend', removeAnimationLeft);
-// sliderLine.addEventListener('animationend', removeAnimationRight);
-// function addAnimationLeft() {
-//   sliderLine.classList.add('transform-left')
-// }
 
-// function addAnimationRight() {
-//   sliderLine.classList.add('transform-right')
-// }
+sliderWrapper.addEventListener('touchstart', stopMoveControl);
+sliderWrapper.addEventListener('touchend', continueMoveControl);
 
-// function removeAnimationLeft() {
-//   sliderLine.classList.remove('transform-left')
-// }
 
-// function removeAnimationRight() {
-//   sliderLine.classList.remove('transform-right')
-// }
+function stopMoveControl() {
+
+  point = width;
+  clearInterval(id);
+  startControl = 0;
+  console.log(point);
+}
+
+function continueMoveControl() {
+  moveControl(point);
+  console.log(point);
+}
