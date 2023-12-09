@@ -444,23 +444,6 @@ h1 {
   .menu__cards {
     justify-content: center;
   }
-
-  /* #card-coffee-07,
-  #card-coffee-08 {
-    display: none;
-  } */
-}
-
-@media (max-width: 768px) {
-
-  /* #card-coffee-05,
-  #card-coffee-06 {
-    display: none;
-  } */
-
-  /* .menu__card-refresh {
-    display: flex;
-  } */
 }
 
 .menu__card-image {
@@ -808,18 +791,6 @@ h1 {
   }
 }
 
-
-
-
-
-/* .modal__tab.active .modal__tab-icon {
-  background-color: #E1D4C9;
-}
-
-.modal__tab.active .modal__tab-text {
-  color: #E1D4C9;
-} */
-
 .modal__card-price {
   display: flex;
   justify-content: space-between;
@@ -869,7 +840,7 @@ h1 {
 }
 
 /* @media(hover: hover) {
-  .button {
+  .modal__card-button {
     background-color: #665F55;
   }
 }  */

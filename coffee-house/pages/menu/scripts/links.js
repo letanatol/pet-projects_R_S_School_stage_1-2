@@ -7,7 +7,6 @@ function openLink(event) {
 
     let targetItem = event.target.closest('.nav__link');
     let url = targetItem.getAttribute('href');
-    console.log(url);
     event.preventDefault();
 
     setTimeout(() => { document.location.href = url }, 500);
