@@ -213,6 +213,11 @@ h1 {
     transition: transform 1.0s;
   }
 
+  .header__box-close {
+    transform: translateX(768px);
+    transition: transform 1.0s;
+  }
+
   .nav__list {
     flex-direction: column;
     align-items: center;
@@ -675,10 +680,12 @@ h1 {
 
 .modal_state_open {
   display: flex;
+  transition: all 0.4s;
 }
 
 .modal_state_close {
   display: none;
+  transition: all 0.4s;
 }
 
 .modal__card {
