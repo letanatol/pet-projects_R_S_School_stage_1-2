@@ -1,1 +1,1 @@
-console.log('hello');
+import './render-main-page.js';
