@@ -1,4 +1,5 @@
 import questionAnswer from "./question-answer.js";
+import isCyrillic from "./helpers.js";
 
 const hangmanImage = document.querySelector('.image-box__image');
 const gameBoxLetters = document.querySelector('.game-box__letters');
@@ -81,6 +82,10 @@ keyboard.querySelectorAll('button').forEach((button) => {
 });
 
 document.addEventListener('keydown', event => {
+  if (isCyrillic(event.key)) {
+    alert("Переключите, пожалуйста, клавиатуру на английский язык");
+  }
+  
   keyboard.querySelectorAll('button').forEach((button) => {
     if (button.innerText === event.key.toLocaleUpperCase() && button.dataset.about === 'true') {
       initGame(button, event.key.toUpperCase());
