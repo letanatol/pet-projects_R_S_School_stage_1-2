@@ -5,6 +5,7 @@ const gameBoxLetters = document.querySelector('.game-box__letters');
 const guessesCounter = document.querySelector('.game-box__guesses-text');
 const keyboard = document.querySelector('.game-box__keyboard');
 const gameModal = document.querySelector('.game-modal');
+const playAgain = document.querySelector('.play-again');
 
 const maxGuesses = 6;
 let currentAnswer;
@@ -78,3 +79,13 @@ getRandomQuestionAnswer();
 keyboard.querySelectorAll('button').forEach((button) => {
   button.addEventListener("click", event => initGame(event.target, button.innerText));
 });
+
+document.addEventListener('keydown', event => {
+  keyboard.querySelectorAll('button').forEach((button) => {
+    if (button.innerText === event.key.toLocaleUpperCase() && button.dataset.about === 'true') {
+      initGame(button, event.key.toUpperCase());
+    }
+  })
+});
+
+playAgain.addEventListener('click', getRandomQuestionAnswer);
