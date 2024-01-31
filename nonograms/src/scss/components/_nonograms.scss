@@ -1,0 +1,230 @@
+:root {
+  --background-color: #fe8d15;
+  --background-color-container: #ffffff;
+  --background-color-paint: #000000;
+  --background-color-circle: #edcdaa;
+  --border-color: #c9b5a6;
+  --color-text: #ffffff;
+  --color-text-option: #fe8d15;
+}
+
+.theme-dark {
+  --background-color: #ad5a00;
+  --background-color-container: #000000;
+  --background-color-paint: #ffffff;
+  --background-color-circle: #000000;
+  --border-color: #c9b5a6;
+  --color-text: #000000;
+  --color-text-option: #ad5a00;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+input {
+  border: none;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  width: 600px;
+  padding: 20px;
+  background-color: var(--background-color-container);
+  border-radius: 10px;
+}
+
+@media (max-width: 820px) {
+  .container {
+    gap: 5px;
+    flex-direction: column;
+    padding: 10px;
+  }
+}
+
+.section {
+  border-radius: 10px;
+  padding: 5px;
+  background-color: var(--background-color);
+  color: var(--color-text);
+}
+
+.stop-watch__time {
+  margin: 0 10px;
+  text-align: center;
+}
+
+.levels__wrapper {
+  display: flex;
+}
+
+.levels__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.levels__input {
+  display: none;
+}
+
+.circle {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  background-color: var(--background-color-circle);
+  border-radius: 50%;
+}
+
+.circle::before {
+  position: absolute;
+  content: '';
+  height: 6px;
+  width: 6px;
+  background-color: var(--background-color);
+  left: 4px;
+  top: 4px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  transition: 0.4s;
+}
+
+#easy:checked~.levels__label-easy .circle::before,
+#medium:checked~.levels__label-medium .circle::before,
+#hard:checked~.levels__label-hard .circle::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.label-templates {
+  padding-right: 10px;
+}
+
+select {
+  appearance: none;
+  background-color: var(--background-color-container);
+  border: none;
+  color: var(--color-text-option);
+  cursor: pointer;
+}
+
+option {
+  background-color: var(--background-color-container);
+  color: var(--color-text-option);
+}
+
+.game-box__hint-row {
+  display: grid;
+  grid-template-columns: repeat(5, 20px);
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.game-box__hint-column {
+  display: grid;
+  grid-template-rows: repeat(5, 20px);
+  justify-items: end;
+  align-items: center;
+}
+
+.hint-cell__wrap-row {
+  display: flex;
+}
+
+.hint-cell__wrap-column {
+  display: grid;
+  grid-template-rows: repeat(1, minmax(auto, 20px));
+}
+
+.hint-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  border: 1px solid var(--border-color);
+}
+
+.hint-cell[data-col="4"],
+.hint-cell[data-col="9"],
+.hint-cell[data-col="14"] {
+  border-right: 2.5px solid var(--border-color);
+}
+
+.game-box__row-2 {
+  display: flex;
+}
+
+.game-box__field {
+  display: grid;
+  grid-template: repeat(5, 20px)/repeat(5, 20px);
+  background-color: var(--background-color-container);
+}
+
+.grid__item {
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.paint {
+  background-color: var(--background-color-paint);
+}
+
+.mark {
+  background-image: url(../assets/images/gameBox/cross.gif);
+}
+
+span[data-row="4"],
+span[data-row="9"],
+span[data-row="14"] {
+  border-bottom: 2.5px solid var(--border-color);
+}
+
+span[data-row="0"] {
+  border-top: 2.5px solid var(--border-color);
+}
+
+span[data-col="4"],
+span[data-col="9"],
+span[data-col="14"] {
+  border-right: 2.5px solid var(--border-color);
+}
+
+span[data-col="0"] {
+  border-left: 2.5px solid var(--border-color);
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  border: none;
+  background-color: var(--background-color);
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+}

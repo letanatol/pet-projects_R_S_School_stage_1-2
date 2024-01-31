@@ -3,7 +3,7 @@
  */
 const path = require('path');
 const fs = require('fs');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -81,18 +81,18 @@ module.exports = {
       verbose: true,
       cleanOnceBeforeBuildPatterns: ['**/*', '!stats.json'],
     }),
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     {
-    //       from: path.resolve(environment.paths.source, 'assets', 'images', 'content'),
-    //       to: path.resolve(environment.paths.output, 'assets', 'images', 'content'),
-    //       toType: 'dir',
-    //       globOptions: {
-    //         ignore: ['*.DS_Store', 'Thumbs.db'],
-    //       },
-    //     },
-    //   ],
-    // }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(environment.paths.source, 'assets', 'images', 'gameBox'),
+          to: path.resolve(environment.paths.output, 'assets', 'images', 'gameBox'),
+          toType: 'dir',
+          globOptions: {
+            ignore: ['*.DS_Store', 'Thumbs.db'],
+          },
+        },
+      ],
+    }),
   ].concat(htmlPluginEntries),
   target: 'web',
 };
