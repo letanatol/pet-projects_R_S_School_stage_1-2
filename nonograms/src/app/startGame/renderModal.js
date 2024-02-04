@@ -1,6 +1,6 @@
-import { resetManePage } from "../render-manePage.js";
-import { renderResultSection } from "../renderResultGame.js";
-import { addStopAndResetListener } from "./paintCell.js";
+import { resetManePage } from '../render-manePage.js';
+import { renderResultSection } from '../renderResultGame.js';
+import { addStopAndResetListener } from './paintCell.js';
 
 export function renderModal() {
   const gameModal = document.createElement('div');
@@ -29,7 +29,7 @@ export const addShowModalListener = (div) => {
   div.addEventListener('click', () => {
     const gameModal = document.querySelector('.game-modal');
     renderResultSection();
-    gameModal.classList.remove("show");
+    gameModal.classList.remove('show');
     resetManePage();
   });
-}
+};

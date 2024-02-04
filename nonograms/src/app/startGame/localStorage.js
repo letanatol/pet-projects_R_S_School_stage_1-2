@@ -1,4 +1,3 @@
-
 function setLocalStorage(key, array) {
   const arrayString = JSON.stringify(array);
   localStorage.setItem(key, arrayString);

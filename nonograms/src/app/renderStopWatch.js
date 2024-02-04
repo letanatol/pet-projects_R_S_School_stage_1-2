@@ -1,7 +1,6 @@
 const stopWatchSection = document.createElement('section');
 
 function renderStopWatch() {
-  
   stopWatchSection.classList.add('section', 'stop-watch');
 
   const stopWatchWrapper = document.createElement('div');

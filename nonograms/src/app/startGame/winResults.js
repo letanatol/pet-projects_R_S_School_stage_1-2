@@ -1,4 +1,4 @@
-import { setLocalStorage, getLocalStorage } from "./localStorage.js";
+import { setLocalStorage, getLocalStorage } from './localStorage.js';
 import { getTime } from "../stopWatch.js";
 
 const MAX_GAMES = 5;

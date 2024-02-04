@@ -1,7 +1,6 @@
 const levelsSection = document.createElement('section');
 
 function renderLevelsSection(levelsObject) {
-  
   levelsSection.classList.add('section', 'levels');
 
   const levelsWrapper = document.createElement('div');

@@ -1,5 +1,5 @@
-import { resetStopwatch } from "../stopWatch.js";
-import { getUserAnswers, initUserAnswer } from "./userAnswers.js";
+import { resetStopwatch } from '../stopWatch.js';
+import { getUserAnswers, initUserAnswer } from './userAnswers.js';
 
 let step = 1;
 

@@ -1,17 +1,17 @@
-import { getCurrentTimer, initTimer, resetStopwatch } from "./stopWatch.js";
-import { setLocalStorage, getLocalStorage } from "./startGame/localStorage.js";
-import { paintCell } from "./startGame/paintCell.js";
+import { getCurrentTimer, initTimer } from './stopWatch.js';
+import { setLocalStorage } from './startGame/localStorage.js';
+import { paintCell } from './startGame/paintCell.js';
 
 export const gameBoxSection = document.createElement('section');
 
-let step = 1;
+const step = 1;
 const PAINT_CELL = 1;
 
 function generateHints(puzzle) {
   const arrayRowHints = [];
   const arrayColHints = [];
-  let hintFieldLength = puzzle.length;
-  let hintFieldWidth = puzzle[0].length;
+  const hintFieldLength = puzzle.length;
+  const hintFieldWidth = puzzle[0].length;
 
   for (let i = 0; i < hintFieldLength; i += step) {
     const trackHint = [];
@@ -121,11 +121,10 @@ export function renderGameBoxField(puzzle) {
   gameBoxField.className = ('game-box__field');
   gameBoxField.style.gridTemplate = `repeat(${puzzle.length}, 20px)/repeat(${puzzle.length}, 20px)`;
 
-  let gameFieldLength = puzzle.length;
-  let gameFieldWidth = puzzle[0].length;
+  const gameFieldLength = puzzle.length;
+  const gameFieldWidth = puzzle[0].length;
   for (let i = 0; i < gameFieldLength; i += step) {
     for (let k = 0; k < gameFieldWidth; k += step) {
-
       const span = document.createElement('span');
       span.className = 'grid__item';
       span.dataset.row = i;
@@ -142,7 +141,7 @@ export function renderGameBoxField(puzzle) {
   gameBoxField.addEventListener('click', () => {
     const minutesDiv = document.querySelector('.time-minutes');
     const secondsDiv = document.querySelector('.time-seconds');
-    
+
     if (getCurrentTimer() === null) {
       initTimer(minutesDiv, secondsDiv);
     }

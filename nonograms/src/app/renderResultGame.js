@@ -1,8 +1,8 @@
-import { getLocalStorage } from "./startGame/localStorage.js";
+import { getLocalStorage } from './startGame/localStorage.js';
 
 export const resultGameSection = document.createElement('section');
 
-let step = 1;
+const step = 1;
 export function renderResultSection() {
   resultGameSection.classList.add('result-game');
 
@@ -36,7 +36,7 @@ export function renderResultSection() {
 
       const timeMinutes = document.createElement('span');
       timeMinutes.classList.add('stop-watch__time', 'time-minutes');
-      const minutes = game.time.minutes;
+      const { minutes } = game.time;
       const formattedMinutes = minutes.toString().padStart(2, '0');
       timeMinutes.innerText = formattedMinutes;
 
@@ -46,7 +46,7 @@ export function renderResultSection() {
 
       const timeSeconds = document.createElement('span');
       timeSeconds.classList.add('stop-watch__time', 'time-seconds');
-      const seconds = game.time.seconds;
+      const { seconds } = game.time;
       const formattedSeconds = seconds.toString().padStart(2, '0');
       timeSeconds.innerText = formattedSeconds;
 

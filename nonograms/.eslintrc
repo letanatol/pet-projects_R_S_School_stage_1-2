@@ -26,6 +26,8 @@
     "browser": false,
     "window": true,
     "document": true,
-    "localStorage": true
+    "localStorage": true,
+    "Audio": true,
+    "alert": true
   }
 }

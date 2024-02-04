@@ -1,9 +1,9 @@
-export const buttonsSection = document.createElement('section');
-
-import { saveGame } from "./startGame/saveGame.js";
+import { saveGame } from './startGame/saveGame.js';
 import { continueGame } from './startGame/continueGame.js';
-import { showSolution } from "./startGame/showSolution.js";
-import { addResetButtonListeners } from "./startGame/resetGame.js";
+import { showSolution } from './startGame/showSolution.js';
+import { addResetButtonListeners } from './startGame/resetGame.js';
+
+export const buttonsSection = document.createElement('section');
 
 export function renderButtonsSection() {
   buttonsSection.classList.add('buttons');

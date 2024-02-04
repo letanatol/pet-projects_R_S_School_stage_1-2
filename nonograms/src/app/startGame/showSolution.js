@@ -1,5 +1,5 @@
-import { getLocalStorage } from "./localStorage.js";
-import { resetStopwatch } from "../stopWatch.js";
+import { getLocalStorage } from './localStorage.js';
+import { resetStopwatch } from '../stopWatch.js';
 
 export function showSolution() {
   resetStopwatch();

@@ -1,9 +1,9 @@
-import { getPaintCell } from "./userAnswers.js";
-import { checkAnswer } from "./checkAnswer.js";
-import { getLocalStorage } from "./localStorage.js";
-import { getUserAnswers } from "./userAnswers.js";
-import { getTime, resetStopwatch } from "../stopWatch.js";
-import { getWinResults } from "./winResults.js";
+import { getPaintCell } from './userAnswers.js';
+import { checkAnswer } from './checkAnswer.js';
+import { getLocalStorage } from './localStorage.js';
+import { getUserAnswers } from './userAnswers.js';
+import { getTime, resetStopwatch } from '../stopWatch.js';
+import { getWinResults } from './winResults.js';
 
 const markSound = new Audio('../assets/audio/mark.mp3');
 const paintSound = new Audio('../assets/audio/paint.mp3');

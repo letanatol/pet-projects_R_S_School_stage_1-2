@@ -1,8 +1,8 @@
-import { getUserAnswers } from "./userAnswers.js";
-import { getTime } from "../stopWatch.js";
-import { setLocalStorage, getLocalStorage } from "./localStorage.js";
-import { getSelectedLevel } from "./selectLevel.js";
-import { getSelectedTemplate } from "./selectTemplate.js";
+import { getUserAnswers } from './userAnswers.js';
+import { getTime } from '../stopWatch.js';
+import { setLocalStorage, getLocalStorage } from './localStorage.js';
+import { getSelectedLevel } from './selectLevel.js';
+import { getSelectedTemplate } from './selectTemplate.js';
 
 function saveGame() {
   const time = getTime();
@@ -15,7 +15,6 @@ function saveGame() {
   const currentPuzzleName = getSelectedTemplate();
 
   setLocalStorage('saveGame', { currentPuzzle, userAnswer, time, currentLevel, currentPuzzleName });
-  
   alert('Save game');
 }
 

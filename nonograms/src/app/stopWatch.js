@@ -1,19 +1,19 @@
-let step = 1;
+const step = 1;
 let currentTime = 0;
 let timerLink = null;
 let stopwatchMinutesDiv;
 let stopwatchSecondsDiv;
 
 const drawTime = () => {
-  let minutes = Math.floor(currentTime / 60);
-  let seconds = currentTime % 60;
+  const minutes = Math.floor(currentTime / 60);
+  const seconds = currentTime % 60;
 
   const formattedSeconds = seconds.toString().padStart(2, '0');
   const formattedMinutes = minutes.toString().padStart(2, '0');
 
   stopwatchMinutesDiv.innerHTML = formattedMinutes;
   stopwatchSecondsDiv.innerHTML = formattedSeconds;
-}
+};
 
 const updateStopwatch = () => {
   currentTime += step;

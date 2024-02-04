@@ -17,12 +17,12 @@ export function renderSelectTemplates(arrayTemplates) {
   const selectTemplates = document.createElement('select');
   selectTemplates.id = 'templates';
 
-  templateNames.forEach(templateName => {
+  templateNames.forEach((templateName) => {
     const option = document.createElement('option');
     option.value = templateName;
     option.innerText = `${templateName.slice(0, 1).toUpperCase()}${templateName.slice(1)}`;
     option.selected = templateName === 'tree' || templateName === 'tree2' || templateName === 'tree3';
     selectTemplates.append(option);
-  })
+  });
   listTemplatesSection.append(selectTemplates);
 }

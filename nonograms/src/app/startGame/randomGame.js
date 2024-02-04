@@ -1,6 +1,6 @@
-import { templatesObject } from "../templates.js";
-import { resetStopwatch } from "../stopWatch.js";
-import { renderGameBox } from "../render-gameBox.js";
+import { templatesObject } from '../templates.js';
+import { resetStopwatch } from '../stopWatch.js';
+import { renderGameBox } from '../render-gameBox.js';
 
 let randomTemplateName;
 
