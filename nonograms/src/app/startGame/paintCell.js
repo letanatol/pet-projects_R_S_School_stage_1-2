@@ -44,8 +44,9 @@ export function paintCell(div) {
   div.addEventListener('click', (event) => {
     const targetElement = event.target;
     let x = targetElement.dataset.row;
+    console.log(x, "x");
     let y = targetElement.dataset.col;
-
+    console.log(y, "y");
     stopAndReset(markSound);
     stopAndReset(paintSound);
     stopAndReset(cleanSound);

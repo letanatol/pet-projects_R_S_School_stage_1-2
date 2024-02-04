@@ -1,17 +1,20 @@
 import { templatesObject } from '../templates.js';
 import { resetStopwatch } from '../stopWatch.js';
-import { renderGameBox } from '../render-gameBox.js';
+import { renderGameBox, renderGameBoxField } from '../render-gameBox.js';
+import { paintCell } from './paintCell.js';
+import { initUserAnswer } from './userAnswers.js';
+import { setLocalStorage } from './localStorage.js';
 
-let randomTemplateName;
+let randomPuzzleName;
 
 const getRandomPuzzle = () => {
-  const difficultyLevels = Object.keys(templatesObject);
-  const randomDifficulty = difficultyLevels[Math.floor(Math.random() * difficultyLevels.length)];
+  const listLevels = Object.keys(templatesObject);
+  const randomLevel = listLevels[Math.floor(Math.random() * listLevels.length)];
 
-  const templates = templatesObject[randomDifficulty];
-  const templateNames = Object.keys(templates);
-  randomTemplateName = templateNames[Math.floor(Math.random() * templateNames.length)];
-  return templates[randomTemplateName];
+  const listPuzzle = templatesObject[randomLevel];
+  const listPuzzleNames = Object.keys(listPuzzle);
+  randomPuzzleName = listPuzzleNames[Math.floor(Math.random() * listPuzzleNames.length)];
+  return listPuzzle[randomPuzzleName];
 };
 
 export const addRandomButtonListeners = (div) => {
@@ -54,11 +57,16 @@ export const addRandomButtonListeners = (div) => {
       const option = document.createElement('option');
       option.value = templateName;
       option.innerText = `${templateName.slice(0, 1).toUpperCase()}${templateName.slice(1)}`;
-      option.selected = templateName === randomTemplateName;
+      option.selected = templateName === randomPuzzleName;
       templatesSelectDiv.append(option);
     })
 
     // section gameBox:
+    // const gameBoxField = document.querySelector('.game-box__field');
+    // paintCell(gameBoxField);
+    // renderGameBoxField(randomPuzzle);
+    setLocalStorage('currentPuzzle', randomPuzzle);
+    initUserAnswer();
     renderGameBox(randomPuzzle);
   })
 }

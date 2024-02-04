@@ -6,6 +6,7 @@ let userAnswer = [];
 // но это (массив ответов подбирается из LocalStorage) так же срабатывает и при игре в другую игру, но после сохранения предыдущей, хотя игра в новую игру должна начинаться с массива ответов только с нулями
 const initUserAnswer = () => {
   const currentPuzzle = getLocalStorage('currentPuzzle');
+  console.log(currentPuzzle);
 
   const lengthArray = currentPuzzle.length;
   userAnswer = Array.from({ length: lengthArray }, () => Array(lengthArray).fill(0));
