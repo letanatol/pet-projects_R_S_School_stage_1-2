@@ -12,6 +12,7 @@ import { initUserAnswer } from './startGame/userAnswers.js';
 import { renderModal } from './startGame/renderModal.js';
 import { addLevelSelectListeners } from './startGame/selectLevel.js';
 import { addSelectTemplateListeners } from './startGame/selectTemplate.js';
+import { buttonSoundSection, renderButtonSoundSection } from './renderButtonSound.js';
 
 export const container = document.createElement('main');
 container.className = 'container';
@@ -23,6 +24,7 @@ const field = document.createElement('main');
 field.className = 'field';
 
 function renderManePage(arrayLevels, templatesObject) {
+  renderButtonSoundSection();
   renderStopWatch();
   renderLevelsSection(arrayLevels);
   renderSelectTemplates(templatesObject.easy);
@@ -34,6 +36,7 @@ function renderManePage(arrayLevels, templatesObject) {
   initUserAnswer();
   renderModal();
 
+  controls.append(buttonSoundSection);
   controls.append(stopWatchSection);
   controls.append(levelsSection);
   controls.append(listTemplatesSection);
@@ -54,6 +57,9 @@ function renderManePage(arrayLevels, templatesObject) {
 renderManePage(levels, templatesObject);
 
 export function resetManePage() {
+  while (buttonSoundSection.firstChild) {
+    buttonSoundSection.removeChild(buttonSoundSection.firstChild);
+  }
   while (stopWatchSection.firstChild) {
     stopWatchSection.removeChild(stopWatchSection.firstChild);
   }

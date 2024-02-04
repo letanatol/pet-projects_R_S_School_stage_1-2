@@ -119,9 +119,9 @@ input {
   transition: 0.4s;
 }
 
-#easy:checked~.levels__label-easy .circle::before,
-#medium:checked~.levels__label-medium .circle::before,
-#hard:checked~.levels__label-hard .circle::before {
+#easy:checked ~ .levels__label-easy .circle::before,
+#medium:checked ~ .levels__label-medium .circle::before,
+#hard:checked ~ .levels__label-hard .circle::before {
   opacity: 1;
   transform: scale(1);
 }
@@ -176,12 +176,12 @@ option {
   border: 1px solid var(--border-color);
 }
 
-.hint-cell[data-col="4"],
-.hint-cell[data-col="9"],
-.hint-cell[data-col="14"],
-.hint-cell__wrap-column .hint-cell[data-row="4"],
-.hint-cell__wrap-column .hint-cell[data-row="9"],
-.hint-cell__wrap-column .hint-cell[data-row="14"] {
+.hint-cell[data-col='4'],
+.hint-cell[data-col='9'],
+.hint-cell[data-col='14'],
+.hint-cell__wrap-column .hint-cell[data-row='4'],
+.hint-cell__wrap-column .hint-cell[data-row='9'],
+.hint-cell__wrap-column .hint-cell[data-row='14'] {
   border-right: 2.5px solid var(--border-color);
 }
 
@@ -191,7 +191,7 @@ option {
 
 .game-box__field {
   display: grid;
-  grid-template: repeat(5, 20px)/repeat(5, 20px);
+  grid-template: repeat(5, 20px) / repeat(5, 20px);
   background-color: var(--background-color-container);
 }
 
@@ -212,26 +212,26 @@ option {
   background-image: url('../assets/images/gameBox/cross.gif');
 }
 
-span[data-row="4"],
-span[data-row="9"],
-span[data-row="14"],
-.hint-cell__wrap-row .hint-cell[data-row="4"],
-.hint-cell__wrap-row .hint-cell[data-row="9"],
-.hint-cell__wrap-row .hint-cell[data-row="14"] {
+span[data-row='4'],
+span[data-row='9'],
+span[data-row='14'],
+.hint-cell__wrap-row .hint-cell[data-row='4'],
+.hint-cell__wrap-row .hint-cell[data-row='9'],
+.hint-cell__wrap-row .hint-cell[data-row='14'] {
   border-bottom: 2.5px solid var(--border-color);
 }
 
-span[data-row="0"] {
+span[data-row='0'] {
   border-top: 2.5px solid var(--border-color);
 }
 
-span[data-col="4"],
-span[data-col="9"],
-span[data-col="14"] {
+span[data-col='4'],
+span[data-col='9'],
+span[data-col='14'] {
   border-right: 2.5px solid var(--border-color);
 }
 
-span[data-col="0"] {
+span[data-col='0'] {
   border-left: 2.5px solid var(--border-color);
 }
 
@@ -325,4 +325,14 @@ span[data-col="0"] {
 
 .level__game {
   width: 50px;
+}
+
+.buttons__sound {
+  background: url('../assets/images/sound-on.png') no-repeat center/cover;
+  width: 20px;
+  height: 20px;
+}
+
+.sound-off {
+  background: url('../assets/images/sound-off.png') no-repeat center/cover;
 }
