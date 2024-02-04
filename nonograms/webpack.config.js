@@ -100,8 +100,8 @@ module.exports = {
           },
         },
         {
-          from: path.resolve(environment.paths.source, 'assets', 'buttonSound'),
-          to: path.resolve(environment.paths.output, 'assets', 'buttonSound'),
+          from: path.resolve(environment.paths.source, 'assets', 'images', 'buttonSound'),
+          to: path.resolve(environment.paths.output, 'assets', 'images', 'buttonSound'),
           toType: 'dir',
           globOptions: {
             ignore: ['*.DS_Store', 'Thumbs.db'],
