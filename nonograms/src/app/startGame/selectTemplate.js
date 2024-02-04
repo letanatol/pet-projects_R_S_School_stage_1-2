@@ -1,6 +1,7 @@
 import { templatesObject } from "../templates.js";
 import { renderGameBox } from "../render-gameBox.js";
 import { getSelectedLevel } from "./selectLevel.js";
+import { resetStopwatch } from "../stopWatch.js";
 
 let selectedTemplate;
 
@@ -34,6 +35,8 @@ export const addSelectTemplateListeners = () => {
       const arrayValues = Object.values(templatesObject);
 
       setSelectedTemplate(selectedImage);
+
+      resetStopwatch();
 
       arrayValues.forEach((item) => {
         if (item.hasOwnProperty(selectedImage)) {

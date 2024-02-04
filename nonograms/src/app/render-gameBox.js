@@ -154,8 +154,6 @@ export function renderGameBoxField(puzzle) {
 }
 
 export function renderGameBox(puzzle) {
-  resetStopwatch();
-
   while (gameBoxSection.firstChild) {
     gameBoxSection.removeChild(gameBoxSection.firstChild);
   }

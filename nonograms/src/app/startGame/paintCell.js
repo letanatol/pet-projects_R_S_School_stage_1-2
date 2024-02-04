@@ -8,7 +8,20 @@ import { getWinResults } from "./winResults.js";
 const markSound = new Audio('../assets/audio/mark.mp3');
 const paintSound = new Audio('../assets/audio/paint.mp3');
 const cleanSound = new Audio('../assets/audio/clean.mp3');
+
 let modalSound = new Audio('../assets/audio/win.mp3');
+
+let isSoundActive = true;
+
+export const getSoundState = () => isSoundActive;
+
+export const setSoundDisable = () => {
+  isSoundActive = false;
+};
+
+export const setSoundEnable = () => {
+  isSoundActive = true;
+};
 
 export function stopAndReset(audio) {
   audio.pause();
@@ -16,7 +29,9 @@ export function stopAndReset(audio) {
 }
 
 function playWinSound() {
-  modalSound.play();
+  if (isSoundActive) {
+    modalSound.play();
+  }
 }
 
 export const addStopAndResetListener = (div) => {
@@ -41,11 +56,17 @@ export function paintCell(div) {
       }
       if (targetElement.classList.contains('paint')) {
         getPaintCell(x, y, 0);
-        cleanSound.play();
+
+        if (isSoundActive) {
+          cleanSound.play();
+        }
       }
       if (!targetElement.classList.contains('paint')) {
         getPaintCell(x, y, 1);
-        paintSound.play();
+
+        if (isSoundActive) {
+          paintSound.play();
+        }
       }
 
       targetElement.classList.toggle('paint');
@@ -78,11 +99,17 @@ export function paintCell(div) {
       }
       if (targetElement.classList.contains('mark')) {
         getPaintCell(x, y, 0);
-        cleanSound.play();
+
+        if (isSoundActive) {
+          cleanSound.play();
+        }
       }
       if (!targetElement.classList.contains('mark')) {
         getPaintCell(x, y, 2);
-        markSound.play();
+
+        if (isSoundActive) {
+          markSound.play();
+        }
       }
       targetElement.classList.toggle('mark');
     }

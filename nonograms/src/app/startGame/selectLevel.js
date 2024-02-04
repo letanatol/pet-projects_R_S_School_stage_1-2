@@ -3,6 +3,7 @@ import { templatesObject } from "../templates.js";
 import { renderGameBox } from "../render-gameBox.js";
 import { initUserAnswer } from "./userAnswers.js";
 import { setSelectedTemplate } from "./selectTemplate.js";
+import { resetStopwatch } from "../stopWatch.js";
 
 let selectedLevel = Object.keys(templatesObject)[0];
 
@@ -20,6 +21,8 @@ export const addLevelSelectListeners = () => {
       const selectedTemplate = templatesObject[input.value];
       
       setSelectedLevel(input.value);
+
+      resetStopwatch();
 
       if (selectedTemplate) {
         setSelectedTemplate(Object.keys(templatesObject[input.value])[0]);

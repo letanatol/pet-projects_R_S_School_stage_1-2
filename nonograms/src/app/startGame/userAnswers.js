@@ -17,8 +17,10 @@ const continueUserAnswer = () => {
   if (savedGame && savedGame.userAnswer) {
     userAnswer = savedGame.userAnswer;
   }
-  let lengthArray = currentPuzzle.length;
+  
+  /* let lengthArray = currentPuzzle.length;
   userAnswer = Array.from({ length: lengthArray }, () => Array(lengthArray).fill(0));
+  */
 }
 
 const getUserAnswers = () => userAnswer;

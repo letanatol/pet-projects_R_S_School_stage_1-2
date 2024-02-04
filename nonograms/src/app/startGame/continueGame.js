@@ -2,9 +2,11 @@ import { getLocalStorage } from './localStorage.js';
 import { templatesObject } from '../templates.js';
 import { initTimer, resetStopwatch, getCurrentTimer } from '../stopWatch.js';
 import { renderGameBoxField, renderGameBox } from '../render-gameBox.js';
-import { initUserAnswer } from './userAnswers.js';
+import { continueUserAnswer, initUserAnswer } from './userAnswers.js';
 import { showUserAnswer } from './showUserAnswer.js';
 import { buttonsSection, renderButtonsSection } from '../renderButtonsSection.js';
+import { setSelectedTemplate } from './selectTemplate.js';
+import { setSelectedLevel } from './selectLevel.js';
 
 // TODO не работает stopWatch после continue
 // TODO не работает resetButton после continue
@@ -45,6 +47,8 @@ export const continueGame = () => {
     }
   })
 
+  setSelectedLevel(difficulty);
+  
   listTemplates.forEach(templateName => {
     const option = document.createElement('option');
     option.value = templateName;
@@ -52,11 +56,16 @@ export const continueGame = () => {
     option.selected = templateName === currentPuzzleName;
     templatesSelectDiv.append(option);
   });
-
+  
+  setSelectedTemplate(currentPuzzleName);
+  
   renderGameBoxField(currentPuzzle);
   renderGameBox(currentPuzzle);
+
   initUserAnswer();
+  continueUserAnswer();
   showUserAnswer(userAnswer);
+
   while (buttonsSection.firstChild) {
     buttonsSection.removeChild(buttonsSection.firstChild);
   }

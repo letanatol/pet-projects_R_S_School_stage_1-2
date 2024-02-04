@@ -4,9 +4,7 @@ let timerLink = null;
 let stopwatchMinutesDiv;
 let stopwatchSecondsDiv;
 
-const updateStopwatch = () => {
-  currentTime += step;
-
+const drawTime = () => {
   let minutes = Math.floor(currentTime / 60);
   let seconds = currentTime % 60;
 
@@ -15,6 +13,12 @@ const updateStopwatch = () => {
 
   stopwatchMinutesDiv.innerHTML = formattedMinutes;
   stopwatchSecondsDiv.innerHTML = formattedSeconds;
+}
+
+const updateStopwatch = () => {
+  currentTime += step;
+
+  drawTime();
 };
 
 export function initTimer(minutesDiv, secondsDiv, time = 0) {
@@ -24,9 +28,9 @@ export function initTimer(minutesDiv, secondsDiv, time = 0) {
     stopwatchMinutesDiv = minutesDiv;
     stopwatchSecondsDiv = secondsDiv;
 
-    timerLink = setInterval(() => {
-      updateStopwatch();
-    }, 1000);
+    drawTime();
+
+    timerLink = setInterval(updateStopwatch, 1000);
   }
 
   return timerLink;
@@ -35,6 +39,8 @@ export function initTimer(minutesDiv, secondsDiv, time = 0) {
 export const getCurrentTimer = () => timerLink;
 
 export function resetStopwatch() {
+  console.log('reset stopwatch');
+
   if (timerLink !== null) {
     clearInterval(timerLink);
     timerLink = null;
