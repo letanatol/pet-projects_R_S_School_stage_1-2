@@ -44,7 +44,7 @@
     "dev": "webpack serve --config configuration/webpack.dev.config.js --mode=development",
     "production": "webpack --config configuration/webpack.prod.config.js --mode=production",
     "lint:sass": "stylelint \"**/*.scss\"",
-    "lint:js": "eslint --ext .js \"src/**/*.js\"",
+    "lint:js": "eslint --ext .js \"src/**/*.js\" --fix",
     "stats": "webpack --config configuration/webpack.prod.config.js --mode=production --json > dist/stats.json && webpack-bundle-analyzer dist/stats.json"
   },
   "target": "web",

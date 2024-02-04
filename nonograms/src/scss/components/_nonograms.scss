@@ -41,10 +41,7 @@ input {
 
 .container {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
   align-items: center;
-  width: 600px;
   padding: 20px;
   background-color: var(--background-color-container);
   border-radius: 10px;
@@ -53,9 +50,22 @@ input {
 @media (max-width: 820px) {
   .container {
     gap: 5px;
-    flex-direction: column;
+    /* flex-direction: column; */
     padding: 10px;
   }
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.field {
+  display: flex;
+  justify-content: center;
+  min-width: 400px;
 }
 
 .section {
@@ -168,7 +178,10 @@ option {
 
 .hint-cell[data-col="4"],
 .hint-cell[data-col="9"],
-.hint-cell[data-col="14"] {
+.hint-cell[data-col="14"],
+.hint-cell__wrap-column .hint-cell[data-row="4"],
+.hint-cell__wrap-column .hint-cell[data-row="9"],
+.hint-cell__wrap-column .hint-cell[data-row="14"] {
   border-right: 2.5px solid var(--border-color);
 }
 
@@ -191,13 +204,20 @@ option {
   background-color: var(--background-color-paint);
 }
 
+.cleanCell {
+  background-color: var(--background-color-container);
+}
+
 .mark {
-  background-image: url(../assets/images/gameBox/cross.gif);
+  // background-image: url(../../assets/images/gameBox/cross.gif);
 }
 
 span[data-row="4"],
 span[data-row="9"],
-span[data-row="14"] {
+span[data-row="14"],
+.hint-cell__wrap-row .hint-cell[data-row="4"],
+.hint-cell__wrap-row .hint-cell[data-row="9"],
+.hint-cell__wrap-row .hint-cell[data-row="14"] {
   border-bottom: 2.5px solid var(--border-color);
 }
 
@@ -227,4 +247,82 @@ span[data-col="0"] {
   cursor: pointer;
   padding: 5px;
   border-radius: 10px;
+}
+
+.game-modal {
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  background: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.4s ease;
+}
+
+.game-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.game-modal .content {
+  background-color: var(--background-color);
+  color: var(--color-text);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+@media (max-width: 480px) {
+  .game-modal .content {
+    max-width: 320px;
+  }
+}
+
+.game-modal p {
+  font-size: 1.15rem;
+  margin: 15px 0 30px;
+  font-weight: 500;
+}
+
+.game-modal button {
+  padding: 12px 23px;
+  border-radius: 10px;
+  background-color: var(--color-text);
+  color: var(--background-color);
+  border: none;
+  cursor: pointer;
+}
+
+.result-game {
+  background-color: var(--background-color);
+}
+
+.result-game__title {
+  text-align: center;
+  color: var(--color-text);
+  padding: 5px;
+}
+
+.game {
+  display: flex;
+  padding: 0 10px;
+  gap: 10px;
+  color: var(--color-text);
+}
+
+.name__game {
+  width: 80px;
+}
+
+.level__game {
+  width: 50px;
 }
