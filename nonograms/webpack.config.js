@@ -99,6 +99,14 @@ module.exports = {
             ignore: ['*.DS_Store', 'Thumbs.db'],
           },
         },
+        {
+          from: path.resolve(environment.paths.source, 'assets', 'buttonSound'),
+          to: path.resolve(environment.paths.output, 'assets', 'buttonSound'),
+          toType: 'dir',
+          globOptions: {
+            ignore: ['*.DS_Store', 'Thumbs.db'],
+          },
+        },
       ],
     }),
   ].concat(htmlPluginEntries),
