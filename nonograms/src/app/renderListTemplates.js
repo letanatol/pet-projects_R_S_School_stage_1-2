@@ -21,7 +21,7 @@ export function renderSelectTemplates(arrayTemplates) {
     const option = document.createElement('option');
     option.value = templateName;
     option.innerText = `${templateName.slice(0, 1).toUpperCase()}${templateName.slice(1)}`;
-    option.selected = templateName === 'tree' || templateName === 'tree2' || templateName === 'tree3';
+    option.selected = templateName === 'tree' || templateName === 'treeMedium' || templateName === 'treeHard';
     selectTemplates.append(option);
   });
   listTemplatesSection.append(selectTemplates);
