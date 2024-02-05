@@ -331,11 +331,21 @@ span[data-col='0'] {
 }
 
 .buttons__sound {
-  background: url('../assets/images/buttonSound/sound-on.png') no-repeat center/cover;
+  background: url('../assets/images/buttonSound/sound-on.svg') no-repeat center/cover;
+  width: 20px;
+  height: 20px;
+}
+
+.theme-dark .buttons__sound {
+  background: url('../assets/images/buttonSound/sound-onDark.svg') no-repeat center/cover;
   width: 20px;
   height: 20px;
 }
 
 .sound-off {
-  background: url('../assets/images/buttonSound/sound-off.png') no-repeat center/cover;
+  background: url('../assets/images/buttonSound/sound-off.svg') no-repeat center/cover;
+}
+
+.theme-dark .sound-off {
+  background: url('../assets/images/buttonSound/sound-offDark.svg') no-repeat center/cover;
 }
