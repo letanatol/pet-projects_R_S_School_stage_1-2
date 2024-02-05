@@ -20,7 +20,7 @@ container.className = 'container';
 const controls = document.createElement('div');
 controls.className = 'controls';
 
-const field = document.createElement('main');
+const field = document.createElement('div');
 field.className = 'field';
 
 function renderManePage(arrayLevels, templatesObject) {
