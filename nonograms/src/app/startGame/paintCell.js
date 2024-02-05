@@ -5,11 +5,11 @@ import { getUserAnswers } from './userAnswers.js';
 import { getTime, resetStopwatch } from '../stopWatch.js';
 import { getWinResults } from './winResults.js';
 
-const markSound = new Audio('../../assets/audio/mark.mp3');
-const paintSound = new Audio('../../assets/audio/paint.mp3');
-const cleanSound = new Audio('../../assets/audio/clean.mp3');
+const markSound = new Audio('./assets/audio/mark.mp3');
+const paintSound = new Audio('./assets/audio/paint.mp3');
+const cleanSound = new Audio('./assets/audio/clean.mp3');
 
-let modalSound = new Audio('../../assets/audio/win.mp3');
+let modalSound = new Audio('./assets/audio/win.mp3');
 
 let isSoundActive = true;
 
