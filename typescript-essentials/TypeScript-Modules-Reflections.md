@@ -1,5 +1,5 @@
 
-1. # Getting Started with TypeScript:
+# Getting Started with TypeScript:
 
 - TypeScript is an open-source language that was developed by Microsoft. 
 - TypeScript is a superset of JavaScript.
@@ -17,7 +17,7 @@ To install the latest version of TypeScript: In the Command Prompt window, enter
 You run the TypeScript compiler at the command prompt by using the ```tsc``` command.
 ***
 
-2. # Declare Variable Types in TypeScript:
+# Declare Variable Types in TypeScript:
 
 - Explain the advantages of declaring typed variables in TypeScript.
 - Declare variables using primitive types.
@@ -39,9 +39,7 @@ Ensures forward compatibility. With enumerations, your code is less likely to fa
 
 > The ```any``` type is the one type that can represent any JavaScript value with no constraints. The any type will allow you to reassign different types of values.
 
-> The ```unknown``` type is similar to the ```any``` type in that any value is assignable to type ```unknown```. However, can't access ```any``` properties of an ```unknown``` type, nor can you call or construct them.
-
-> If need to treat a variable as a different data type, can use a type assertion: 
+> The ```unknown``` type is similar to the ```any``` type in that any value is assignable to type ```unknown```. However, can't access ```any``` properties of an ```unknown``` type, nor can you call or construct them. If need to treat a variable as a different data type, can use a type assertion:
 
 Type assertions have two forms. One is the as-syntax:
 
@@ -63,3 +61,22 @@ The other version is the "angle-bracket" syntax:
 > A ```literal``` is a more concrete subtype of a collective type.
 There are three sets of ```literal``` types available in TypeScript: string, number, and boolean.
 ***
+
+# Implement Interfaces in TypeShttpscript:
+
+- Explain the reasons for using an interface in TypeScript.
+- Declare an interface.
+- Implement an interface.
+- Declare an interface with custom array types.
+
+The only job of an interface is to describe a type. It defines what the code contract requires, while a variable, function, or class that implements the interface satisfies the contract by providing the required implementation details.
+
+> A type ```alias``` is a definition of a type of data, for example, a union, primitive, intersection, tuple, or any other type.
+
+Interfaces are often the key point of contact between any two pieces of TypeScript code, especially when working with existing JavaScript code or built-in JavaScript objects.
+
+You can use an interface to:
+
+- Create shorthand names for commonly used types.
+- Drive consistency across a set of objects because every object that implements the interface operates under the same type definitions.
+- Describe existing JavaScript APIs and clarify function parameters and return types.
