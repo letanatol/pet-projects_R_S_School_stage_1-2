@@ -26,7 +26,6 @@ const htmlPluginEntries = templateFiles.map(
     hash: false,
     filename: template.output,
     template: path.resolve(environment.paths.source, template.input),
-    favicon: path.resolve(environment.paths.source, 'assets', 'images', 'icon.png'),
   }),
 );
 
