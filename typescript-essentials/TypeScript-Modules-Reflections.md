@@ -39,15 +39,7 @@ Ensures forward compatibility. With enumerations, your code is less likely to fa
 
 > The ```any``` type is the one type that can represent any JavaScript value with no constraints. The any type will allow you to reassign different types of values.
 
-> The ```unknown``` type is similar to the ```any``` type in that any value is assignable to type ```unknown```. However, can't access ```any``` properties of an ```unknown``` type, nor can you call or construct them. If need to treat a variable as a different data type, can use a type assertion:
-
-Type assertions have two forms. One is the as-syntax:
-
-```(randomValue as string).toUpperCase();```
-
-The other version is the "angle-bracket" syntax:
-
-```(<string>randomValue).toUpperCase();```
+> The ```unknown``` type is similar to the ```any``` type in that any value is assignable to type ```unknown```. However, can't access ```any``` properties of an ```unknown``` type, nor can you call or construct them. If need to treat a variable as a different data type, can use a type assertion.
 
 > A ```union``` type uses the vertical bar or pipe ```(|)``` to separate each type:
 
