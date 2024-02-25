@@ -1,3 +1,5 @@
+import { Data } from "src/app/helper/types";
+
 interface OptionsInterface {
   [key: string]: string;
 }
@@ -13,11 +15,11 @@ class Loader {
 
   getResp(
     { endpoint, options = {} }: { endpoint: string; options?: OptionsInterface },
-    callback: (data: any) => void = () => {
+    callback: (data: Data) => void = () => {
       console.error('No callback for GET response');
     }
   ): void {
-    this.load('GET', endpoint, callback, options);
+    this.load<Data>('GET', endpoint, callback, options);
   }
 
   private errorHandler(res: Response): Response {
