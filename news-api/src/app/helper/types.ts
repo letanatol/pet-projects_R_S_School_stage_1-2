@@ -19,3 +19,10 @@ export interface Data {
   articles: Article[];
   sources: Source[];
 };
+
+export enum Endpoints {
+  sources = 'sources',
+  everything = 'everything',
+};
+
+export type CallbackFn = (data: Data) => void;

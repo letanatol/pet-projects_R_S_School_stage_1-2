@@ -1,53 +1,77 @@
-import { Data } from "src/app/helper/types";
+import { CallbackFn, Endpoints } from "src/app/helper/types";
 
-interface OptionsInterface {
-  [key: string]: string;
+type RequestOptions = {
+  apiKey: string;
+}
+
+type RequestSources = {
+  sources?: string;
+}
+
+type UrlOptions = RequestOptions & RequestSources;
+
+enum RequestMethods {
+  'GET' = 'GET'
+}
+
+enum ResponseStatusCode {
+  'NO_FOUND' = 404,
+  'UNAUTH' = 401,
+}
+
+export type Request = {
+  endpoint: Endpoints;
+  options?: RequestSources;
 }
 
 class Loader {
-  private baseLink: string;
-  private options: OptionsInterface;
-
-  constructor(baseLink: string, options: OptionsInterface) {
-    this.baseLink = baseLink;
-    this.options = options;
+  constructor(private readonly baseLink: string, private readonly options: RequestOptions) {
   }
 
-  getResp(
-    { endpoint, options = {} }: { endpoint: string; options?: OptionsInterface },
-    callback: (data: Data) => void = () => {
+  public getResp(
+    { endpoint, options = {} }: Request,
+    callback = (): void => {
       console.error('No callback for GET response');
     }
-  ): void {
-    this.load<Data>('GET', endpoint, callback, options);
+  ) {
+    this.load(RequestMethods.GET, endpoint, callback, options);
   }
 
   private errorHandler(res: Response): Response {
     if (!res.ok) {
-      if (res.status === 401 || res.status === 404)
+      if ([
+        ResponseStatusCode.UNAUTH,
+        ResponseStatusCode.NO_FOUND
+      ].includes(res.status)) {
         console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
+      }
+
       throw Error(res.statusText);
     }
 
     return res;
   }
 
-  private makeUrl(options: OptionsInterface, endpoint: string) {
-    const urlOptions = { ...this.options, ...options };
+  private makeUrl(options: Partial<RequestSources>, endpoint: Endpoints): string {
+    const urlOptions: UrlOptions = { ...this.options, ...options };
     let url = `${this.baseLink}${endpoint}?`;
 
-    Object.keys(urlOptions).forEach((key) => {
-      url += `${key}=${urlOptions[key]}&`;
+    Object.keys(urlOptions).forEach((key: string) => {
+      const value = urlOptions[key as keyof RequestSources];
+
+      if (value) {
+        url += `${key}=${value}&`;
+      }
     });
 
     return url.slice(0, -1);
   }
 
-  private load<T>(method: string, endpoint: string, callback: (data: T) => void, options: OptionsInterface = {}): void {
+  private load(method: RequestMethods, endpoint: Endpoints, callback: CallbackFn, options: Partial<RequestSources> = {}): void {
     fetch(this.makeUrl(options, endpoint), { method })
       .then(this.errorHandler)
       .then((res) => res.json())
-      .then((data: T) => callback(data))
+      .then((data) => callback(data))
       .catch((err) => console.error(err));
   }
 }
