@@ -25,4 +25,4 @@ export enum Endpoints {
   everything = 'everything',
 };
 
-export type CallbackFn = (data: Data) => void;
+export type CallbackFn = (data?: Data) => void;
