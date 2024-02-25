@@ -26,6 +26,7 @@ const htmlPluginEntries = templateFiles.map(
     hash: false,
     filename: template.output,
     template: path.resolve(environment.paths.source, template.input),
+    favicon: path.resolve(environment.paths.source, 'assets', 'images', 'icon.png'),
   }),
 );
 
@@ -90,8 +91,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(environment.paths.source, 'assets', 'images', 'content'),
-          to: path.resolve(environment.paths.output, 'assets', 'images', 'content'),
+          from: path.resolve(environment.paths.source, 'assets', 'images'),
+          to: path.resolve(environment.paths.output, 'assets', 'images'),
           toType: 'dir',
           globOptions: {
             ignore: ['*.DS_Store', 'Thumbs.db'],
