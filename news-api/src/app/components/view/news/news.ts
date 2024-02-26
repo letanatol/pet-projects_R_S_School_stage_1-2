@@ -16,7 +16,7 @@ class News {
 
       const newsMetaPhotoDivElement = getElement<HTMLDivElement>(newsClone, '.news__meta-photo');
 
-      newsMetaPhotoDivElement.style.backgroundImage = `url(${item.urlToImage || '../assets/images/news-placeholder.jpg'
+      newsMetaPhotoDivElement.style.backgroundImage = `url(${item.urlToImage || './assets/images/news-placeholder.jpg'
         })`;
 
       const newsMetaAuthorDivElement = getElement<HTMLLIElement>(newsClone, '.news__meta-author');
