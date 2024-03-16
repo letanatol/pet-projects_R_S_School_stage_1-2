@@ -1,1 +1,0 @@
-npx validate-branch-name -r "^[(feat|fix|refactor|chore)]+(\/)+[0-9A-z\-_]+$"
