@@ -1,6 +1,13 @@
+import { UserType } from '@helpers/types';
 import { ButtonComponent } from '@components/buttonComponent';
+import { localStorageService } from '../../helpers/localStorage';
 
 export class LoginPage {
+  private user: UserType = {
+    name: '',
+    surname: '',
+  };
+
   private usernameInput: HTMLInputElement = document.createElement('input');
 
   private surnameInput: HTMLInputElement = document.createElement('input');
@@ -91,6 +98,19 @@ export class LoginPage {
     const isValidSurname = /^[A-Z][a-zA-Z-]{3,}$/.test(this.surnameInput.value);
     if (!isValidSurname) {
       this.surnameInput.classList.add('error');
+
+      return;
     }
+
+    this.user.name = this.usernameInput.value;
+    this.user.surname = this.surnameInput.value;
+
+    localStorageService.saveData<UserType>('user', this.user);
+    this.clearFields();
+  }
+
+  private clearFields(): void {
+    this.usernameInput.value = '';
+    this.surnameInput.value = '';
   }
 }
