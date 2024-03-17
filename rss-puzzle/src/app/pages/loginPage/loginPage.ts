@@ -1,6 +1,7 @@
 import { UserType } from '@helpers/types';
 import { ButtonComponent } from '@components/buttonComponent';
 import { localStorageService } from '../../helpers/localStorage';
+import { StartPage } from '../startPage/startPage';
 
 export class LoginPage {
   private user: UserType = {
@@ -11,6 +12,8 @@ export class LoginPage {
   private usernameInput: HTMLInputElement = document.createElement('input');
 
   private surnameInput: HTMLInputElement = document.createElement('input');
+
+  constructor(private mainContainer: HTMLElement) {}
 
   public drawLoginContainer(): HTMLElement {
     const container = document.createElement('div');
@@ -107,6 +110,11 @@ export class LoginPage {
 
     localStorageService.saveData<UserType>('user', this.user);
     this.clearFields();
+
+    const startPage = new StartPage();
+    const startPageContainer = startPage.drawStartContainer();
+    this.mainContainer.innerHTML = '';
+    this.mainContainer.append(startPageContainer);
   }
 
   private clearFields(): void {

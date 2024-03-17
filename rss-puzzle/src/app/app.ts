@@ -1,4 +1,7 @@
+import { UserType } from '@helpers/types';
+import { localStorageService } from './helpers/localStorage';
 import { LoginPage } from './pages/loginPage/loginPage';
+import { StartPage } from './pages/startPage/startPage';
 
 export class App {
   private mainContainer: HTMLElement;
@@ -9,9 +12,35 @@ export class App {
     document.body.prepend(this.mainContainer);
   }
 
+  public customEvents(): void {
+    window.addEventListener('logout', () => {
+      localStorageService.clearData();
+
+      const loginPage = new LoginPage(this.mainContainer);
+      const loginPageContainer = loginPage.drawLoginContainer();
+      this.mainContainer.innerHTML = '';
+      this.mainContainer.append(loginPageContainer);
+    });
+
+    window.addEventListener('resize', () => {
+      const { offsetWidth } = this.mainContainer;
+      const resizeEvent = new CustomEvent('containerResize', {
+        bubbles: true,
+        detail: { width: offsetWidth },
+      });
+      this.mainContainer.dispatchEvent(resizeEvent);
+    });
+  }
+
   public drawMainContainer(): void {
-    if (this.mainContainer) {
-      const loginPage = new LoginPage();
+    const savedUser = localStorageService.getData<UserType>('user');
+
+    if (savedUser) {
+      const startPage = new StartPage();
+      const startPageContainer = startPage.drawStartContainer();
+      this.mainContainer.append(startPageContainer);
+    } else {
+      const loginPage = new LoginPage(this.mainContainer);
       const loginPageContainer = loginPage.drawLoginContainer();
       this.mainContainer.append(loginPageContainer);
     }
