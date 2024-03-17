@@ -111,7 +111,7 @@ export class LoginPage {
     localStorageService.saveData<UserType>('user', this.user);
     this.clearFields();
 
-    const startPage = new StartPage();
+    const startPage = new StartPage(this.mainContainer);
     const startPageContainer = startPage.drawStartContainer();
     this.mainContainer.innerHTML = '';
     this.mainContainer.append(startPageContainer);

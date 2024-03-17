@@ -2,10 +2,13 @@ import { UserType } from '@helpers/types';
 import { ButtonComponent } from '@components/buttonComponent';
 import { dispatchCustomEvent } from '@helpers/dispatchCustomEvent';
 import { localStorageService } from '../../helpers/localStorage';
+import { GamePage } from '../gamePage/gamePage';
 
 import './startPage.scss';
 
 export class StartPage {
+  constructor(private mainContainer: HTMLElement) {}
+
   public drawStartContainer(): HTMLElement {
     const container = document.createElement('div');
     container.classList.add('container');
@@ -28,10 +31,18 @@ export class StartPage {
       greeting.textContent = `Welcome back, ${name} ${surname}!`;
     }
 
+    const startButton = new ButtonComponent('Start', () => this.handleGame()).createButton();
     const logoutButton = new ButtonComponent('Logout', () => dispatchCustomEvent('logout')).createButton();
 
-    container.append(title, description, greeting, logoutButton);
+    container.append(title, description, greeting, startButton, logoutButton);
 
     return container;
+  }
+
+  private handleGame(): void {
+    const startPage = new GamePage();
+    const startPageContainer = startPage.drawGameContainer();
+    this.mainContainer.innerHTML = '';
+    this.mainContainer.append(startPageContainer);
   }
 }
