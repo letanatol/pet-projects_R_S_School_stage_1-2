@@ -36,7 +36,7 @@ export class App {
     const savedUser = localStorageService.getData<UserType>('user');
 
     if (savedUser) {
-      const startPage = new StartPage();
+      const startPage = new StartPage(this.mainContainer);
       const startPageContainer = startPage.drawStartContainer();
       this.mainContainer.append(startPageContainer);
     } else {
