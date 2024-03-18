@@ -1,88 +1,96 @@
-import { EventTypes, LevelDataInterface, WordInterface, UiState } from '@helpers/types';
+import { EventTypes, WordInterface, StateType } from '@helpers/types';
 import wordCollectionLevel1 from '../../data/wordCollectionLevel1.json';
+import wordCollectionLevel2 from '../../data/wordCollectionLevel2.json';
+import wordCollectionLevel3 from '../../data/wordCollectionLevel3.json';
 
-type StateType = {
-  levelsCount: string;
-  levelCurrent: string;
-  roundsCount: string;
-  levelData: LevelDataInterface;
-  roundData: WordInterface[];
-  ui: UiState;
-};
-
-type Hint = {
-  audioExample: string;
-  textExample: string;
-  textExampleTranslate: string;
-};
+const COUNT_ROWS = 9;
+const STEP = 1;
 
 class State {
   private state: StateType = {
     levelsCount: '6',
-    levelCurrent: '1',
     roundsCount: wordCollectionLevel1.roundsCount.toString(),
     levelData: {
       id: '1_01',
+      rowCurrent: 0,
       name: 'Stag Hunt',
       imageSrc: 'level1/deerhunt.jpg',
       cutSrc: 'level1/cut/deerhunt.jpg',
       author: 'Niccolò dell',
       year: '1550-52',
-      rowCurrent: '01',
     },
-    roundData: wordCollectionLevel1.rounds[0].words,
-    ui: {
-      continueDisabled: false,
-      checkDisabled: false,
+    arrayRowsData: wordCollectionLevel1.rounds[0].words,
+    wordGame: {
+      wordUser: [],
+      wordSource: [],
     },
   };
 
   public getLevelsCount = (): string => this.state.levelsCount;
 
-  public getLevelCurrent = (): string => this.state.levelCurrent;
-
-  public setLevelCurrent = (value: string): void => {
-    this.state.levelCurrent = value;
-    this.state.levelData.rowCurrent = '01';
-    window.dispatchEvent(
-      new CustomEvent(EventTypes.ChangeLevel, { bubbles: true, detail: { level: this.state.levelCurrent } })
-    );
-  };
-
   public getRoundsCount = (): string => this.state.roundsCount;
 
-  public getRoundCurrent = (): string => {
-    const round = this.state.levelData.id.split('_')[1];
-    return round;
+  public setRoundsCount = (): void => {
+    if (this.state.levelData.id.split('_')[0] === '1') {
+      this.state.roundsCount = wordCollectionLevel1.roundsCount.toString();
+    }
+    if (this.state.levelData.id.split('_')[0] === '2') {
+      this.state.roundsCount = wordCollectionLevel2.roundsCount.toString();
+    }
+    if (this.state.levelData.id.split('_')[0] === '3') {
+      this.state.roundsCount = wordCollectionLevel3.roundsCount.toString();
+    }
   };
 
-  public setIdRoundCurrent = (value: string): void => {
-    this.state.levelData.id = `${this.getLevelCurrent()}_${value}`;
+  public getLevelCurrent = (): string => this.state.levelData.id.split('_')[0];
 
-    window.dispatchEvent(
-      new CustomEvent(EventTypes.ChangeRound, { bubbles: true, detail: { round: this.state.levelData.id } })
-    );
+  public getRoundCurrent = (): string => this.state.levelData.id.split('_')[1];
+
+  public setLevelCurrent = (value: string): void => {
+    this.state.levelData.id = `${value}_${this.state.levelData.id.split('_')[1]}`;
+    this.state.levelData.rowCurrent = 0;
+    this.setRoundsCount();
+    this.setRoundCurrent('01');
+    this.setArrayRowsData();
+    window.dispatchEvent(new CustomEvent(EventTypes.ChangeLevel, { bubbles: true, detail: { level: value } }));
   };
 
-  public getRowCurrent = (): string => this.state.levelData.rowCurrent;
-
-  public getRowData = (): WordInterface => this.state.roundData[Number(this.getRowCurrent())];
-
-  public getHint = (): Hint => ({
-    audioExample: this.getRowData().audioExample,
-    textExample: this.getRowData().textExample,
-    textExampleTranslate: this.getRowData().textExampleTranslate,
-  });
-
-  public upDateUi = (newState: UiState): void => {
-    this.state.ui = { ...this.state.ui, ...newState };
-    window.dispatchEvent(new CustomEvent(EventTypes.ChangeUI, { bubbles: true, detail: {} }));
+  public setRoundCurrent = (value: string): void => {
+    this.state.levelData.id = `${this.state.levelData.id.split('_')[0]}_${value}`;
+    this.state.levelData.rowCurrent = 0;
+    this.setArrayRowsData();
+    this.setWordSource();
+    window.dispatchEvent(new CustomEvent(EventTypes.ChangeRound, { bubbles: true, detail: { round: value } }));
   };
 
-  public getUiState = (): UiState => this.state.ui;
+  public getRowData = (): WordInterface => this.state.arrayRowsData[this.getRowCurrent()];
+
+  public setWordSource = (): void => {
+    this.state.wordGame.wordSource = this.getRowData().textExample.split(' ');
+  };
+
+  public setArrayRowsData = (): void => {
+    if (this.state.levelData.id.split('_')[0] === '1') {
+      this.state.arrayRowsData = wordCollectionLevel1.rounds[Number(this.state.levelData.id.split('_')[1])].words;
+    }
+    if (this.state.levelData.id.split('_')[0] === '2') {
+      this.state.arrayRowsData = wordCollectionLevel2.rounds[Number(this.state.levelData.id.split('_')[1])].words;
+    }
+    if (this.state.levelData.id.split('_')[0] === '3') {
+      this.state.arrayRowsData = wordCollectionLevel3.rounds[Number(this.state.levelData.id.split('_')[1])].words;
+    }
+  };
+
+  public getRowCurrent = (): number => this.state.levelData.rowCurrent;
 
   public setRowCurrent = (): void => {
-    this.state.levelData.rowCurrent += 1;
+    if (this.state.levelData.rowCurrent > COUNT_ROWS) {
+      if (Number(this.getLevelCurrent()) < Number(this.getLevelsCount())) {
+        this.setLevelCurrent((Number(this.getLevelCurrent()) + STEP).toString());
+      }
+    } else {
+      this.state.levelData.rowCurrent += 1;
+    }
   };
 }
 

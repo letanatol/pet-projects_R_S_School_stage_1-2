@@ -1,6 +1,9 @@
 import './gamePage.scss';
+import { OptionComponent } from '@components/optionComponent';
 import { SourceBlock } from '@components/sourceBlock/sourceBlock';
+import { EventTypes } from '@helpers/types';
 import { getElementById } from '@helpers/utils';
+import { state } from '@helpers/State/State';
 
 export class GamePage {
   private idRound: string = '1_00';
@@ -8,6 +11,53 @@ export class GamePage {
   public drawGameContainer(): HTMLElement {
     const gameBox = document.createElement('div');
     gameBox.classList.add('game-box');
+
+    // HEADER
+    const gameBoxHeader = document.createElement('div');
+    gameBoxHeader.classList.add('game-box__header');
+
+    const gameBoxHeaderOptions = document.createElement('div');
+    gameBoxHeaderOptions.classList.add('options');
+
+    // LEVEL
+    const levelsCount = state.getLevelsCount();
+    const levelSelect = new OptionComponent('level', levelsCount);
+    const levelDiv = levelSelect.createOption();
+    levelDiv.addEventListener('change', (event: Event) => {
+      const target = event.target as HTMLSelectElement;
+      const selectedOption = target.options[target.selectedIndex];
+
+      if (selectedOption) {
+        state.setLevelCurrent(selectedOption.value);
+      }
+    });
+
+    window.addEventListener(EventTypes.ChangeLevel, ((event: CustomEvent<{ level: string }>) => {
+      const newValue = event.detail.level;
+      levelSelect.changeSelectedOption(newValue);
+    }) as EventListener);
+
+    // ROUND
+    const roundsCount = state.getRoundsCount();
+    const roundSelect = new OptionComponent('round', roundsCount);
+    const roundDiv = roundSelect.createOption();
+    roundDiv.addEventListener('change', (event: Event) => {
+      const target = event.target as HTMLSelectElement;
+      const selectedOption = target.options[target.selectedIndex];
+
+      if (selectedOption) {
+        state.setRoundCurrent(selectedOption.value);
+      }
+    });
+
+    window.addEventListener(EventTypes.ChangeRound, ((event: CustomEvent<{ round: string }>) => {
+      const newValue = event.detail.round;
+      roundSelect.changeSelectedOption(newValue);
+    }) as EventListener);
+
+    gameBoxHeaderOptions.append(levelDiv);
+    gameBoxHeaderOptions.append(roundDiv);
+    gameBoxHeader.append(gameBoxHeaderOptions);
 
     // RESULT
     const gameBoxResultBlock = document.createElement('div');
@@ -37,7 +87,7 @@ export class GamePage {
       }
     }) as EventListener);
 
-    gameBox.append(gameBoxResultBlock, gameBoxSourceBlock);
+    gameBox.append(gameBoxHeader, gameBoxResultBlock, gameBoxSourceBlock);
 
     return gameBox;
   }

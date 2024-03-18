@@ -3,6 +3,19 @@ export type UserType = {
   surname: string;
 };
 
+export type StateType = {
+  levelsCount: string;
+  roundsCount: string;
+  levelData: LevelDataInterface;
+  arrayRowsData: WordInterface[];
+  wordGame: WordGame;
+};
+
+export type WordGame = {
+  wordUser: string[];
+  wordSource: string[];
+};
+
 export interface WordInterface {
   audioExample: string;
   textExample: string;
@@ -14,12 +27,12 @@ export interface WordInterface {
 
 export interface LevelDataInterface {
   id: string;
+  rowCurrent: number;
   name: string;
   imageSrc: string;
   cutSrc: string;
   author: string;
   year: string;
-  rowCurrent: string;
 }
 
 export interface Round {
