@@ -29,7 +29,7 @@ export class OptionComponent {
       }
       option.value = doubleNumber;
       option.innerText = doubleNumber;
-      option.selected = level === '01';
+      option.selected = level === '1';
       this.select.append(option);
     });
 

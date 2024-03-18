@@ -46,7 +46,7 @@ export class SourceBlock {
   }
 
   public getComponent(): HTMLElement {
-    this.wrapper.classList.add('wrapper');
+    this.wrapper.classList.add('wrapper_source');
 
     this.wrapper.addEventListener('click', (event: Event) => {
       const { target } = event;

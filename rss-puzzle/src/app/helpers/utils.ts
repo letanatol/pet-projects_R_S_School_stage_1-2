@@ -17,3 +17,13 @@ export const getElementById = <T extends HTMLElement>(id: string): T => {
 
   return element;
 };
+
+export const getElements = <T extends HTMLElement>(root: HTMLElement, selector: string): NodeListOf<T> => {
+  const elements = root.querySelectorAll<T>(selector);
+
+  if (!elements) {
+    throw new TypeError(`Element not found: ${selector}`);
+  }
+
+  return elements;
+};
