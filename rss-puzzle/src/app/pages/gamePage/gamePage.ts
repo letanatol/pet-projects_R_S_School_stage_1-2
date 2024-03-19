@@ -4,10 +4,10 @@ import { OptionComponent } from '@components/optionComponent';
 import { SourceBlock } from '@components/sourceBlock/sourceBlock';
 import { dispatchCustomEvent } from '@helpers/dispatchCustomEvent';
 import { EventTypes } from '@helpers/types';
-import { getElement, getElementById, getElements } from '@helpers/utils';
+import { getElement, getElementById } from '@helpers/utils';
 import { state } from '@helpers/State/State';
 import { removeContent } from '@helpers/removeContent';
-import { compareArrays } from '@helpers/compareArrays';
+import { isArraysEqual, validateArrays } from '@helpers/compareArrays';
 import { nextRowRoundLevel } from '@helpers/nextRowRoundLevel';
 
 export class GamePage {
@@ -32,6 +32,7 @@ export class GamePage {
 
       if (selectedOption) {
         state.setLevelCurrent(selectedOption.value);
+        state.setWordUser([]);
       }
     });
 
@@ -45,6 +46,7 @@ export class GamePage {
 
       if (selectedOption) {
         state.setRoundCurrent(selectedOption.value);
+        state.setWordUser([]);
       }
     });
 
@@ -52,14 +54,32 @@ export class GamePage {
     gameBoxHeaderOptions.append(roundDiv);
     gameBoxHeader.append(gameBoxHeaderOptions);
 
+    // HINT Sound and translation
+    const gameBoxSoundHint = document.createElement('div');
+    gameBoxSoundHint.classList.add('sound-hint__wrapper');
+
     // RESULT
     const gameBoxResultBlock = document.createElement('div');
     gameBoxResultBlock.classList.add('result-block');
     gameBoxResultBlock.addEventListener('click', ((event: MouseEvent) => {
       const target = event.target as HTMLElement;
+      target.classList.remove('red-border');
+
       if (target && target.parentElement && target.parentElement.id === state.getRowCurrent().toString()) {
+        const word = target.textContent;
+        if (word) {
+          state.removeWordUser(word);
+        }
+
         const wrapperSource = getElement(document.body, '.wrapper_source');
         wrapperSource.append(target);
+
+        if (state.getWordSource().length !== state.getWordUser().length) {
+          state.updateUi({
+            continueHidden: true,
+            checkHidden: true,
+          });
+        }
       }
     }) as EventListener);
 
@@ -90,6 +110,8 @@ export class GamePage {
     const gameBoxSourceBlock = document.createElement('div');
     gameBoxSourceBlock.classList.add('source-block');
 
+    // TODO проверить есть ли в LocalStorage последний round, иначе ...?
+
     const testSourceBlock = new SourceBlock().getComponent();
     gameBoxSourceBlock.append(testSourceBlock);
 
@@ -97,40 +119,91 @@ export class GamePage {
       const element = getElementById<HTMLElement>(state.getRowCurrent().toString());
       if (element) {
         element.append(event.detail.word);
-        const collectionsNodes = getElements(element, '.wrapper_word');
-        state.setWordUser(collectionsNodes);
+        const { word } = event.detail.word.dataset;
+
+        if (word) {
+          state.addWordUser(word);
+        }
       }
     }) as EventListener);
 
     // BUTTONS
     const gameBoxButtons = document.createElement('div');
     gameBoxButtons.classList.add('game-box__buttons');
+
+    // I don't know
     const buttonNoKnow = new ButtonComponent(`I don't know`, () => this.testMethod()).createButton();
-    const buttonCheck = new ButtonComponent('Check', () => this.testMethod()).createButton();
+
+    // Check
+    const checkButtonWrapper = new ButtonComponent('Check', () => {
+      validateArrays(state.getWordSource(), state.getWordUser());
+    });
+
+    const buttonCheck = checkButtonWrapper.createButton();
     buttonCheck.classList.add('hidden');
 
+    // Continue
     const button = new ButtonComponent('Continue', () => nextRowRoundLevel());
     const buttonContinue = button.createButton();
     buttonContinue.classList.add('hidden');
+
     window.addEventListener('wordClick', (() => {
-      if (compareArrays(state.getWordSource(), state.getWordUser())) {
-        buttonContinue.classList.remove('hidden');
+      if (state.getWordSource().length === state.getWordUser().length) {
+        state.updateUi({
+          checkHidden: false,
+        });
+      }
+      if (isArraysEqual(state.getWordSource(), state.getWordUser())) {
+        state.updateUi({
+          checkHidden: true,
+          continueHidden: false,
+        });
       } else {
         console.log('Еще немного');
       }
     }) as EventListener);
+
     buttonContinue.addEventListener('click', () => {
       buttonContinue.classList.add('hidden');
+      state.updateUi({ continueHidden: true });
     });
 
+    window.addEventListener(EventTypes.ChangeUI, () => {
+      const stateUi = state.getUiState();
+      if (stateUi.checkHidden) {
+        buttonCheck.classList.add('hidden');
+      } else {
+        buttonCheck.classList.remove('hidden');
+      }
+      if (stateUi.continueHidden) {
+        buttonContinue.classList.add('hidden');
+      } else {
+        buttonContinue.classList.remove('hidden');
+      }
+    });
+
+    // Result
     const buttonResult = new ButtonComponent('Result', () => this.testMethod()).createButton();
     buttonResult.classList.add('hidden');
+
+    // Logout
     const buttonLogout = new ButtonComponent('Logout', () => dispatchCustomEvent('logout')).createButton();
+
     gameBoxButtons.append(buttonNoKnow, buttonCheck, buttonContinue, buttonResult, buttonLogout);
-    gameBox.append(gameBoxHeader, gameBoxResultBlock, gameBoxSourceBlock, gameBoxButtons);
+    gameBox.append(gameBoxHeader, gameBoxSoundHint, gameBoxResultBlock, gameBoxSourceBlock, gameBoxButtons);
 
     return gameBox;
   }
+
+  public updateUserWord = (collection: NodeList): void => {
+    collection.forEach((element: Node) => {
+      const htmlElement = element as HTMLElement;
+      const { textContent } = htmlElement;
+      if (textContent !== null) {
+        state.addWordUser(textContent);
+      }
+    });
+  };
 
   public testMethod(): void {
     console.log('testMethod');

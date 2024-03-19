@@ -39,12 +39,23 @@ export class SourceBlock {
       arrayWordsShuffled.forEach((word) => {
         const countLettersOfWord: number = word.length;
         const densityWord = countLettersOfWord / countLettersOfSentence;
+
         const wrapperWord = document.createElement('div');
         const widthWrapperWord = Math.round(this.widthSourceBlock * densityWord);
         wrapperWord.style.width = `${widthWrapperWord}px`;
         wrapperWord.classList.add('wrapper_word');
         wrapperWord.innerText = word;
+        wrapperWord.setAttribute('data-word', word);
         wrapperWord.setAttribute('draggable', 'true');
+
+        wrapperWord.addEventListener('click', (event: Event) => {
+          const { target } = event;
+
+          if (target instanceof HTMLElement) {
+            window.dispatchEvent(new CustomEvent('wordClick', { bubbles: true, detail: { word: target } }));
+          }
+        });
+
         this.wrapper.append(wrapperWord);
       });
     }
@@ -52,14 +63,6 @@ export class SourceBlock {
 
   public getComponent(): HTMLElement {
     this.wrapper.classList.add('wrapper_source');
-
-    this.wrapper.addEventListener('click', (event: Event) => {
-      const { target } = event;
-
-      if (target instanceof HTMLElement) {
-        window.dispatchEvent(new CustomEvent('wordClick', { bubbles: true, detail: { word: target } }));
-      }
-    });
 
     this.fillWrapper();
 
