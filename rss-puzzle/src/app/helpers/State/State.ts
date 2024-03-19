@@ -1,7 +1,10 @@
-import { EventTypes, WordInterface, StateType } from '@helpers/types';
+import { EventTypes, WordInterface, UiState, StateType, Hint } from '@helpers/types';
 import wordCollectionLevel1 from '../../data/wordCollectionLevel1.json';
 import wordCollectionLevel2 from '../../data/wordCollectionLevel2.json';
 import wordCollectionLevel3 from '../../data/wordCollectionLevel3.json';
+import wordCollectionLevel4 from '../../data/wordCollectionLevel4.json';
+import wordCollectionLevel5 from '../../data/wordCollectionLevel5.json';
+import wordCollectionLevel6 from '../../data/wordCollectionLevel6.json';
 
 const STEP = 1;
 
@@ -22,6 +25,10 @@ class State {
     wordGame: {
       wordUser: [],
       wordSource: [],
+    },
+    ui: {
+      continueHidden: true,
+      checkHidden: true,
     },
   };
 
@@ -68,21 +75,24 @@ class State {
     this.state.wordGame.wordSource = this.getRowData().textExample.split(' ');
   };
 
-  public setWordUser = (collection: NodeList): void => {
-    this.state.wordGame.wordUser = [];
-    collection.forEach((element: Node) => {
-      const htmlElement = element as HTMLElement;
-      const { textContent } = htmlElement;
-      if (textContent !== null) {
-        this.state.wordGame.wordUser.push(textContent);
-      }
-    });
+  public addWordUser = (word: string): void => {
+    this.state.wordGame.wordUser.push(word);
+    console.log('addWordUser:', word);
+  };
+
+  public removeWordUser = (word: string): void => {
+    this.state.wordGame.wordUser = this.state.wordGame.wordUser.filter((item) => item !== word);
+    console.log(word);
     console.log(this.state.wordGame.wordUser);
   };
 
   public getWordSource = (): string[] => this.state.wordGame.wordSource;
 
   public getWordUser = (): string[] => this.state.wordGame.wordUser;
+
+  public setWordUser = (value: string[]): void => {
+    this.state.wordGame.wordUser = value;
+  };
 
   public setArrayRowsData = (): void => {
     if (this.state.levelData.id.split('_')[0] === '1') {
@@ -97,6 +107,18 @@ class State {
       this.state.arrayRowsData =
         wordCollectionLevel3.rounds[Number(this.state.levelData.id.split('_')[1]) - STEP].words;
     }
+    if (this.state.levelData.id.split('_')[0] === '4') {
+      this.state.arrayRowsData =
+        wordCollectionLevel4.rounds[Number(this.state.levelData.id.split('_')[1]) - STEP].words;
+    }
+    if (this.state.levelData.id.split('_')[0] === '5') {
+      this.state.arrayRowsData =
+        wordCollectionLevel5.rounds[Number(this.state.levelData.id.split('_')[1]) - STEP].words;
+    }
+    if (this.state.levelData.id.split('_')[0] === '6') {
+      this.state.arrayRowsData =
+        wordCollectionLevel6.rounds[Number(this.state.levelData.id.split('_')[1]) - STEP].words;
+    }
   };
 
   public getRowCurrent = (): number => this.state.levelData.rowCurrent;
@@ -106,6 +128,19 @@ class State {
     this.setWordSource();
     window.dispatchEvent(new CustomEvent(EventTypes.ChangeRow, { bubbles: true, detail: { round: value } }));
   };
+
+  public getHint = (): Hint => ({
+    audioExample: this.getRowData().audioExample,
+    textExample: this.getRowData().textExample,
+    textExampleTranslate: this.getRowData().textExampleTranslate,
+  });
+
+  public updateUi = (newState: UiState): void => {
+    this.state.ui = { ...this.state.ui, ...newState };
+    window.dispatchEvent(new CustomEvent(EventTypes.ChangeUI, { bubbles: true, detail: {} }));
+  };
+
+  public getUiState = (): UiState => this.state.ui;
 
   public getState = (): void => {
     console.log(this.state);

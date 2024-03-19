@@ -43,7 +43,6 @@ export class StartPage {
   private handleGame(): void {
     const startPage = new GamePage();
     state.setWordSource();
-    state.getState();
     const startPageContainer = startPage.drawGameContainer();
     this.mainContainer.innerHTML = '';
     this.mainContainer.append(startPageContainer);

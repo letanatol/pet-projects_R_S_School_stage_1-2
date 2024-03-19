@@ -27,3 +27,14 @@ export const getElements = <T extends HTMLElement>(root: HTMLElement, selector: 
 
   return elements;
 };
+
+export const getElementByData = <T extends HTMLElement>(root: HTMLElement, dataAttr: string, value: string): T => {
+  const selector = `[data-${dataAttr}="${value}"]`;
+  const element = root.querySelector<T>(selector);
+
+  if (!element) {
+    throw new TypeError(`Element with data attribute ${dataAttr}="${value}" not found`);
+  }
+
+  return element;
+};

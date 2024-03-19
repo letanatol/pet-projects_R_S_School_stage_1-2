@@ -9,11 +9,18 @@ export type StateType = {
   levelData: LevelDataInterface;
   arrayRowsData: WordInterface[];
   wordGame: WordGame;
+  ui: UiState;
 };
 
 export type WordGame = {
   wordUser: string[];
   wordSource: string[];
+};
+
+export type Hint = {
+  audioExample: string;
+  textExample: string;
+  textExampleTranslate: string;
 };
 
 export interface WordInterface {
@@ -53,6 +60,6 @@ export enum EventTypes {
 }
 
 export type UiState = {
-  continueDisabled?: boolean;
-  checkDisabled?: boolean;
+  continueHidden?: boolean;
+  checkHidden?: boolean;
 };
