@@ -21,10 +21,15 @@ export class SourceBlock {
       this.word = state.getRowData().textExample;
       this.fillWrapper();
     });
+    window.addEventListener(EventTypes.ChangeRow, () => {
+      this.word = state.getRowData().textExample;
+      this.fillWrapper();
+    });
   }
 
   private fillWrapper(): void {
     if (this.word) {
+      console.log('Current word:', this.word);
       this.wrapper.innerHTML = '';
       const sentenceWithoutSpaces: string = this.word.replace(/\s/g, '');
       const countLettersOfSentence: number = sentenceWithoutSpaces.length;

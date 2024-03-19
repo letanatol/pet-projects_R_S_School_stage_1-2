@@ -49,6 +49,7 @@ export enum EventTypes {
   ChangeLevel = 'changeLevel',
   ChangeRound = 'changeRound',
   ChangeUI = 'ChangeUI',
+  ChangeRow = 'ChangeRow',
 }
 
 export type UiState = {

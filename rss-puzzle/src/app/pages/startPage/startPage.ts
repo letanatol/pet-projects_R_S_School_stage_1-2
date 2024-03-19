@@ -1,6 +1,7 @@
 import { UserType } from '@helpers/types';
 import { ButtonComponent } from '@components/buttonComponent';
 import { dispatchCustomEvent } from '@helpers/dispatchCustomEvent';
+import { state } from '@helpers/State/State';
 import { localStorageService } from '../../helpers/localStorage';
 import { GamePage } from '../gamePage/gamePage';
 
@@ -41,6 +42,8 @@ export class StartPage {
 
   private handleGame(): void {
     const startPage = new GamePage();
+    state.setWordSource();
+    state.getState();
     const startPageContainer = startPage.drawGameContainer();
     this.mainContainer.innerHTML = '';
     this.mainContainer.append(startPageContainer);

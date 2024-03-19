@@ -21,15 +21,6 @@ export class App {
       this.mainContainer.innerHTML = '';
       this.mainContainer.append(loginPageContainer);
     });
-
-    window.addEventListener('resize', () => {
-      const { offsetWidth } = this.mainContainer;
-      const resizeEvent = new CustomEvent('containerResize', {
-        bubbles: true,
-        detail: { width: offsetWidth },
-      });
-      this.mainContainer.dispatchEvent(resizeEvent);
-    });
   }
 
   public drawMainContainer(): void {

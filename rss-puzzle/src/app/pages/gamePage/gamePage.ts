@@ -1,10 +1,14 @@
+import { ButtonComponent } from '@components/buttonComponent';
 import './gamePage.scss';
 import { OptionComponent } from '@components/optionComponent';
 import { SourceBlock } from '@components/sourceBlock/sourceBlock';
+import { dispatchCustomEvent } from '@helpers/dispatchCustomEvent';
 import { EventTypes } from '@helpers/types';
-import { getElement, getElementById } from '@helpers/utils';
+import { getElement, getElementById, getElements } from '@helpers/utils';
 import { state } from '@helpers/State/State';
 import { removeContent } from '@helpers/removeContent';
+import { compareArrays } from '@helpers/compareArrays';
+import { nextRowRoundLevel } from '@helpers/nextRowRoundLevel';
 
 export class GamePage {
   public drawGameContainer(): HTMLElement {
@@ -93,11 +97,42 @@ export class GamePage {
       const element = getElementById<HTMLElement>(state.getRowCurrent().toString());
       if (element) {
         element.append(event.detail.word);
+        const collectionsNodes = getElements(element, '.wrapper_word');
+        state.setWordUser(collectionsNodes);
       }
     }) as EventListener);
 
-    gameBox.append(gameBoxHeader, gameBoxResultBlock, gameBoxSourceBlock);
+    // BUTTONS
+    const gameBoxButtons = document.createElement('div');
+    gameBoxButtons.classList.add('game-box__buttons');
+    const buttonNoKnow = new ButtonComponent(`I don't know`, () => this.testMethod()).createButton();
+    const buttonCheck = new ButtonComponent('Check', () => this.testMethod()).createButton();
+    buttonCheck.classList.add('hidden');
+
+    const button = new ButtonComponent('Continue', () => nextRowRoundLevel());
+    const buttonContinue = button.createButton();
+    buttonContinue.classList.add('hidden');
+    window.addEventListener('wordClick', (() => {
+      if (compareArrays(state.getWordSource(), state.getWordUser())) {
+        buttonContinue.classList.remove('hidden');
+      } else {
+        console.log('Еще немного');
+      }
+    }) as EventListener);
+    buttonContinue.addEventListener('click', () => {
+      buttonContinue.classList.add('hidden');
+    });
+
+    const buttonResult = new ButtonComponent('Result', () => this.testMethod()).createButton();
+    buttonResult.classList.add('hidden');
+    const buttonLogout = new ButtonComponent('Logout', () => dispatchCustomEvent('logout')).createButton();
+    gameBoxButtons.append(buttonNoKnow, buttonCheck, buttonContinue, buttonResult, buttonLogout);
+    gameBox.append(gameBoxHeader, gameBoxResultBlock, gameBoxSourceBlock, gameBoxButtons);
 
     return gameBox;
+  }
+
+  public testMethod(): void {
+    console.log('testMethod');
   }
 }
