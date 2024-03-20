@@ -15,6 +15,8 @@ export type StateType = {
 export type WordGame = {
   wordUser: string[];
   wordSource: string[];
+  wordNoKnow: string[][];
+  wordKnow: string[][];
 };
 
 export type Hint = {
@@ -62,4 +64,5 @@ export enum EventTypes {
 export type UiState = {
   continueHidden?: boolean;
   checkHidden?: boolean;
+  noKnowHidden?: boolean;
 };
