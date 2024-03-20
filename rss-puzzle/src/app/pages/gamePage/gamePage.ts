@@ -10,6 +10,9 @@ import { removeContent } from '@helpers/removeContent';
 import { isArraysEqual, validateArrays } from '@helpers/compareArrays';
 import { nextRowRoundLevel } from '@helpers/nextRowRoundLevel';
 
+const FIRST_ROW = 0;
+const WIDTH_CONTAINER = 760;
+
 export class GamePage {
   public drawGameContainer(): HTMLElement {
     const gameBox = document.createElement('div');
@@ -32,7 +35,6 @@ export class GamePage {
 
       if (selectedOption) {
         state.setLevelCurrent(selectedOption.value);
-        state.setWordUser([]);
       }
     });
 
@@ -46,7 +48,6 @@ export class GamePage {
 
       if (selectedOption) {
         state.setRoundCurrent(selectedOption.value);
-        state.setWordUser([]);
       }
     });
 
@@ -78,6 +79,7 @@ export class GamePage {
           state.updateUi({
             continueHidden: true,
             checkHidden: true,
+            noKnowHidden: false,
           });
         }
       }
@@ -98,12 +100,30 @@ export class GamePage {
       const newValue = event.detail.level;
       levelSelect.changeSelectedOption(newValue);
       removeContent('.row__result-block');
+      state.clearWords('wordUser');
+      state.setRowCurrent(FIRST_ROW);
+      state.clearWords('wordKnow');
+      state.clearWords('wordNoKnow');
+      state.updateUi({
+        continueHidden: true,
+        checkHidden: true,
+        noKnowHidden: false,
+      });
     }) as EventListener);
 
     window.addEventListener(EventTypes.ChangeRound, ((event: CustomEvent<{ round: string }>) => {
       const newValue = event.detail.round;
       roundSelect.changeSelectedOption(newValue);
       removeContent('.row__result-block');
+      state.clearWords('wordUser');
+      state.setRowCurrent(FIRST_ROW);
+      state.clearWords('wordKnow');
+      state.clearWords('wordNoKnow');
+      state.updateUi({
+        continueHidden: true,
+        checkHidden: true,
+        noKnowHidden: false,
+      });
     }) as EventListener);
 
     // SOURCE
@@ -132,7 +152,7 @@ export class GamePage {
     gameBoxButtons.classList.add('game-box__buttons');
 
     // I don't know
-    const buttonNoKnow = new ButtonComponent(`I don't know`, () => this.testMethod()).createButton();
+    const buttonNoKnow = new ButtonComponent(`I don't know`, () => this.fillResultBlockRow()).createButton();
 
     // Check
     const checkButtonWrapper = new ButtonComponent('Check', () => {
@@ -151,21 +171,25 @@ export class GamePage {
       if (state.getWordSource().length === state.getWordUser().length) {
         state.updateUi({
           checkHidden: false,
+          noKnowHidden: false,
         });
       }
       if (isArraysEqual(state.getWordSource(), state.getWordUser())) {
         state.updateUi({
           checkHidden: true,
           continueHidden: false,
+          noKnowHidden: true,
         });
-      } else {
-        console.log('Еще немного');
+        state.setWordKnow(state.getWordSource());
       }
     }) as EventListener);
 
     buttonContinue.addEventListener('click', () => {
       buttonContinue.classList.add('hidden');
-      state.updateUi({ continueHidden: true });
+      state.updateUi({
+        continueHidden: true,
+        noKnowHidden: false,
+      });
     });
 
     window.addEventListener(EventTypes.ChangeUI, () => {
@@ -179,6 +203,11 @@ export class GamePage {
         buttonContinue.classList.add('hidden');
       } else {
         buttonContinue.classList.remove('hidden');
+      }
+      if (stateUi.noKnowHidden) {
+        buttonNoKnow.classList.add('hidden');
+      } else {
+        buttonNoKnow.classList.remove('hidden');
       }
     });
 
@@ -195,13 +224,37 @@ export class GamePage {
     return gameBox;
   }
 
-  public updateUserWord = (collection: NodeList): void => {
-    collection.forEach((element: Node) => {
-      const htmlElement = element as HTMLElement;
-      const { textContent } = htmlElement;
-      if (textContent !== null) {
-        state.addWordUser(textContent);
-      }
+  public fillResultBlockRow = (): void => {
+    state.updateUi({ noKnowHidden: true });
+    state.setWordNoKnow(state.getWordSource());
+    state.setWordUser([]);
+
+    const wrapperSource = getElement(document.body, '.wrapper_source');
+    wrapperSource.innerHTML = '';
+
+    const element = getElementById<HTMLElement>(state.getRowCurrent().toString());
+    element.innerHTML = '';
+
+    const word = state.getWordSource().join(' ');
+    const sentenceWithoutSpaces = word.replace(/\s/g, '');
+    const countLettersOfSentence = sentenceWithoutSpaces.length;
+    const arrayWords = word.split(' ');
+
+    arrayWords.forEach((item) => {
+      const countLettersOfWord = item.length;
+      const densityWord = countLettersOfWord / countLettersOfSentence;
+
+      const wrapperWord = document.createElement('div');
+      const widthWrapperWord = Math.round(WIDTH_CONTAINER * densityWord);
+      wrapperWord.style.width = `${widthWrapperWord}px`;
+      wrapperWord.classList.add('wrapper_word');
+      wrapperWord.innerText = item;
+      element.append(wrapperWord);
+    });
+
+    state.updateUi({
+      continueHidden: false,
+      checkHidden: true,
     });
   };
 

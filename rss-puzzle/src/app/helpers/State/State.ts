@@ -1,4 +1,4 @@
-import { EventTypes, WordInterface, UiState, StateType, Hint } from '@helpers/types';
+import { EventTypes, WordInterface, UiState, StateType, Hint, WordGame } from '@helpers/types';
 import wordCollectionLevel1 from '../../data/wordCollectionLevel1.json';
 import wordCollectionLevel2 from '../../data/wordCollectionLevel2.json';
 import wordCollectionLevel3 from '../../data/wordCollectionLevel3.json';
@@ -25,10 +25,13 @@ class State {
     wordGame: {
       wordUser: [],
       wordSource: [],
+      wordNoKnow: [],
+      wordKnow: [],
     },
     ui: {
       continueHidden: true,
       checkHidden: true,
+      noKnowHidden: false,
     },
   };
 
@@ -75,24 +78,35 @@ class State {
     this.state.wordGame.wordSource = this.getRowData().textExample.split(' ');
   };
 
+  public setWordUser = (value: string[]): void => {
+    this.state.wordGame.wordUser = value;
+  };
+
+  public setWordNoKnow = (value: string[]): void => {
+    this.state.wordGame.wordNoKnow.push(value);
+  };
+
+  public setWordKnow = (value: string[]): void => {
+    this.state.wordGame.wordKnow.push(value);
+  };
+
+  public clearWords = (wordType: keyof WordGame): void => {
+    if (Array.isArray(this.state.wordGame[wordType])) {
+      this.state.wordGame[wordType] = [];
+    }
+  };
+
   public addWordUser = (word: string): void => {
     this.state.wordGame.wordUser.push(word);
-    console.log('addWordUser:', word);
   };
 
   public removeWordUser = (word: string): void => {
     this.state.wordGame.wordUser = this.state.wordGame.wordUser.filter((item) => item !== word);
-    console.log(word);
-    console.log(this.state.wordGame.wordUser);
   };
 
   public getWordSource = (): string[] => this.state.wordGame.wordSource;
 
   public getWordUser = (): string[] => this.state.wordGame.wordUser;
-
-  public setWordUser = (value: string[]): void => {
-    this.state.wordGame.wordUser = value;
-  };
 
   public setArrayRowsData = (): void => {
     if (this.state.levelData.id.split('_')[0] === '1') {
