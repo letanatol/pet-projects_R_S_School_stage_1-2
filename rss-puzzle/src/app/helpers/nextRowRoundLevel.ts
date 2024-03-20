@@ -15,9 +15,11 @@ export function nextRowRoundLevel(): void {
 
       if (Number(state.getLevelCurrent()) === Number(state.getLevelsCount())) {
         state.setLevelCurrent('1');
+        state.setRoundsCount();
         state.setWordUser([]);
       } else {
         state.setLevelCurrent((Number(state.getLevelCurrent()) + STEP).toString());
+        state.setRoundsCount();
         state.setWordUser([]);
       }
     } else {

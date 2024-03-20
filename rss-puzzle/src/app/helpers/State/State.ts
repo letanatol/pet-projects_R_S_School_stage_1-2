@@ -66,6 +66,15 @@ class State {
     if (this.state.levelData.id.split('_')[0] === '3') {
       this.state.roundsCount = wordCollectionLevel3.roundsCount.toString();
     }
+    if (this.state.levelData.id.split('_')[0] === '4') {
+      this.state.roundsCount = wordCollectionLevel4.roundsCount.toString();
+    }
+    if (this.state.levelData.id.split('_')[0] === '5') {
+      this.state.roundsCount = wordCollectionLevel5.roundsCount.toString();
+    }
+    if (this.state.levelData.id.split('_')[0] === '6') {
+      this.state.roundsCount = wordCollectionLevel6.roundsCount.toString();
+    }
   };
 
   public getLevelCurrent = (): string => this.state.levelData.id.split('_')[0];

@@ -9,6 +9,7 @@ import { state } from '@helpers/State/State';
 import { removeContent } from '@helpers/removeContent';
 import { isArraysEqual, validateArrays } from '@helpers/compareArrays';
 import { nextRowRoundLevel } from '@helpers/nextRowRoundLevel';
+import { RoundSelector } from '@components/rounds/rounds';
 
 const FIRST_ROW = 0;
 const WIDTH_CONTAINER = 760;
@@ -42,6 +43,7 @@ export class GamePage {
     const roundsCount = state.getRoundsCount();
     const roundSelect = new OptionComponent('round', roundsCount);
     const roundDiv = roundSelect.createOption();
+    roundDiv.id = 'rounds';
     roundDiv.addEventListener('change', (event: Event) => {
       const target = event.target as HTMLSelectElement;
       const selectedOption = target.options[target.selectedIndex];
@@ -51,8 +53,7 @@ export class GamePage {
       }
     });
 
-    gameBoxHeaderOptions.append(levelDiv);
-    gameBoxHeaderOptions.append(roundDiv);
+    gameBoxHeaderOptions.append(levelDiv, roundDiv);
     gameBoxHeader.append(gameBoxHeaderOptions);
 
     // HINT Sound and translation
@@ -109,6 +110,8 @@ export class GamePage {
         checkHidden: true,
         noKnowHidden: false,
       });
+      const newRoundDiv = new RoundSelector().getRounds();
+      getElementById('rounds').replaceWith(newRoundDiv);
     }) as EventListener);
 
     window.addEventListener(EventTypes.ChangeRound, ((event: CustomEvent<{ round: string }>) => {
