@@ -7,7 +7,8 @@ export class OptionComponent {
 
   constructor(
     private text: string,
-    private roundsCount: string
+    private roundsCount: string,
+    private roundsId: string
   ) {}
 
   public createOption(): HTMLElement {
@@ -17,9 +18,9 @@ export class OptionComponent {
     label.setAttribute('for', `${this.text}`);
     label.innerText = `${this.text}:`;
 
-    this.select.id = 'level';
+    this.select.id = this.roundsId;
     const numbersOptions = Array.from({ length: Number(this.roundsCount) }, (_, index) => (index + STEP).toString());
-    numbersOptions.forEach((level) => {
+    numbersOptions.forEach((level, index) => {
       const option = document.createElement('option');
       let doubleNumber = '';
       if (numbersOptions.length > ROUND_VALUE) {
@@ -29,6 +30,12 @@ export class OptionComponent {
       }
       option.value = doubleNumber;
       option.innerText = doubleNumber;
+      if (index >= ROUND_VALUE) {
+        option.id = `${this.roundsId}_${index + STEP}`;
+      } else {
+        option.id = `${this.roundsId}_0${index + STEP}`;
+      }
+
       option.selected = level === '01';
       this.select.append(option);
     });

@@ -10,8 +10,11 @@ import { removeContent } from '@helpers/removeContent';
 import { isArraysEqual, validateArrays } from '@helpers/compareArrays';
 import { nextRowRoundLevel } from '@helpers/nextRowRoundLevel';
 import { RoundSelector } from '@components/rounds/rounds';
+import { localStorageService } from '@helpers/localStorage';
+import { colorRoundPass } from '@helpers/colorRoundPass';
 
 const FIRST_ROW = 0;
+const LAST_ROW = 10;
 const WIDTH_CONTAINER = 760;
 
 export class GamePage {
@@ -28,7 +31,8 @@ export class GamePage {
 
     // LEVEL
     const levelsCount = state.getLevelsCount();
-    const levelSelect = new OptionComponent('level', levelsCount);
+    const levelSelect = new OptionComponent('level', levelsCount, 'levels');
+
     const levelDiv = levelSelect.createOption();
     levelDiv.addEventListener('change', (event: Event) => {
       const target = event.target as HTMLSelectElement;
@@ -37,11 +41,15 @@ export class GamePage {
       if (selectedOption) {
         state.setLevelCurrent(selectedOption.value);
       }
+
+      levelDiv.addEventListener('click', () => {
+        colorRoundPass();
+      });
     });
 
     // ROUND
     const roundsCount = state.getRoundsCount();
-    const roundSelect = new OptionComponent('round', roundsCount);
+    const roundSelect = new OptionComponent('round', roundsCount, 'rounds');
     const roundDiv = roundSelect.createOption();
     roundDiv.id = 'rounds';
     roundDiv.addEventListener('change', (event: Event) => {
@@ -51,6 +59,10 @@ export class GamePage {
       if (selectedOption) {
         state.setRoundCurrent(selectedOption.value);
       }
+    });
+
+    roundDiv.addEventListener('click', () => {
+      colorRoundPass();
     });
 
     gameBoxHeaderOptions.append(levelDiv, roundDiv);
@@ -100,6 +112,7 @@ export class GamePage {
     window.addEventListener(EventTypes.ChangeLevel, ((event: CustomEvent<{ level: string }>) => {
       const newValue = event.detail.level;
       levelSelect.changeSelectedOption(newValue);
+      colorRoundPass();
       removeContent('.row__result-block');
       state.clearWords('wordUser');
       state.setRowCurrent(FIRST_ROW);
@@ -117,6 +130,7 @@ export class GamePage {
     window.addEventListener(EventTypes.ChangeRound, ((event: CustomEvent<{ round: string }>) => {
       const newValue = event.detail.round;
       roundSelect.changeSelectedOption(newValue);
+      colorRoundPass();
       removeContent('.row__result-block');
       state.clearWords('wordUser');
       state.setRowCurrent(FIRST_ROW);
@@ -142,8 +156,8 @@ export class GamePage {
       const element = getElementById<HTMLElement>(state.getRowCurrent().toString());
       if (element) {
         element.append(event.detail.word);
-        const { word } = event.detail.word.dataset;
 
+        const { word } = event.detail.word.dataset;
         if (word) {
           state.addWordUser(word);
         }
@@ -177,6 +191,7 @@ export class GamePage {
           noKnowHidden: false,
         });
       }
+
       if (isArraysEqual(state.getWordSource(), state.getWordUser())) {
         state.updateUi({
           checkHidden: true,
@@ -184,6 +199,11 @@ export class GamePage {
           noKnowHidden: true,
         });
         state.setWordKnow(state.getWordSource());
+      }
+
+      if (state.getWordKnow().length === LAST_ROW) {
+        const roundsPass = state.getLevelRoundCurrent();
+        localStorageService.addData('roundsPass', [roundsPass]);
       }
     }) as EventListener);
 

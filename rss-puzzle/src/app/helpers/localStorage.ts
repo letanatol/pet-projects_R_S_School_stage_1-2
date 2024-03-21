@@ -17,6 +17,18 @@ export class StorageService {
     return parseData;
   }
 
+  public addData(key: string, data: string[]): void {
+    const storageKey = this.getStorageKey(key);
+    const dataLocalStorage = localStorage.getItem(storageKey);
+    const parseData = dataLocalStorage ? (JSON.parse(dataLocalStorage) as string[]) : null;
+    if (parseData) {
+      const updatedData = [...parseData, ...data];
+      localStorage.setItem(storageKey, JSON.stringify(updatedData));
+    } else {
+      localStorage.setItem(storageKey, JSON.stringify(data));
+    }
+  }
+
   public clearData(): void {
     localStorage.clear();
   }

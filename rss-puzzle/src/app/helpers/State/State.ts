@@ -52,9 +52,10 @@ class State {
     this.state.levelData.id = `${this.state.levelData.id.split('_')[0]}_${value}`;
     this.setArrayRowsData();
     this.setWordSource();
-    this.getState();
     window.dispatchEvent(new CustomEvent(EventTypes.ChangeRound, { bubbles: true, detail: { round: value } }));
   };
+
+  public getLevelRoundCurrent = (): string => this.state.levelData.id;
 
   public setRoundsCount = (): void => {
     if (this.state.levelData.id.split('_')[0] === '1') {
@@ -116,6 +117,8 @@ class State {
   public getWordSource = (): string[] => this.state.wordGame.wordSource;
 
   public getWordUser = (): string[] => this.state.wordGame.wordUser;
+
+  public getWordKnow = (): string[][] => this.state.wordGame.wordKnow;
 
   public setArrayRowsData = (): void => {
     if (this.state.levelData.id.split('_')[0] === '1') {
