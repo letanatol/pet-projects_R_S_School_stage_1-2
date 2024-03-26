@@ -32,7 +32,7 @@ const htmlPluginEntries = templateFiles.map(
 
 module.exports = {
   entry: {
-    app: path.resolve(environment.paths.source, 'app', 'index.ts'),
+    app: path.resolve(environment.paths.source, 'index.ts'),
   },
   output: {
     filename: 'js/[name].js',

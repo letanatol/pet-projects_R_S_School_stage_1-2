@@ -1,0 +1,20 @@
+@import '../../../global.scss';
+
+$button-header: #5108d8;
+$button-header-hover: #1a0239;
+
+.header {
+  display: flex;
+  gap: 20px;
+}
+
+.button__to-garage,
+.button__to-winners {
+  background-color: $button-header;
+}
+
+.button__to-garage:hover,
+.button__to-winners:hover {
+  background-color: #1a0239;
+  transition: all 0.4s;
+}
