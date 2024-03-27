@@ -1,22 +1,54 @@
+import { state } from '@helpers/State';
 import './header.scss';
 import { createHTMLElement } from '@components/createHTMLElement';
+import { EventTypes } from '@helpers/types';
 
-export function createHeader(onGarageButtonClick: () => void, onWinnersButtonClick: () => void): HTMLElement {
+export function createHeader(): HTMLElement {
   const header = createHTMLElement({ tagName: 'header', classNames: ['header'] });
-  const buttonToGarage = createHTMLElement({
+  // BUTTON GARAGE
+  const buttonToGarage = createHTMLElement<'button'>({
     tagName: 'button',
     classNames: ['button', 'button__to-garage'],
     textContent: 'To garage',
   });
-  buttonToGarage.addEventListener('click', onGarageButtonClick);
+  buttonToGarage.disabled = true;
+  buttonToGarage.addEventListener('click', () => {
+    const uiState = state.getUiState();
+    if (uiState.garageHidden) {
+      state.updateUi({ garageHidden: false, winnersHidden: true });
+    } else {
+      state.updateUi({ garageHidden: true, winnersHidden: false });
+    }
+  });
 
-  const buttonToWinners = createHTMLElement({
+  // BUTTON WINNERS
+  const buttonToWinners = createHTMLElement<'button'>({
     tagName: 'button',
     classNames: ['button', 'button__to-winners'],
     textContent: 'To winners',
   });
-  buttonToWinners.addEventListener('click', onWinnersButtonClick);
+  buttonToWinners.disabled = false;
+  buttonToWinners.addEventListener('click', () => {
+    const uiState = state.getUiState();
+    if (uiState.winnersHidden) {
+      state.updateUi({ winnersHidden: false, garageHidden: true });
+    } else {
+      state.updateUi({ winnersHidden: true, garageHidden: false });
+    }
+  });
+
   header.append(buttonToGarage, buttonToWinners);
+
+  window.addEventListener(EventTypes.UpdateUI, () => {
+    const uiState = state.getUiState();
+    if (uiState.garageHidden) {
+      buttonToGarage.disabled = false;
+      buttonToWinners.disabled = true;
+    } else {
+      buttonToGarage.disabled = true;
+      buttonToWinners.disabled = false;
+    }
+  });
 
   return header;
 }

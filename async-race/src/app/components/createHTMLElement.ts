@@ -2,7 +2,9 @@ import { HTMLElementType } from '@helpers/types';
 
 const EMPTY_ARRAY = 0;
 
-export function createHTMLElement(value: HTMLElementType): HTMLElement {
+export function createHTMLElement<T extends keyof HTMLElementTagNameMap>(
+  value: HTMLElementType
+): HTMLElementTagNameMap[T] {
   const { tagName, classNames, textContent } = value;
   const element = document.createElement(tagName);
   if (classNames) {
@@ -17,5 +19,5 @@ export function createHTMLElement(value: HTMLElementType): HTMLElement {
     element.innerHTML = textContent;
   }
 
-  return element;
+  return element as HTMLElementTagNameMap[T];
 }

@@ -1,0 +1,18 @@
+.container-controls {
+  padding: 5px;
+  width: 30%;
+}
+
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 5px;
+}
+
+.input {
+  height: 28px;
+  border-radius: 10px;
+  padding: 2px 5px;
+}
+

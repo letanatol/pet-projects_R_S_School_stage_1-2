@@ -8,11 +8,11 @@ export class App {
 
     const garageContainer: Garage = new Garage();
     const winnersContainer: Winners = new Winners();
-    const onGarageButtonClick = (): void => garageContainer.toggleHiddenClass();
-    const onWinnersButtonClick = (): void => winnersContainer.toggleHiddenClass();
+    // const onGarageButtonClick = (): void => garageContainer.toggleHiddenClass();
+    // const onWinnersButtonClick = (): void => winnersContainer.toggleHiddenClass();
 
-    const header = createHeader(onGarageButtonClick, onWinnersButtonClick);
-    winnersContainer.toggleHiddenClass();
-    body.append(header, garageContainer.getGarageContainer(), winnersContainer.getWinnersContainer());
+    const header = createHeader();
+    // winnersContainer.toggleHiddenClass();
+    body.append(header, garageContainer.drawContainer(), winnersContainer.drawWinnersContainer());
   }
 }
