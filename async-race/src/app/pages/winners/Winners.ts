@@ -1,11 +1,19 @@
 import { createHTMLElement } from '@components/createHTMLElement';
+import { createPageInfoWinners } from '@components/pageInfo/pageInfoWinners';
 import { state } from '@helpers/State';
 import { EventTypes } from '@helpers/types';
 
 export class Winners {
-  private winnersContainer: HTMLElement = createHTMLElement({ tagName: 'div', classNames: ['container-winners'] });
+  private winnersContainer: HTMLElement;
+
+  constructor() {
+    this.winnersContainer = createHTMLElement({ tagName: 'div', classNames: ['container-winners'] });
+    this.winnersContainer.classList.add('hidden');
+  }
 
   public drawWinnersContainer(): HTMLElement {
+    const pageInfoContainer = createPageInfoWinners();
+
     window.addEventListener(EventTypes.UpdateUI, () => {
       const uiState = state.getUiState();
       if (uiState.winnersHidden) {
@@ -14,6 +22,8 @@ export class Winners {
         this.winnersContainer.classList.remove('hidden');
       }
     });
+
+    this.winnersContainer.append(pageInfoContainer);
 
     return this.winnersContainer;
   }

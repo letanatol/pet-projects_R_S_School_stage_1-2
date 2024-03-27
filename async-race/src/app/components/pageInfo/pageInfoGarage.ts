@@ -2,7 +2,7 @@ import './pageInfo.scss';
 import { createHTMLElement } from '@components/createHTMLElement';
 import { state } from '@helpers/State';
 
-export function createPageInfo(): HTMLElement {
+export function createPageInfoGarage(): HTMLElement {
   const pageInfoContainer = createHTMLElement({ tagName: 'div', classNames: ['page-info__container'] });
 
   const infoCountCars = createHTMLElement({ tagName: 'div', classNames: ['info-cars'] });
@@ -17,7 +17,7 @@ export function createPageInfo(): HTMLElement {
 
   const infoCountPages = createHTMLElement({ tagName: 'div', classNames: ['info-page'] });
   const infoCountPagesTitle = createHTMLElement({ tagName: 'h1', classNames: ['title'], textContent: 'Page' });
-  const countPages = state.getCountPages();
+  const countPages = state.getCountPagesGarage();
   const infoCountPagesTitleSpan = createHTMLElement({
     tagName: 'span',
     classNames: ['title-span'],

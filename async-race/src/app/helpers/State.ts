@@ -16,6 +16,11 @@ class State {
       countPages: 1,
       currentPage: 1,
     },
+    winners: {
+      countWinners: 0,
+      countPages: 1,
+      currentPage: 1,
+    },
   };
 
   public updateUi = (newState: UiState): void => {
@@ -27,9 +32,15 @@ class State {
 
   public getCountCars = (): number => this.state.garage.countCars;
 
-  public getCountPages = (): number => this.state.garage.countPages;
+  public getCountPagesGarage = (): number => this.state.garage.countPages;
 
-  public getCurrentPage = (): number => this.state.garage.currentPage;
+  public getCurrentPageGarage = (): number => this.state.garage.currentPage;
+
+  public getCountWinners = (): number => this.state.winners.countWinners;
+
+  public getCountPagesWinners = (): number => this.state.winners.countPages;
+
+  public getCurrentPageWinners = (): number => this.state.winners.currentPage;
 }
 
 const state = new State();
