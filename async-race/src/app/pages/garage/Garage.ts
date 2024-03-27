@@ -1,6 +1,7 @@
 import './garage.scss';
 import { createControls } from '@components/controls/controls';
 import { createHTMLElement } from '@components/createHTMLElement';
+import { createPageInfo } from '@components/pageInfo/pageInfo';
 import { state } from '@helpers/State';
 import { EventTypes } from '@helpers/types';
 
@@ -9,7 +10,8 @@ export class Garage {
 
   public drawContainer(): HTMLElement {
     const controlsContainer = createControls();
-    this.garageContainer.append(controlsContainer);
+    const pageInfoContainer = createPageInfo();
+    this.garageContainer.append(controlsContainer, pageInfoContainer);
 
     window.addEventListener(EventTypes.UpdateUI, () => {
       const uiState = state.getUiState();

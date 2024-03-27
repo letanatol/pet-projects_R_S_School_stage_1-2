@@ -1,0 +1,17 @@
+.page-info__container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.info-cars,
+.info-page {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.title-span {
+  font-size: 32px;
+  font-weight: 600;
+}
