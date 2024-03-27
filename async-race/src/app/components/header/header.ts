@@ -1,11 +1,21 @@
 import './header.scss';
 import { createHTMLElement } from '@components/createHTMLElement';
 
-export function createHeader(): HTMLElement {
-  const header = createHTMLElement('header', ['header']);
-  const buttonToGarage = createHTMLElement('button', ['button', 'button__to-garage'], 'To garage');
-  const buttonToWinners = createHTMLElement('button', ['button', 'button__to-winners'], 'To winners');
+export function createHeader(onGarageButtonClick: () => void, onWinnersButtonClick: () => void): HTMLElement {
+  const header = createHTMLElement({ tagName: 'header', classNames: ['header'] });
+  const buttonToGarage = createHTMLElement({
+    tagName: 'button',
+    classNames: ['button', 'button__to-garage'],
+    textContent: 'To garage',
+  });
+  buttonToGarage.addEventListener('click', onGarageButtonClick);
 
+  const buttonToWinners = createHTMLElement({
+    tagName: 'button',
+    classNames: ['button', 'button__to-winners'],
+    textContent: 'To winners',
+  });
+  buttonToWinners.addEventListener('click', onWinnersButtonClick);
   header.append(buttonToGarage, buttonToWinners);
 
   return header;

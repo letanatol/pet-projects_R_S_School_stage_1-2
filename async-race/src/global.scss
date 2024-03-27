@@ -1,12 +1,13 @@
-$black: #000;
-$white: #fff;
-$light-gray: #f1f1f1;
-$body-background-color: #333;
-$foreground-color: #fff;
-$caption-color: #464646;
-$accent-color: #999;
-$link-color: #ec1f4e;
-$background-color: #5e63ba;
+@import './styles/vars.scss';
+
+@font-face {
+  font-family: DINP-R;
+  src:
+    url('./assets/fonts/DINPro-Regular.eot?') format('eot'),
+    url('./assets/fonts/DINPro-Regular.woff') format('woff'),
+    url('./assets/fonts/DINPro-Regular.ttf') format('truetype');
+  font-style: normal;
+}
 
 * {
   margin: 0;
@@ -21,7 +22,6 @@ body {
   background: $background-color;
 }
 
-
 .button {
   color: $white;
   text-transform: uppercase;
@@ -35,4 +35,12 @@ body {
 
 .button:hover {
   transition: all 0.4s;
+}
+
+.button:disabled {
+  background-color: $button-disable;
+}
+
+.hidden {
+  display: none;
 }

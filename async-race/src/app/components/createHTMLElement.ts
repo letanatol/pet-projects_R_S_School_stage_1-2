@@ -1,10 +1,9 @@
+import { HTMLElementType } from '@helpers/types';
+
 const EMPTY_ARRAY = 0;
 
-export function createHTMLElement<T extends keyof HTMLElementTagNameMap>(
-  tagName: T,
-  classNames?: string[],
-  text?: string
-): HTMLElementTagNameMap[T] {
+export function createHTMLElement(value: HTMLElementType): HTMLElement {
+  const { tagName, classNames, textContent } = value;
   const element = document.createElement(tagName);
   if (classNames) {
     if (classNames.length > EMPTY_ARRAY) {
@@ -14,8 +13,8 @@ export function createHTMLElement<T extends keyof HTMLElementTagNameMap>(
     }
   }
 
-  if (text) {
-    element.innerHTML = text;
+  if (textContent) {
+    element.innerHTML = textContent;
   }
 
   return element;

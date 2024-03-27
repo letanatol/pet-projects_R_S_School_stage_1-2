@@ -1,11 +1,10 @@
-@import '../../../global.scss';
-
-$button-header: #5108d8;
-$button-header-hover: #1a0239;
+@import '../../../styles/vars.scss';
 
 .header {
   display: flex;
   gap: 20px;
+  padding: 5px;
+  border-bottom: 1px solid $button-header;
 }
 
 .button__to-garage,
