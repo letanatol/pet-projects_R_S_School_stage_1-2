@@ -1,27 +1,30 @@
+import BaseComponent from '@components/BaseComponent/BaseComponent';
 import './garage.scss';
 import { createControls } from '@components/controls/controls';
 import { createHTMLElement } from '@components/createHTMLElement';
 import { createPageInfoGarage } from '@components/pageInfo/pageInfoGarage';
-import { state } from '@helpers/State';
-import { EventTypes } from '@helpers/types';
+import { State } from '@helpers/State';
 
-export class Garage {
-  private garageContainer: HTMLElement = createHTMLElement({ tagName: 'div', classNames: ['container-garage'] });
+export class Garage extends BaseComponent {
+  constructor(state: State) {
+    super();
+    this.container = createHTMLElement({ tagName: 'div', classNames: ['container-garage'] });
+    this.state = state;
+  }
 
-  public drawContainer(): HTMLElement {
+  protected container: HTMLElement;
+
+  private state: State;
+
+  protected draw(): HTMLElement {
     const controlsContainer = createControls();
     const pageInfoContainer = createPageInfoGarage();
-    this.garageContainer.append(controlsContainer, pageInfoContainer);
+    this.container.append(controlsContainer, pageInfoContainer);
 
-    window.addEventListener(EventTypes.UpdateUI, () => {
-      const uiState = state.getUiState();
-      if (uiState.garageHidden) {
-        this.garageContainer.classList.add('hidden');
-      } else {
-        this.garageContainer.classList.remove('hidden');
-      }
-    });
+    return this.container;
+  }
 
-    return this.garageContainer;
+  protected addEventListeners(): void {
+    console.log('I will listen to customEvents for Garage', this.state);
   }
 }

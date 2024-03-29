@@ -1,30 +1,29 @@
+import BaseComponent from '@components/BaseComponent/BaseComponent';
 import { createHTMLElement } from '@components/createHTMLElement';
 import { createPageInfoWinners } from '@components/pageInfo/pageInfoWinners';
-import { state } from '@helpers/State';
-import { EventTypes } from '@helpers/types';
+import { State } from '@helpers/State';
+// import { state } from '@helpers/State';
+// import { EventTypes } from '@helpers/types';
 
-export class Winners {
-  private winnersContainer: HTMLElement;
-
-  constructor() {
-    this.winnersContainer = createHTMLElement({ tagName: 'div', classNames: ['container-winners'] });
-    this.winnersContainer.classList.add('hidden');
+export class Winners extends BaseComponent {
+  constructor(state: State) {
+    super();
+    this.container = createHTMLElement({ tagName: 'div', classNames: ['container-winners'] });
+    this.state = state;
   }
 
-  public drawWinnersContainer(): HTMLElement {
+  protected container: HTMLElement;
+
+  protected state: State;
+
+  public draw(): HTMLElement {
     const pageInfoContainer = createPageInfoWinners();
+    this.container.append(pageInfoContainer);
 
-    window.addEventListener(EventTypes.UpdateUI, () => {
-      const uiState = state.getUiState();
-      if (uiState.winnersHidden) {
-        this.winnersContainer.classList.add('hidden');
-      } else {
-        this.winnersContainer.classList.remove('hidden');
-      }
-    });
+    return this.container;
+  }
 
-    this.winnersContainer.append(pageInfoContainer);
-
-    return this.winnersContainer;
+  protected addEventListeners(): void {
+    console.log('I will listen to customEvents for Winners', this.state);
   }
 }

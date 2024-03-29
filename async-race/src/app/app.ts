@@ -1,18 +1,13 @@
-import { createHeader } from '@components/header/header';
-import { Garage } from './pages/garage/Garage';
-import { Winners } from './pages/winners/Winners';
+import { state } from '@helpers/State';
+import { Header } from '@components/header/Header';
+import { MainContainer } from '@components/MainContainer/MainContainer';
 
 export class App {
   constructor() {
     const { body } = document;
+    const header = new Header(state);
+    const mainContainer = new MainContainer(state);
 
-    const garageContainer: Garage = new Garage();
-    const winnersContainer: Winners = new Winners();
-    // const onGarageButtonClick = (): void => garageContainer.toggleHiddenClass();
-    // const onWinnersButtonClick = (): void => winnersContainer.toggleHiddenClass();
-
-    const header = createHeader();
-    // winnersContainer.toggleHiddenClass();
-    body.append(header, garageContainer.drawContainer(), winnersContainer.drawWinnersContainer());
+    body.append(header.init(), mainContainer.init());
   }
 }

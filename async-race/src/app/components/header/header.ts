@@ -1,54 +1,40 @@
-import { state } from '@helpers/State';
 import './header.scss';
-import { createHTMLElement } from '@components/createHTMLElement';
-import { EventTypes } from '@helpers/types';
+import { State } from '@helpers/State';
+import BaseComponent from '../BaseComponent/BaseComponent';
 
-export function createHeader(): HTMLElement {
-  const header = createHTMLElement({ tagName: 'header', classNames: ['header'] });
-  // BUTTON GARAGE
-  const buttonToGarage = createHTMLElement<'button'>({
-    tagName: 'button',
-    classNames: ['button', 'button__to-garage'],
-    textContent: 'To garage',
-  });
-  buttonToGarage.disabled = true;
-  buttonToGarage.addEventListener('click', () => {
-    const uiState = state.getUiState();
-    if (uiState.garageHidden) {
-      state.updateUi({ garageHidden: false, winnersHidden: true });
-    } else {
-      state.updateUi({ garageHidden: true, winnersHidden: false });
-    }
-  });
+export class Header extends BaseComponent {
+  constructor(state: State) {
+    super();
+    this.container = document.createElement('header');
+    this.container.classList.add('header');
+    this.state = state;
+  }
 
-  // BUTTON WINNERS
-  const buttonToWinners = createHTMLElement<'button'>({
-    tagName: 'button',
-    classNames: ['button', 'button__to-winners'],
-    textContent: 'To winners',
-  });
-  buttonToWinners.disabled = false;
-  buttonToWinners.addEventListener('click', () => {
-    const uiState = state.getUiState();
-    if (uiState.winnersHidden) {
-      state.updateUi({ winnersHidden: false, garageHidden: true });
-    } else {
-      state.updateUi({ winnersHidden: true, garageHidden: false });
-    }
-  });
+  protected container: HTMLElement;
 
-  header.append(buttonToGarage, buttonToWinners);
+  private state: State;
 
-  window.addEventListener(EventTypes.UpdateUI, () => {
-    const uiState = state.getUiState();
-    if (uiState.garageHidden) {
-      buttonToGarage.disabled = false;
-      buttonToWinners.disabled = true;
-    } else {
-      buttonToGarage.disabled = true;
-      buttonToWinners.disabled = false;
-    }
-  });
+  protected draw(): HTMLElement {
+    this.container.innerHTML = `
+    <button class="button button__to-garage" ${this.state.getPage() === 'garage' ? 'disabled' : ''}>To garage</button>
+    <button class="button button__to-winners" ${this.state.getPage() === 'winners' ? 'disabled' : ''}>To winners</button>
+`;
+    console.log('Draw!');
+    return this.container;
+  }
 
-  return header;
+  protected addEventListeners(): void {
+    this.container.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLElement;
+
+      if (!target || !target.classList) return;
+
+      if (target.classList.contains('button__to-garage')) {
+        this.state.updatePage('garage');
+      } else if (target.classList.contains('button__to-winners')) {
+        this.state.updatePage('winners');
+      }
+      this.draw();
+    });
+  }
 }

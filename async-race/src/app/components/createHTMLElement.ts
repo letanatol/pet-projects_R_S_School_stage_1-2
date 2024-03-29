@@ -9,9 +9,7 @@ export function createHTMLElement<T extends keyof HTMLElementTagNameMap>(
   const element = document.createElement(tagName);
   if (classNames) {
     if (classNames.length > EMPTY_ARRAY) {
-      classNames.forEach((className) => {
-        element.classList.add(className);
-      });
+      element.classList.add(...classNames);
     }
   }
 

@@ -1,9 +1,9 @@
-export type StateType = {
-  ui: UiState;
-  car: CarState;
-  garage: GarageState;
-  winners: WinnersState;
-};
+// export type StateType = {
+//   ui: UiState;
+//   car: CarState;
+//   garage: GarageState;
+//   winners: WinnersState;
+// };
 
 export type UiState = {
   garageHidden?: boolean;
@@ -41,4 +41,5 @@ export type HTMLElementType = {
 
 export enum EventTypes {
   UpdateUI = 'UpdateUI',
+  UpdatePage = 'UpdatePage',
 }
