@@ -25,7 +25,6 @@ export class MainContainer extends BaseComponent {
     window.addEventListener(EventTypes.UpdatePage, () => {
       this.container.innerHTML = '';
       const updatePage = this.state.getPage();
-      console.log(updatePage, 'updatePage');
       if (updatePage === 'garage') {
         const containerGarage = new Garage(this.state).init();
         this.container.append(containerGarage);

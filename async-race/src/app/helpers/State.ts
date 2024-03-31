@@ -1,7 +1,7 @@
-import { EventTypes, UiState } from './types';
+import { CarType, EventTypes, StateType, UiState } from './types';
 
 class State {
-  private state = {
+  private state: StateType = {
     ui: {
       garageHidden: false,
       winnersHidden: true,
@@ -12,9 +12,10 @@ class State {
       id: 0,
     },
     garage: {
-      countCars: 4,
+      countCars: 0,
+      currentCars: [],
       countPages: 1,
-      currentPage: 1,
+      numberPage: 1,
     },
     winners: {
       countWinners: 0,
@@ -34,6 +35,23 @@ class State {
     window.dispatchEvent(new CustomEvent(EventTypes.UpdatePage, { bubbles: true, detail: {} }));
   };
 
+  public updateCurrentCars = (data: CarType[]): void => {
+    this.state.garage.currentCars = data;
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateCurrentCars, { bubbles: true, detail: {} }));
+  };
+
+  public updateCountCars = (count: number): void => {
+    this.state.garage.countCars = count;
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateCountCars, { bubbles: true, detail: {} }));
+  };
+
+  public updateNumberPageGarage = (count: number): void => {
+    this.state.garage.numberPage = count;
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateNumberPageGarage, { bubbles: true, detail: {} }));
+  };
+
+  public getCurrentCars = (): CarType[] => this.state.garage.currentCars;
+
   public getPage = (): string => this.state.page;
 
   public getUiState = (): UiState => this.state.ui;
@@ -42,7 +60,7 @@ class State {
 
   public getCountPagesGarage = (): number => this.state.garage.countPages;
 
-  public getCurrentPageGarage = (): number => this.state.garage.currentPage;
+  public getNumberPageGarage = (): number => this.state.garage.numberPage;
 
   public getCountWinners = (): number => this.state.winners.countWinners;
 
