@@ -1,0 +1,175 @@
+/*!**************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/components/header/header.scss ***!
+  \**************************************************************************************************************************************************************************/
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+  padding: 5px;
+  border-bottom: 1px solid #5108d8;
+}
+
+.button__to-garage,
+.button__to-winners {
+  background-color: #5108d8;
+  color: #ffffff;
+}
+
+.button__to-garage:hover,
+.button__to-winners:hover {
+  background-color: #1a0239;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+/*!*********************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/pages/garage/garage.scss ***!
+  \*********************************************************************************************************************************************************************/
+.container-garage {
+  max-width: 1400px;
+}
+
+.car-image {
+  width: 50px;
+}
+
+.track {
+  padding: 5px;
+  background-color: #130327;
+  border-bottom: 3px dotted #ffffff;
+}
+
+.track-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+}
+
+.car-name {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 5px 0;
+}
+/*!******************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/components/controls/controls.scss ***!
+  \******************************************************************************************************************************************************************************/
+.container-controls {
+  padding: 5px;
+  width: 30%;
+}
+
+.controls-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 10px;
+  padding: 5px;
+}
+
+.input {
+  height: 28px;
+  border-radius: 10px;
+  padding: 2px 5px;
+}
+/*!******************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/components/pageInfo/pageInfo.scss ***!
+  \******************************************************************************************************************************************************************************/
+.page-info__container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 20px;
+}
+
+.info-cars,
+.info-page,
+.info-winners {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.title-span {
+  font-size: 32px;
+  font-weight: 600;
+}
+/*!**************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/components/Footer/footer.scss ***!
+  \**************************************************************************************************************************************************************************/
+.footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+/*!****************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/global.scss ***!
+  \****************************************************************************************************************************************************/
+@font-face {
+  font-family: DINP-R;
+  src: url(../fonts/DINPro-Regular.2ac4eb.eot) format("eot"), url(../fonts/DINPro-Regular.7b307e.woff) format("woff"), url(../fonts/DINPro-Regular.f8ce19.ttf) format("truetype");
+  font-style: normal;
+}
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: none;
+}
+
+body {
+  font-family: "DINP-R", sans-serif;
+  padding: 10px;
+  min-height: 100vh;
+  background: #5e63ba;
+}
+
+.button {
+  font-family: "DINP-R", sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 6px 8px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  -webkit-transition: background-color 0.4s ease, -webkit-box-shadow 0.4s ease;
+  transition: background-color 0.4s ease, -webkit-box-shadow 0.4s ease;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease, -webkit-box-shadow 0.4s ease;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.button:hover {
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.button:active {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
+.button:disabled {
+  background-color: #77747c;
+}
