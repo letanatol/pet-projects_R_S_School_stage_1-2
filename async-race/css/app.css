@@ -1,42 +1,15 @@
-/*!**************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/components/header/header.scss ***!
-  \**************************************************************************************************************************************************************************/
-.header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  gap: 20px;
-  padding: 5px;
-  border-bottom: 1px solid #5108d8;
-}
-
-.button__to-garage,
-.button__to-winners {
-  background-color: #5108d8;
-  color: #ffffff;
-}
-
-.button__to-garage:hover,
-.button__to-winners:hover {
-  background-color: #1a0239;
-  -webkit-transition: all 0.4s;
-  transition: all 0.4s;
-}
 /*!*********************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/pages/garage/garage.scss ***!
   \*********************************************************************************************************************************************************************/
-.container-garage {
-  max-width: 1400px;
-}
-
 .car-image {
   width: 50px;
 }
 
 .track {
+  margin: 10px 0;
   padding: 5px;
-  background-color: #130327;
-  border-bottom: 3px dotted #ffffff;
+  background-color: #c6b7f2;
+  border-bottom: 3px dotted #130327;
 }
 
 .track-buttons {
@@ -47,7 +20,7 @@
 }
 
 .car-name {
-  color: #ffffff;
+  color: #130327;
   font-size: 20px;
   font-weight: 600;
   margin: 5px 0;
@@ -57,7 +30,7 @@
   \******************************************************************************************************************************************************************************/
 .container-controls {
   padding: 5px;
-  width: 30%;
+  width: 350px;
 }
 
 .controls-row {
@@ -75,6 +48,11 @@
   height: 28px;
   border-radius: 10px;
   padding: 2px 5px;
+}
+
+.input-color,
+.input-color__update {
+  min-width: 40px;
 }
 /*!******************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/components/pageInfo/pageInfo.scss ***!
@@ -115,6 +93,74 @@
   display: flex;
   gap: 10px;
   padding: 10px;
+}
+/*!***********************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/pages/winners/winners.scss ***!
+  \***********************************************************************************************************************************************************************/
+.container-table {
+  width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #dddddd;
+  border-collapse: collapse;
+}
+
+.table-header,
+.table-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 5px;
+  padding: 3px;
+}
+
+.th {
+  width: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 5px 10px;
+  background: #5e63ba;
+  border: 1px solid #5108d8;
+}
+
+.th-name,
+.td-name {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.td {
+  width: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 5px 10px;
+  padding: 5px;
+  background: #c6b7f2;
+  border: 1px solid #5108d8;
+}
+/*!**************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/components/header/header.scss ***!
+  \**************************************************************************************************************************************************************************/
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+  padding: 5px;
+  border-bottom: 1px solid #5108d8;
+}
+
+.button__to-garage,
+.button__to-winners {
+  background-color: #5108d8;
+  color: #ffffff;
+}
+
+.button__to-garage:hover,
+.button__to-winners:hover {
+  background-color: #1a0239;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
 }
 /*!****************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/global.scss ***!
