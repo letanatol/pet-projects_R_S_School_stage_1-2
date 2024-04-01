@@ -47,7 +47,16 @@ export type GarageState = {
   numberPage: number;
 };
 
+export type WinnerType = {
+  name: string;
+  color: string;
+  id: number;
+  wins: number;
+  time: number;
+};
+
 export type WinnersState = {
+  winnersArray: WinnerType[];
   countWinners: number;
   countPages: number;
   currentPage: number;
@@ -74,4 +83,5 @@ export enum EventTypes {
   NeedGarageUpdate = 'NeedGarageUpdate',
   UpdateIdSelectedCar = 'UpdateIdSelectedCar',
   UpdateCountPages = 'UpdateCountPages',
+  UpdateCountWinners = 'UpdateCountWinners',
 }

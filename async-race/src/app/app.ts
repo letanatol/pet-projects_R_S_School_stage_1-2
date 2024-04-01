@@ -1,6 +1,6 @@
 import { state } from '@helpers/State';
-import { Header } from '@components/header/Header';
 import { MainContainer } from '@components/MainContainer/MainContainer';
+import { Header } from '@components/header/header';
 
 export class App {
   constructor() {

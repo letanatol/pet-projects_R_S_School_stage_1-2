@@ -1,17 +1,14 @@
 @import '../../../styles/vars.scss';
 
-.container-garage {
-  max-width: 1400px;
-}
-
 .car-image {
   width: 50px;
 }
 
 .track {
+  margin: 10px 0;
   padding: 5px;
-  background-color: $track;
-  border-bottom: 3px dotted $white;
+  background-color: $background-color-table;
+  border-bottom: 3px dotted $track;
 }
 
 .track-buttons{
@@ -20,7 +17,7 @@
 }
 
 .car-name{
-  color: $white;
+  color: $track;
   font-size: 20px;
   font-weight: 600;
   margin: 5px 0;

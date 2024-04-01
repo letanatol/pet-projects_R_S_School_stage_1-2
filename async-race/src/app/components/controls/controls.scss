@@ -1,6 +1,6 @@
 .container-controls {
   padding: 5px;
-  width: 30%;
+  width: 350px;
 }
 
 .controls-row {
@@ -16,3 +16,7 @@
   padding: 2px 5px;
 }
 
+.input-color,
+.input-color__update {
+  min-width: 40px;
+}

@@ -1,4 +1,4 @@
-import { CarType, EventTypes, LoadState, StateType, UiState } from './types';
+import { CarType, EventTypes, LoadState, StateType, UiState, WinnerType } from './types';
 
 class State {
   private state: StateType = {
@@ -28,7 +28,37 @@ class State {
       numberPage: 1,
     },
     winners: {
-      countWinners: 0,
+      winnersArray: [
+        {
+          name: 'Tesla',
+          color: '#ff0000',
+          id: 1,
+          wins: 1,
+          time: 10,
+        },
+        {
+          name: 'BMW',
+          color: '#00ff00',
+          id: 2,
+          wins: 2,
+          time: 5.36,
+        },
+        {
+          name: 'Tesla',
+          color: '#0000ff',
+          id: 3,
+          wins: 1,
+          time: 2.65,
+        },
+        {
+          name: 'BMW',
+          color: '#ff0000',
+          id: 4,
+          wins: 3,
+          time: 8.25,
+        },
+      ],
+      countWinners: 4,
       countPages: 1,
       currentPage: 1,
     },
@@ -92,6 +122,14 @@ class State {
     this.state.garage.countPages = value;
     window.dispatchEvent(new CustomEvent(EventTypes.UpdateCountPages, { bubbles: true, detail: {} }));
   };
+
+  public updateWinners = (winner: WinnerType): void => {
+    this.state.winners.winnersArray.push(winner);
+    this.state.winners.countWinners = this.state.winners.winnersArray.length;
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateCountWinners, { bubbles: true, detail: {} }));
+  };
+
+  public getWinners = (): WinnerType[] => this.state.winners.winnersArray;
 
   public getCurrentCars = (): CarType[] => this.state.garage.currentCars;
 

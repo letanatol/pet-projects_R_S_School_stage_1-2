@@ -60,11 +60,13 @@ export function createControls(): HTMLElement {
     classNames: ['button', 'button-race'],
     textContent: 'Race',
   });
-  const buttonReset = createHTMLElement({
+  const buttonReset = createHTMLElement<'button'>({
     tagName: 'button',
     classNames: ['button', 'button-reset'],
     textContent: 'Reset',
   });
+  buttonReset.disabled = true;
+
   const buttonGenerate = createHTMLElement({
     tagName: 'button',
     classNames: ['button', 'button-generate'],
