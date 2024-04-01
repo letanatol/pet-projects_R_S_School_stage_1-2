@@ -88,6 +88,11 @@ class State {
     this.updateGarageApiState(LoadState.NEED_REFRESH);
   };
 
+  public updateCountPages = (value: number): void => {
+    this.state.garage.countPages = value;
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateCountPages, { bubbles: true, detail: {} }));
+  };
+
   public getCurrentCars = (): CarType[] => this.state.garage.currentCars;
 
   public getPage = (): string => this.state.page;

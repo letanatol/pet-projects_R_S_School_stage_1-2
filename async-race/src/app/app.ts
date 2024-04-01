@@ -1,5 +1,5 @@
 import { state } from '@helpers/State';
-import { Header } from '@components/Header/Header';
+import { Header } from '@components/header/Header';
 import { MainContainer } from '@components/MainContainer/MainContainer';
 
 export class App {

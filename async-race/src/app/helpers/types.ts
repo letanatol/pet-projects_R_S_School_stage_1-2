@@ -73,4 +73,5 @@ export enum EventTypes {
   GarageUpdated = 'GarageUpdated',
   NeedGarageUpdate = 'NeedGarageUpdate',
   UpdateIdSelectedCar = 'UpdateIdSelectedCar',
+  UpdateCountPages = 'UpdateCountPages',
 }

@@ -15,6 +15,7 @@ const STEP = 1;
 const STEP_BACK = -1;
 const START = 0;
 const MAX_RENDER_CARS = 100;
+const COUNT_CARS_ON_PAGE = 7;
 
 export class Garage extends BaseComponent {
   constructor(state: State) {
@@ -22,7 +23,6 @@ export class Garage extends BaseComponent {
     this.container = createHTMLElement({ tagName: 'div', classNames: ['container-garage'] });
     this.tracksContainer = createHTMLElement({ tagName: 'div', classNames: ['container-tracks'] });
     this.state = state;
-    // this.testGetCars();
   }
 
   protected container: HTMLElement;
@@ -90,14 +90,12 @@ export class Garage extends BaseComponent {
 
     this.container.addEventListener('click', (event: Event) => {
       const target = event.target as HTMLElement;
-      this.state.getState();
 
       if (!target || !target.classList) return;
 
       if (target.classList.contains('button-create')) {
         const inputText = document.querySelector('.input-text') as HTMLInputElement;
         const inputColor = document.querySelector('.input-color') as HTMLInputElement;
-        // state.getValue
         const textValue = inputText.value;
         const colorValue = inputColor.value;
         if (textValue !== '') {
@@ -109,11 +107,9 @@ export class Garage extends BaseComponent {
             .catch((error) => {
               console.log(error);
             });
-          // this.testGetCars();
         }
         inputText.value = '';
         inputColor.value = '#000000';
-        // this.state.addNewCar();
       }
 
       if (target.classList.contains('button-update')) {
@@ -124,7 +120,6 @@ export class Garage extends BaseComponent {
           const updateColor = this.state.getInputColor();
           const idSelectedCar = this.state.getIdSelectedCar();
           if (idSelectedCar) {
-            console.log('Я здесь:', updateName, updateColor, idSelectedCar);
             updateCar(idSelectedCar, { name: updateName, color: updateColor })
               .then((response) => {
                 this.state.updateGarageApiState(LoadState.NEED_REFRESH);
@@ -186,6 +181,10 @@ export class Garage extends BaseComponent {
             .then((response) => {
               this.state.updateGarageApiState(LoadState.NEED_REFRESH);
               console.log(response);
+              const countCars = this.state.getCountCars();
+              if ((countCars - STEP) % COUNT_CARS_ON_PAGE === START) {
+                this.state.updateNumberPageGarage(STEP_BACK);
+              }
             })
             .catch((error) => {
               console.log(error);

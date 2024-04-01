@@ -19,7 +19,6 @@ export class Header extends BaseComponent {
     <button class="button button__to-garage" ${this.state.getPage() === 'garage' ? 'disabled' : ''}>To garage</button>
     <button class="button button__to-winners" ${this.state.getPage() === 'winners' ? 'disabled' : ''}>To winners</button>
 `;
-    console.log('Draw!');
     return this.container;
   }
 
