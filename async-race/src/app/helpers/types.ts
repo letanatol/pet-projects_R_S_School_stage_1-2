@@ -1,14 +1,37 @@
 export type StateType = {
-  ui: UiState;
+  api: {
+    garage: LoadState | null;
+    winners: LoadState | null;
+  };
+  controls: ControlsType;
+  idSelectedCar: number | null;
+  inputsUpdate: InputsUpdate;
   car: CarType;
   garage: GarageState;
   winners: WinnersState;
   page: string;
 };
 
+export type InputsUpdate = {
+  inputName: string;
+  inputColor: string;
+};
+
+export enum LoadState {
+  LOADED = 'LOADED',
+  NEED_REFRESH = 'NEED_REFRESH',
+}
+
+export type ControlsType = {
+  createHidden: boolean;
+  updateHidden: boolean;
+  generateHidden: boolean;
+};
+
 export type UiState = {
-  garageHidden?: boolean;
-  winnersHidden?: boolean;
+  createHidden?: boolean;
+  updateHidden?: boolean;
+  generateHidden?: boolean;
 };
 
 export type CarType = {
@@ -47,4 +70,7 @@ export enum EventTypes {
   UpdateCurrentCars = 'UpdateCurrentCars',
   UpdateCountCars = 'UpdateCountCars',
   UpdateNumberPageGarage = 'UpdateNumberPageGarage',
+  GarageUpdated = 'GarageUpdated',
+  NeedGarageUpdate = 'NeedGarageUpdate',
+  UpdateIdSelectedCar = 'UpdateIdSelectedCar',
 }

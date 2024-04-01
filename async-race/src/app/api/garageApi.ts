@@ -1,5 +1,5 @@
 // import { CarType } from '@helpers/types';
-import { CreateCarType, getData, postData } from './request';
+import { CreateCarType, deleteData, getData, postData, putData } from './request';
 
 const ENDPOINT = 'http://localhost:3000/garage/';
 
@@ -46,5 +46,16 @@ export const getCars = async (options: GetCarsType): Promise<ResponseType<CarTyp
 export const createCar = async (data: CreateCarType): Promise<ResponseType<CreateCarType>> => {
   const response = await postData(ENDPOINT, data);
 
+  return parseResponse<CreateCarType>(response);
+};
+
+export const updateCar = async (id: number, data: CreateCarType): Promise<ResponseType<CreateCarType>> => {
+  const response = await putData(ENDPOINT, id, data);
+
+  return parseResponse<CreateCarType>(response);
+};
+
+export const deleteCar = async (id: number): Promise<ResponseType<CreateCarType>> => {
+  const response = await deleteData(ENDPOINT, id);
   return parseResponse<CreateCarType>(response);
 };

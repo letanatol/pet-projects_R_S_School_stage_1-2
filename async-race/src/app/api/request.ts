@@ -1,6 +1,7 @@
 export enum RequestMethods {
   'GET' = 'GET',
   'POST' = 'POST',
+  'PUT' = 'PUT',
 }
 
 export type CreateCarType = {
@@ -23,3 +24,14 @@ export const postData = (url: string, data: CreateCarType): Promise<Response> =>
       'Content-Type': 'application/json',
     },
   });
+
+export const putData = (url: string, id: number, data: CreateCarType): Promise<Response> =>
+  fetch(`${url}${id}`, {
+    method: RequestMethods.PUT,
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+export const deleteData = (url: string, id: number): Promise<Response> => fetch(`${url}${id}`, { method: 'DELETE' });
