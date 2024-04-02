@@ -1,4 +1,4 @@
-import { CarType, EventTypes, LoadState, StateType, UiState, WinnerType } from './types';
+import { CarType, EngineData, EventTypes, LoadState, StateType, UiState, WinnerType } from './types';
 
 class State {
   private state: StateType = {
@@ -10,12 +10,22 @@ class State {
       createHidden: false,
       updateHidden: true,
       generateHidden: false,
+      prevHidden: true,
+      nextHidden: true,
+    },
+    inputsCreate: {
+      inputName: '',
+      inputColor: '',
     },
     inputsUpdate: {
       inputName: '',
       inputColor: '',
     },
-    idSelectedCar: null,
+    selectedCar: {
+      id: 0,
+      name: '',
+      color: '',
+    },
     car: {
       name: '',
       color: '',
@@ -24,6 +34,7 @@ class State {
     garage: {
       countCars: 0,
       currentCars: [],
+      carsEngine: [],
       countPages: 1,
       numberPage: 1,
     },
@@ -65,16 +76,25 @@ class State {
     page: 'garage',
   };
 
-  public updateIdSelectedCar = (value: number | null): void => {
-    this.state.idSelectedCar = value;
-    window.dispatchEvent(new CustomEvent(EventTypes.UpdateIdSelectedCar, { bubbles: true, detail: {} }));
+  public updateSelectedCar = (car: CarType): void => {
+    this.state.selectedCar = car;
+
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateSelectedCar, { bubbles: true, detail: { car } }));
   };
 
-  public updateInputName = (name: string): void => {
+  public updateInputCreateName = (name: string): void => {
+    this.state.inputsCreate.inputName = name;
+  };
+
+  public updateInputCreateColor = (color: string): void => {
+    this.state.inputsCreate.inputColor = color;
+  };
+
+  public updateInputUpdateName = (name: string): void => {
     this.state.inputsUpdate.inputName = name;
   };
 
-  public updateInputColor = (color: string): void => {
+  public updateInputUpdateColor = (color: string): void => {
     this.state.inputsUpdate.inputColor = color;
   };
 
@@ -105,6 +125,12 @@ class State {
   public updateCurrentCarsOnPage = (data: CarType[]): void => {
     this.state.garage.currentCars = data;
     window.dispatchEvent(new CustomEvent(EventTypes.UpdateCurrentCars, { bubbles: true, detail: {} }));
+  };
+
+  public updateCurrentCarEngine = (id: number, data: EngineData): void => {
+    this.state.garage.carsEngine[id] = data;
+
+    console.log(this.state.garage.carsEngine);
   };
 
   public updateCountCars = (count: number): void => {
@@ -149,11 +175,15 @@ class State {
 
   public getCurrentPageWinners = (): number => this.state.winners.currentPage;
 
-  public getInputName = (): string => this.state.inputsUpdate.inputName;
+  public getInputCreateName = (): string => this.state.inputsCreate.inputName;
 
-  public getInputColor = (): string => this.state.inputsUpdate.inputColor;
+  public getInputCreateColor = (): string => this.state.inputsCreate.inputColor;
 
-  public getIdSelectedCar = (): number | null => this.state.idSelectedCar;
+  public getInputUpdateName = (): string => this.state.inputsUpdate.inputName;
+
+  public getInputUpdateColor = (): string => this.state.inputsUpdate.inputColor;
+
+  public getSelectedCar = (): CarType => this.state.selectedCar;
 
   public getState = (): void => {
     console.log(this.state);

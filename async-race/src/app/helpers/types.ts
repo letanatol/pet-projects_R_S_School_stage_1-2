@@ -4,15 +4,16 @@ export type StateType = {
     winners: LoadState | null;
   };
   controls: ControlsType;
-  idSelectedCar: number | null;
-  inputsUpdate: InputsUpdate;
+  selectedCar: CarType;
+  inputsCreate: InputsType;
+  inputsUpdate: InputsType;
   car: CarType;
   garage: GarageState;
   winners: WinnersState;
   page: string;
 };
 
-export type InputsUpdate = {
+export type InputsType = {
   inputName: string;
   inputColor: string;
 };
@@ -26,12 +27,16 @@ export type ControlsType = {
   createHidden: boolean;
   updateHidden: boolean;
   generateHidden: boolean;
+  prevHidden: boolean;
+  nextHidden: boolean;
 };
 
 export type UiState = {
   createHidden?: boolean;
   updateHidden?: boolean;
   generateHidden?: boolean;
+  prevHidden?: boolean;
+  nextHidden?: boolean;
 };
 
 export type CarType = {
@@ -40,9 +45,15 @@ export type CarType = {
   id: number;
 };
 
+export type EngineData = {
+  velocity: number;
+  distance: number;
+};
+
 export type GarageState = {
   countCars: number;
   currentCars: CarType[];
+  carsEngine: Record<number, EngineData>;
   countPages: number;
   numberPage: number;
 };
@@ -81,7 +92,7 @@ export enum EventTypes {
   UpdateNumberPageGarage = 'UpdateNumberPageGarage',
   GarageUpdated = 'GarageUpdated',
   NeedGarageUpdate = 'NeedGarageUpdate',
-  UpdateIdSelectedCar = 'UpdateIdSelectedCar',
+  UpdateSelectedCar = 'UpdateSelectedCar',
   UpdateCountPages = 'UpdateCountPages',
   UpdateCountWinners = 'UpdateCountWinners',
 }

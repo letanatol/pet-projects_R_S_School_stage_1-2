@@ -6,7 +6,7 @@ import './winners.scss';
 import { createWinner } from '@components/tableWinners/winner';
 import { EventTypes } from '@helpers/types';
 import { getElementById } from '@helpers/utils';
-import { createFooter } from '@components/Footer/Footer';
+// import { createFooter } from '@components/Footer/Footer';
 
 const STEP = 1;
 
@@ -63,8 +63,8 @@ export class Winners extends BaseComponent {
 
     tableContainer.append(tableHeader, tableBody);
 
-    const footer = createFooter();
-    this.container.append(pageInfoContainer, tableContainer, footer);
+    // const footer = createFooter();
+    this.container.append(pageInfoContainer, tableContainer);
 
     return this.container;
   }

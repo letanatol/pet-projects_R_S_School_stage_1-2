@@ -15,14 +15,40 @@ export function createFooter(): HTMLElement {
     classNames: ['button', 'button-prev'],
     textContent: 'Prev',
   });
-  buttonPrevPage.disabled = true;
 
   const buttonNextPage = createHTMLElement<'button'>({
     tagName: 'button',
     classNames: ['button', 'button-next'],
     textContent: 'Next',
   });
-  buttonNextPage.disabled = true;
+
+  const stateButtons = state.getUiState();
+  if (stateButtons.prevHidden) {
+    buttonPrevPage.disabled = true;
+  } else {
+    buttonPrevPage.disabled = false;
+  }
+
+  if (stateButtons.nextHidden) {
+    buttonNextPage.disabled = true;
+  } else {
+    buttonNextPage.disabled = false;
+  }
+
+  window.addEventListener(EventTypes.UpdateUI, () => {
+    const stateUi = state.getUiState();
+    if (stateUi.prevHidden) {
+      buttonPrevPage.disabled = true;
+    } else {
+      buttonPrevPage.disabled = false;
+    }
+
+    if (stateUi.nextHidden) {
+      buttonNextPage.disabled = true;
+    } else {
+      buttonNextPage.disabled = false;
+    }
+  });
 
   window.addEventListener(EventTypes.UpdateCountCars, () => {
     const countCars = state.getCountCars();
@@ -35,21 +61,28 @@ export function createFooter(): HTMLElement {
     }
 
     if (numberPage === FIRST_PAGE) {
-      buttonPrevPage.disabled = true;
-      buttonNextPage.disabled = true;
+      state.updateUi({ prevHidden: true });
+      state.updateUi({ nextHidden: true });
+
+      // buttonPrevPage.disabled = true;
+      // buttonNextPage.disabled = true;
     }
 
     if (countCars > COUNT_CARS_ON_PAGE && numberPage > FIRST_PAGE) {
-      buttonNextPage.disabled = false;
-      buttonPrevPage.disabled = false;
+      state.updateUi({ prevHidden: false });
+      state.updateUi({ nextHidden: false });
+      // buttonNextPage.disabled = false;
+      // buttonPrevPage.disabled = false;
     }
 
     if (countPages > FIRST_PAGE) {
-      buttonNextPage.disabled = false;
+      state.updateUi({ nextHidden: false });
+      // buttonNextPage.disabled = false;
     }
 
     if (countPages === numberPage) {
-      buttonNextPage.disabled = true;
+      state.updateUi({ nextHidden: true });
+      // buttonNextPage.disabled = true;
     }
   });
 

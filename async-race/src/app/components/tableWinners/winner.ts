@@ -10,7 +10,6 @@ export function createWinner(winner: WinnerType, number: number): HTMLElement {
   const tableRow = createHTMLElement({ tagName: 'div', classNames: ['table-row'] });
   const rowNumber = createHTMLElement({ tagName: 'div', classNames: ['td', 'td-number'], textContent: `${number}` });
   const rowCar = createHTMLElement({ tagName: 'div', classNames: ['td', 'td-car'] });
-  console.log(color, id);
   const carImage = createHTMLElement({ tagName: 'div', classNames: ['car-image'] });
   carImage.innerHTML = carSvg;
 

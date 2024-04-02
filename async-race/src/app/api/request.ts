@@ -2,6 +2,7 @@ export enum RequestMethods {
   'GET' = 'GET',
   'POST' = 'POST',
   'PUT' = 'PUT',
+  'PATCH' = 'PATCH',
 }
 
 export type CreateCarType = {
@@ -33,5 +34,12 @@ export const putData = (url: string, id: number, data: CreateCarType): Promise<R
       'Content-Type': 'application/json',
     },
   });
+
+export const patchData = (url: string, options?: URLSearchParams): Promise<Response> => {
+  if (options) {
+    return fetch(`${url}?${options.toString()}`, { method: RequestMethods.PATCH });
+  }
+  return fetch(url, { method: RequestMethods.PATCH });
+};
 
 export const deleteData = (url: string, id: number): Promise<Response> => fetch(`${url}${id}`, { method: 'DELETE' });

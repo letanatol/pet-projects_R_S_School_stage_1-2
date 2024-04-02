@@ -3,6 +3,9 @@ import dataCars from '../data/data.json';
 
 const MAX_COLOR_VALUE = 255;
 const STEP = 1;
+const decimalBase = 16;
+const hexStringLength = 2;
+const hexStringPad = '0';
 
 function getRandomItem<T>(array: T[]): T {
   const randomIndex = Math.floor(Math.random() * array.length);
@@ -17,13 +20,11 @@ export function getRandomCar(): { brand: string; model: string } {
 }
 
 export function getRandomColor(): string {
-  // Генерируем случайные значения для каждого канала цвета (красный, зеленый, синий)
-  const red = Math.floor(Math.random() * (MAX_COLOR_VALUE + STEP)); // От 0 до 255
-  const green = Math.floor(Math.random() * (MAX_COLOR_VALUE + STEP)); // От 0 до 255
-  const blue = Math.floor(Math.random() * (MAX_COLOR_VALUE + STEP)); // От 0 до 255
+  const red = Math.floor(Math.random() * (MAX_COLOR_VALUE + STEP));
+  const green = Math.floor(Math.random() * (MAX_COLOR_VALUE + STEP));
+  const blue = Math.floor(Math.random() * (MAX_COLOR_VALUE + STEP));
 
-  // Формируем строку в формате RGB
-  const colorString = `rgb(${red}, ${green}, ${blue})`;
+  const hexColor = `#${red.toString(decimalBase).padStart(hexStringLength, hexStringPad)}${green.toString(decimalBase).padStart(hexStringLength, hexStringPad)}${blue.toString(decimalBase).padStart(hexStringLength, hexStringPad)}`;
 
-  return colorString;
+  return hexColor;
 }

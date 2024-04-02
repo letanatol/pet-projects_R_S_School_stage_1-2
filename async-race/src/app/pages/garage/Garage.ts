@@ -4,8 +4,8 @@ import { createControls } from '@components/controls/controls';
 import { createHTMLElement } from '@components/createHTMLElement';
 import { createInfoCountCars, createInfoNumberPage } from '@components/pageInfo/pageInfoGarage';
 import { State } from '@helpers/State';
-import { createCar, deleteCar, getCars, updateCar } from 'src/app/api/garageApi';
-import { createTrack } from '@components/track/createTrack';
+import { createCar, getCars, updateCar } from 'src/app/api/garageApi';
+import { Track } from '@components/track/Track';
 import { EventTypes, LoadState } from '@helpers/types';
 import { getElementById } from '@helpers/utils';
 import { createFooter } from '@components/Footer/Footer';
@@ -15,7 +15,6 @@ const STEP = 1;
 const STEP_BACK = -1;
 const START = 0;
 const MAX_RENDER_CARS = 100;
-const COUNT_CARS_ON_PAGE = 7;
 
 export class Garage extends BaseComponent {
   constructor(state: State) {
@@ -41,9 +40,10 @@ export class Garage extends BaseComponent {
     const infoNumberPage = createInfoNumberPage(numberPage);
 
     this.tracksContainer.innerHTML = '';
+
     this.state.getCurrentCars().forEach((car) => {
-      const track = createTrack(car);
-      this.tracksContainer.append(track);
+      const track = new Track(car);
+      this.tracksContainer.append(track.getContainer());
     });
 
     const footer = createFooter();
@@ -57,8 +57,8 @@ export class Garage extends BaseComponent {
     window.addEventListener(EventTypes.UpdateCurrentCars, () => {
       this.tracksContainer.innerHTML = '';
       this.state.getCurrentCars().forEach((car) => {
-        const track = createTrack(car);
-        this.tracksContainer.append(track);
+        const track = new Track(car);
+        this.tracksContainer.append(track.getContainer());
       });
     });
 
@@ -73,7 +73,7 @@ export class Garage extends BaseComponent {
       const numberPage = this.state.getNumberPageGarage();
       const infoNumberPage = getElementById('number-page_garage');
       infoNumberPage.innerHTML = '';
-      infoNumberPage.innerHTML = `(${numberPage.toString()})`;
+      infoNumberPage.innerHTML = `#${numberPage.toString()}`;
     });
 
     window.addEventListener(EventTypes.NeedGarageUpdate, () => {
@@ -88,7 +88,18 @@ export class Garage extends BaseComponent {
         });
     });
 
+    window.addEventListener(EventTypes.UpdateSelectedCar, () => {
+      const inputUpdateText = document.querySelector('.input-text__update') as HTMLInputElement;
+      const inputUpdateColor = document.querySelector('.input-color__update') as HTMLInputElement;
+
+      inputUpdateText.value = this.state.getSelectedCar().name;
+      inputUpdateColor.value = this.state.getSelectedCar().color;
+      this.state.updateInputUpdateName(this.state.getSelectedCar().name);
+      this.state.updateInputUpdateColor(this.state.getSelectedCar().color);
+    });
+
     this.container.addEventListener('click', (event: Event) => {
+      this.state.getState();
       const target = event.target as HTMLElement;
 
       if (!target || !target.classList) return;
@@ -110,15 +121,18 @@ export class Garage extends BaseComponent {
         }
         inputText.value = '';
         inputColor.value = '#000000';
+        this.state.updateInputCreateName('');
+        this.state.updateInputCreateColor('#000000');
       }
 
       if (target.classList.contains('button-update')) {
         const inputUpdateText = document.querySelector('.input-text__update') as HTMLInputElement;
         const inputUpdateColor = document.querySelector('.input-color__update') as HTMLInputElement;
-        const updateName = this.state.getInputName();
+        const updateName = this.state.getInputUpdateName();
+        console.log(updateName);
         if (updateName !== '') {
-          const updateColor = this.state.getInputColor();
-          const idSelectedCar = this.state.getIdSelectedCar();
+          const updateColor = this.state.getInputUpdateColor();
+          const idSelectedCar = this.state.getSelectedCar().id;
           if (idSelectedCar) {
             updateCar(idSelectedCar, { name: updateName, color: updateColor })
               .then((response) => {
@@ -129,11 +143,15 @@ export class Garage extends BaseComponent {
                 console.log(error);
               });
           }
-          this.state.updateIdSelectedCar(null);
-          this.state.updateInputName('');
-          this.state.updateInputColor('#000000');
-          inputUpdateText.value = this.state.getInputName();
-          inputUpdateColor.value = this.state.getInputColor();
+          this.state.updateSelectedCar({
+            id: 0,
+            name: '',
+            color: '#000000',
+          });
+          this.state.updateInputUpdateName('');
+          this.state.updateInputUpdateColor('#000000');
+          inputUpdateText.value = this.state.getInputUpdateName();
+          inputUpdateColor.value = this.state.getInputUpdateColor();
           this.state.updateUi({ updateHidden: true });
         }
       }
@@ -146,16 +164,6 @@ export class Garage extends BaseComponent {
         this.state.updateNumberPageGarage(STEP);
       }
 
-      if (target.classList.contains('button-select')) {
-        this.state.updateUi({ updateHidden: false });
-        const trackElement = target.closest('.track') as HTMLElement;
-
-        if (trackElement && trackElement.dataset.track) {
-          const trackValue = Number(trackElement.dataset.track);
-          this.state.updateIdSelectedCar(trackValue);
-        }
-      }
-
       if (target.classList.contains('button-generate')) {
         for (let i = START; i < MAX_RENDER_CARS; i += STEP) {
           const { brand, model } = getRandomCar();
@@ -165,26 +173,6 @@ export class Garage extends BaseComponent {
             .then((response) => {
               this.state.updateGarageApiState(LoadState.NEED_REFRESH);
               console.log(response);
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-      }
-
-      if (target.classList.contains('button-remove')) {
-        const trackElement = target.closest('.track') as HTMLElement;
-
-        if (trackElement && trackElement.dataset.track) {
-          const trackValue = Number(trackElement.dataset.track);
-          deleteCar(trackValue)
-            .then((response) => {
-              this.state.updateGarageApiState(LoadState.NEED_REFRESH);
-              console.log(response);
-              const countCars = this.state.getCountCars();
-              if ((countCars - STEP) % COUNT_CARS_ON_PAGE === START) {
-                this.state.updateNumberPageGarage(STEP_BACK);
-              }
             })
             .catch((error) => {
               console.log(error);

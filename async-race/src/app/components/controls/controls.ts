@@ -7,42 +7,53 @@ export function createControls(): HTMLElement {
   const container = createHTMLElement({ tagName: 'div', classNames: ['container-controls'] });
   // CREATE
   const controlsCreate = createHTMLElement({ tagName: 'div', classNames: ['controls-row', 'controls-create'] });
-  const inputCreateText = createHTMLElement({ tagName: 'input', classNames: ['input', 'input-text'] });
-  // при 'onChange' state.setUpdate
-  // inputCreateText.addEventListener('change', () => {
-  // state.updateCreateCar(inputCreateText.value as string);
-  // });
-  const inputCreateColor = createHTMLElement({ tagName: 'input', classNames: ['input', 'input-color'] });
-  if (inputCreateColor instanceof HTMLInputElement) {
-    inputCreateColor.setAttribute('type', 'color');
-    inputCreateColor.value = '#000000';
-  }
+
+  const inputCreateName = createHTMLElement<'input'>({ tagName: 'input', classNames: ['input', 'input-text'] });
+  const inputCreateNameFromState = state.getInputCreateName();
+  inputCreateName.value = inputCreateNameFromState;
+  inputCreateName.addEventListener('input', (event) => {
+    const { value } = event.target as HTMLInputElement;
+    state.updateInputCreateName(value);
+  });
+
+  const inputCreateColor = createHTMLElement<'input'>({ tagName: 'input', classNames: ['input', 'input-color'] });
+  inputCreateColor.setAttribute('type', 'color');
+  const inputCreateColorFromState = state.getInputCreateColor();
+  inputCreateColor.value = inputCreateColorFromState;
+  inputCreateColor.addEventListener('input', (event) => {
+    const { value } = event.target as HTMLInputElement;
+    state.updateInputCreateColor(value);
+  });
+
   const buttonCreate = createHTMLElement({
     tagName: 'button',
     classNames: ['button', 'button-create'],
     textContent: 'Create',
   });
+  controlsCreate.append(inputCreateName, inputCreateColor, buttonCreate);
 
-  controlsCreate.append(inputCreateText, inputCreateColor, buttonCreate);
   // UPDATE
   const controlsUpdate = createHTMLElement({ tagName: 'div', classNames: ['controls-row', 'controls-update'] });
-  const inputUpdateText = createHTMLElement<'input'>({ tagName: 'input', classNames: ['input', 'input-text__update'] });
-  inputUpdateText.addEventListener('change', (event) => {
-    const target = event.target as HTMLInputElement;
-    state.updateInputName(target.value);
+  const inputUpdateName = createHTMLElement<'input'>({ tagName: 'input', classNames: ['input', 'input-text__update'] });
+
+  const inputUpdateNameFromState = state.getInputUpdateName();
+  inputUpdateName.value = inputUpdateNameFromState;
+  inputUpdateName.addEventListener('input', (event) => {
+    const { value } = event.target as HTMLInputElement;
+    state.updateInputUpdateName(value);
   });
 
   const inputUpdateColor = createHTMLElement<'input'>({
     tagName: 'input',
     classNames: ['input', 'input-color__update'],
   });
-  if (inputUpdateColor instanceof HTMLInputElement) {
-    inputUpdateColor.setAttribute('type', 'color');
-    inputUpdateColor.value = '#000000';
-  }
-  inputUpdateColor.addEventListener('change', (event) => {
-    const target = event.target as HTMLInputElement;
-    state.updateInputColor(target.value);
+  inputUpdateColor.setAttribute('type', 'color');
+
+  const inputUpdateColorFromState = state.getInputUpdateColor();
+  inputUpdateColor.value = inputUpdateColorFromState;
+  inputUpdateColor.addEventListener('input', (event) => {
+    const { value } = event.target as HTMLInputElement;
+    state.updateInputUpdateColor(value);
   });
 
   const buttonUpdate = createHTMLElement<'button'>({
@@ -50,10 +61,20 @@ export function createControls(): HTMLElement {
     classNames: ['button', 'button-update'],
     textContent: 'Update',
   });
-  buttonUpdate.disabled = true;
-  controlsUpdate.append(inputUpdateText, inputUpdateColor, buttonUpdate);
 
-  // controlsButtons
+  const stateUiDuringRender = state.getUiState();
+  if (stateUiDuringRender.updateHidden) {
+    buttonUpdate.disabled = true;
+    inputUpdateName.disabled = true;
+    inputUpdateColor.disabled = true;
+  } else {
+    buttonUpdate.disabled = false;
+    inputUpdateName.disabled = false;
+    inputUpdateColor.disabled = false;
+  }
+  controlsUpdate.append(inputUpdateName, inputUpdateColor, buttonUpdate);
+
+  // RACE RESET GENERATE
   const controlsButtons = createHTMLElement({ tagName: 'div', classNames: ['controls-row', 'controls-buttons'] });
   const buttonRace = createHTMLElement({
     tagName: 'button',
@@ -79,8 +100,12 @@ export function createControls(): HTMLElement {
     const stateUi = state.getUiState();
     if (stateUi.updateHidden) {
       buttonUpdate.disabled = true;
+      inputUpdateName.disabled = true;
+      inputUpdateColor.disabled = true;
     } else {
       buttonUpdate.disabled = false;
+      inputUpdateName.disabled = false;
+      inputUpdateColor.disabled = false;
     }
   });
 
