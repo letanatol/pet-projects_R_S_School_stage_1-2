@@ -8,8 +8,7 @@
 .track {
   margin: 10px 0;
   padding: 5px;
-  background-color: #c6b7f2;
-  border-bottom: 3px dotted #130327;
+  border-bottom: 3px dashed #130327;
 }
 
 .track-buttons {
@@ -24,6 +23,20 @@
   font-size: 20px;
   font-weight: 600;
   margin: 5px 0;
+}
+
+.car-image {
+  position: relative;
+  width: 65px;
+  height: 65px;
+}
+
+.car-image svg {
+  position: absolute;
+  bottom: -18px;
+  left: 0;
+  width: 100%;
+  height: auto;
 }
 /*!******************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/app/components/controls/controls.scss ***!
