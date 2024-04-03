@@ -1,5 +1,6 @@
 import { createHTMLElement } from '@components/createHTMLElement';
-import { CarType, LoadState } from '@helpers/types';
+import { CarType, EventTypes, LoadState } from '@helpers/types';
+import { deleteWinner } from 'src/app/api/winnerApi';
 import { carSvg } from './carSvg';
 import { deleteCar } from '../../api/garageApi';
 import { state } from '../../helpers/State';
@@ -8,7 +9,7 @@ import { setEngineStatus } from '../../api/engineApi';
 const LENGTH = 0;
 const START = 0;
 const PROGRESS_INDEX = 1;
-const CLIET_WIDTH = 150;
+const CLIENT_WIDTH = 150;
 
 export class Track {
   private track = createHTMLElement({ tagName: 'div', classNames: ['track'] });
@@ -75,11 +76,11 @@ export class Track {
   private addEventListeners(): void {
     this.buttonSelect.addEventListener('click', () => this.selectCar());
     this.buttonRemove.addEventListener('click', () => this.removeCar());
-    this.buttonStart.addEventListener('click', () => this.startEngine());
+    this.buttonStart.addEventListener('click', () => this.startDrive());
     this.buttonStop.addEventListener('click', () => this.stopEngine());
 
-    // TODO
-    window.addEventListener('StartRace', () => this.startDrive());
+    window.addEventListener(EventTypes.StartRace, () => this.startDrive());
+    window.addEventListener(EventTypes.StopRace, () => this.stopEngine());
   }
 
   public getContainer(): HTMLElement {
@@ -94,6 +95,14 @@ export class Track {
       .catch((error) => {
         console.log(error);
       });
+
+    deleteWinner(this.car.id)
+      .then(() => {
+        state.updateWinnersApiState(LoadState.NEED_REFRESH);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   private step = (timestamp: number): void => {
@@ -101,12 +110,11 @@ export class Track {
       this.start = timestamp;
     }
     const { distance, velocity } = state.getCarsEngine(this.car.id);
-    const distance2 = document.documentElement.clientWidth - CLIET_WIDTH;
-    console.log(distance2, distance);
+    const lengthTrack = document.documentElement.clientWidth - CLIENT_WIDTH;
     const duration = distance / velocity;
     const progress = (timestamp - this.start) / duration;
 
-    const translate = progress * distance2;
+    const translate = progress * lengthTrack;
 
     this.carImage.style.transform = `translateX(${translate}px)`;
     if (progress < PROGRESS_INDEX) {
@@ -114,22 +122,22 @@ export class Track {
     }
   };
 
-  private startEngine(): void {
-    setEngineStatus({
-      id: this.car.id,
-      status: 'started',
-    })
-      .then((response) => {
-        console.log(response);
+  // private startEngine(): void {
+  //   setEngineStatus({
+  //     id: this.car.id,
+  //     status: 'started',
+  //   })
+  //     .then((response) => {
+  //       console.log(response);
 
-        state.updateCurrentCarEngine(this.car.id, response.data);
+  //       state.updateCurrentCarEngine(this.car.id, response.data);
 
-        // TODO Disable start button, enable stop button
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+  //       // TODO Disable start button, enable stop button
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }
 
   private startDrive(): void {
     setEngineStatus({
@@ -137,8 +145,6 @@ export class Track {
       status: 'started',
     })
       .then((response) => {
-        console.log(response);
-
         state.updateCurrentCarEngine(this.car.id, response.data);
 
         this.animationId = window.requestAnimationFrame(this.step);
@@ -148,11 +154,10 @@ export class Track {
           status: 'drive',
         })
           .then(() => {
-            // console.log(res);
             state.updateCurrentWinner(this.car);
           })
           .catch(() => {
-            console.log('Car was broken ', this.car.name);
+            // console.log('Car was broken ', this.car.name);
             window.cancelAnimationFrame(this.animationId);
           });
       })
@@ -167,7 +172,6 @@ export class Track {
       status: 'stopped',
     })
       .then((response) => {
-        console.log(response);
         this.carImage.style.transform = 'translateX(0px)';
 
         if (this.animationId > START) {
@@ -185,6 +189,5 @@ export class Track {
   private selectCar(): void {
     state.updateUi({ updateHidden: false });
     state.updateSelectedCar(this.car);
-    console.log(this.car, 'this.car');
   }
 }

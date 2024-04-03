@@ -74,25 +74,39 @@ export function createControls(): HTMLElement {
   }
   controlsUpdate.append(inputUpdateName, inputUpdateColor, buttonUpdate);
 
-  // RACE RESET GENERATE
+  // RACE
   const controlsButtons = createHTMLElement({ tagName: 'div', classNames: ['controls-row', 'controls-buttons'] });
-  const buttonRace = createHTMLElement({
+  const buttonRace = createHTMLElement<'button'>({
     tagName: 'button',
     classNames: ['button', 'button-race'],
     textContent: 'Race',
   });
+  const buttonState = state.getUiState();
+  if (buttonState.raceHidden) {
+    buttonRace.disabled = true;
+  }
   buttonRace.addEventListener('click', () => {
     window.dispatchEvent(new CustomEvent(EventTypes.StartRace, { bubbles: true, detail: {} }));
+    state.updateUi({ raceHidden: true, resetHidden: false, generateHidden: true });
   });
 
+  // RESET
   const buttonReset = createHTMLElement<'button'>({
     tagName: 'button',
     classNames: ['button', 'button-reset'],
     textContent: 'Reset',
   });
-  buttonReset.disabled = true;
+  if (buttonState.resetHidden) {
+    buttonReset.disabled = true;
+  }
 
-  const buttonGenerate = createHTMLElement({
+  buttonReset.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent(EventTypes.StopRace, { bubbles: true, detail: {} }));
+    state.updateUi({ raceHidden: false, resetHidden: true, generateHidden: false });
+  });
+
+  // GENERATE
+  const buttonGenerate = createHTMLElement<'button'>({
     tagName: 'button',
     classNames: ['button', 'button-generate'],
     textContent: 'Generate cars',
@@ -110,6 +124,22 @@ export function createControls(): HTMLElement {
       buttonUpdate.disabled = false;
       inputUpdateName.disabled = false;
       inputUpdateColor.disabled = false;
+    }
+
+    if (stateUi.raceHidden) {
+      buttonRace.disabled = true;
+    } else {
+      buttonRace.disabled = false;
+    }
+    if (stateUi.resetHidden) {
+      buttonReset.disabled = true;
+    } else {
+      buttonReset.disabled = false;
+    }
+    if (stateUi.generateHidden) {
+      buttonGenerate.disabled = true;
+    } else {
+      buttonGenerate.disabled = false;
     }
   });
 

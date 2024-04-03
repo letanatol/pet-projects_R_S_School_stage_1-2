@@ -2,12 +2,13 @@ import './pageInfo.scss';
 import { createHTMLElement } from '@components/createHTMLElement';
 import { state } from '@helpers/State';
 
-export function createPageInfoWinners(count: number): HTMLElement {
+export function createPageInfoWinners(): HTMLElement {
   const pageInfoContainer = createHTMLElement({ tagName: 'div', classNames: ['page-info__container'] });
 
   const infoCountWinners = createHTMLElement({ tagName: 'div', classNames: ['info-winners'] });
   const infoCountWinnersTitle = createHTMLElement({ tagName: 'h1', classNames: ['title'], textContent: 'Winners' });
   // const countWinners = state.getCountWinners();
+  const count = state.getCountWinners();
   const infoCountWinnersTitleSpan = createHTMLElement({
     tagName: 'span',
     classNames: ['title-span'],

@@ -99,7 +99,6 @@ export class Garage extends BaseComponent {
     });
 
     this.container.addEventListener('click', (event: Event) => {
-      this.state.getState();
       const target = event.target as HTMLElement;
 
       if (!target || !target.classList) return;
@@ -111,9 +110,8 @@ export class Garage extends BaseComponent {
         const colorValue = inputColor.value;
         if (textValue !== '') {
           createCar({ color: colorValue, name: textValue })
-            .then((response) => {
+            .then(() => {
               this.state.updateGarageApiState(LoadState.NEED_REFRESH);
-              console.log(response);
             })
             .catch((error) => {
               console.log(error);
@@ -129,15 +127,13 @@ export class Garage extends BaseComponent {
         const inputUpdateText = document.querySelector('.input-text__update') as HTMLInputElement;
         const inputUpdateColor = document.querySelector('.input-color__update') as HTMLInputElement;
         const updateName = this.state.getInputUpdateName();
-        console.log(updateName);
         if (updateName !== '') {
           const updateColor = this.state.getInputUpdateColor();
           const idSelectedCar = this.state.getSelectedCar().id;
           if (idSelectedCar) {
             updateCar(idSelectedCar, { name: updateName, color: updateColor })
-              .then((response) => {
+              .then(() => {
                 this.state.updateGarageApiState(LoadState.NEED_REFRESH);
-                console.log(response);
               })
               .catch((error) => {
                 console.log(error);
@@ -170,9 +166,7 @@ export class Garage extends BaseComponent {
           const randomName = `${brand} ${model}`;
           const randomColor = getRandomColor();
           createCar({ color: randomColor, name: randomName })
-            .then((response) => {
-              console.log(response);
-            })
+            .then(() => {})
             .catch((error) => {
               console.log(error);
             });

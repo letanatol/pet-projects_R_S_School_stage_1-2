@@ -3,7 +3,7 @@ export type StateType = {
     garage: LoadState | null;
     winners: LoadState | null;
   };
-  controls: ControlsType;
+  controls: UiState;
   selectedCar: CarType;
   inputsCreate: InputsType;
   inputsUpdate: InputsType;
@@ -23,19 +23,12 @@ export enum LoadState {
   NEED_REFRESH = 'NEED_REFRESH',
 }
 
-export type ControlsType = {
-  createHidden: boolean;
-  updateHidden: boolean;
-  generateHidden: boolean;
-  prevHidden: boolean;
-  nextHidden: boolean;
-};
-
 export type UiState = {
   createHidden?: boolean;
   updateHidden?: boolean;
   generateHidden?: boolean;
   raceHidden?: boolean;
+  resetHidden?: boolean;
   prevHidden?: boolean;
   nextHidden?: boolean;
 };
@@ -72,7 +65,7 @@ export type WinnersState = {
   winnersArray: WinnerType[];
   countWinners: number;
   countPages: number;
-  currentPage: number;
+  numberPage: number;
 };
 
 export type ModelsCarType = {
@@ -93,9 +86,12 @@ export enum EventTypes {
   UpdateCountCars = 'UpdateCountCars',
   UpdateNumberPageGarage = 'UpdateNumberPageGarage',
   GarageUpdated = 'GarageUpdated',
+  WinnersUpdated = 'WinnersUpdated',
   NeedGarageUpdate = 'NeedGarageUpdate',
+  NeedWinnersUpdate = 'NeedWinnersUpdate',
   UpdateSelectedCar = 'UpdateSelectedCar',
   UpdateCountPages = 'UpdateCountPages',
   UpdateCountWinners = 'UpdateCountWinners',
   StartRace = 'StartRace',
+  StopRace = 'StopRace',
 }

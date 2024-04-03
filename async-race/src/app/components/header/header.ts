@@ -24,7 +24,6 @@ export class Header extends BaseComponent {
 
   protected addEventListeners(): void {
     this.container.addEventListener('click', (event: Event) => {
-      this.state.getState();
       const target = event.target as HTMLElement;
 
       if (!target || !target.classList) return;
