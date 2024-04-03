@@ -171,13 +171,13 @@ export class Garage extends BaseComponent {
           const randomColor = getRandomColor();
           createCar({ color: randomColor, name: randomName })
             .then((response) => {
-              this.state.updateGarageApiState(LoadState.NEED_REFRESH);
               console.log(response);
             })
             .catch((error) => {
               console.log(error);
             });
         }
+        this.state.updateGarageApiState(LoadState.NEED_REFRESH);
       }
     });
   }

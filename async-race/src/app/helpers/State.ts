@@ -39,6 +39,7 @@ class State {
       numberPage: 1,
     },
     winners: {
+      currentWinner: null,
       winnersArray: [
         {
           name: 'Tesla',
@@ -154,6 +155,15 @@ class State {
     this.state.winners.countWinners = this.state.winners.winnersArray.length;
     window.dispatchEvent(new CustomEvent(EventTypes.UpdateCountWinners, { bubbles: true, detail: {} }));
   };
+
+  public updateCurrentWinner = (winner: WinnerType): void => {
+    if (!this.state.winners.currentWinner) {
+      this.state.winners.currentWinner = winner;
+      console.log('WINNER', winner);
+    }
+  };
+
+  public getCarsEngine = (id: number): EngineData => this.state.garage.carsEngine[id];
 
   public getWinners = (): WinnerType[] => this.state.winners.winnersArray;
 

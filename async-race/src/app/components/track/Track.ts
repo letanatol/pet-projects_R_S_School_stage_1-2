@@ -7,9 +7,13 @@ import { setEngineStatus } from '../../api/engineApi';
 
 const LENGTH = 0;
 const START = 0;
+const PROGRESS_INDEX = 1;
+const CLIET_WIDTH = 150;
 
 export class Track {
   private track = createHTMLElement({ tagName: 'div', classNames: ['track'] });
+
+  private animationId: number = START;
 
   private start = START;
 
@@ -75,7 +79,7 @@ export class Track {
     this.buttonStop.addEventListener('click', () => this.stopEngine());
 
     // TODO
-    window.addEventListener('startRace', () => this.startEngine());
+    window.addEventListener('StartRace', () => this.startDrive());
   }
 
   public getContainer(): HTMLElement {
@@ -96,14 +100,17 @@ export class Track {
     if (!this.start) {
       this.start = timestamp;
     }
-    const animationDuration = 20000;
-    const speedCoefficient = 2;
-    const maxOffset = 2000;
-    const progress = timestamp - this.start;
+    const { distance, velocity } = state.getCarsEngine(this.car.id);
+    const distance2 = document.documentElement.clientWidth - CLIET_WIDTH;
+    console.log(distance2, distance);
+    const duration = distance / velocity;
+    const progress = (timestamp - this.start) / duration;
 
-    this.carImage.style.transform = `translateX(${Math.min(progress / speedCoefficient, maxOffset)}px)`;
-    if (progress < animationDuration) {
-      window.requestAnimationFrame(this.step);
+    const translate = progress * distance2;
+
+    this.carImage.style.transform = `translateX(${translate}px)`;
+    if (progress < PROGRESS_INDEX) {
+      this.animationId = window.requestAnimationFrame(this.step);
     }
   };
 
@@ -117,9 +124,37 @@ export class Track {
 
         state.updateCurrentCarEngine(this.car.id, response.data);
 
-        window.requestAnimationFrame(this.step);
+        // TODO Disable start button, enable stop button
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
-        // TODO Animate car
+  private startDrive(): void {
+    setEngineStatus({
+      id: this.car.id,
+      status: 'started',
+    })
+      .then((response) => {
+        console.log(response);
+
+        state.updateCurrentCarEngine(this.car.id, response.data);
+
+        this.animationId = window.requestAnimationFrame(this.step);
+
+        setEngineStatus({
+          id: this.car.id,
+          status: 'drive',
+        })
+          .then(() => {
+            // console.log(res);
+            state.updateCurrentWinner(this.car);
+          })
+          .catch(() => {
+            console.log('Car was broken ', this.car.name);
+            window.cancelAnimationFrame(this.animationId);
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -133,6 +168,11 @@ export class Track {
     })
       .then((response) => {
         console.log(response);
+        this.carImage.style.transform = 'translateX(0px)';
+
+        if (this.animationId > START) {
+          window.cancelAnimationFrame(this.animationId);
+        }
 
         state.updateCurrentCarEngine(this.car.id, response.data);
         // TODO Stop Animate car

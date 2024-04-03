@@ -10,14 +10,25 @@ export type CreateCarType = {
   color: string;
 };
 
-export const getData = (url: string, options?: URLSearchParams): Promise<Response> => {
-  if (options) {
+export type CreateWinnerType = {
+  id: number;
+  wins: number;
+  time: number;
+};
+
+export const getData = (url: string, options?: URLSearchParams | number): Promise<Response> => {
+  if (options && options instanceof URLSearchParams) {
     return fetch(`${url}?${options.toString()}`, { method: RequestMethods.GET });
   }
+
+  if (options && typeof options === 'number') {
+    return fetch(`${url}${options.toString()}`, { method: RequestMethods.GET });
+  }
+
   return fetch(url, { method: RequestMethods.GET });
 };
 
-export const postData = (url: string, data: CreateCarType): Promise<Response> =>
+export const postData = (url: string, data: CreateCarType | CreateWinnerType): Promise<Response> =>
   fetch(url, {
     method: RequestMethods.POST,
     body: JSON.stringify(data),

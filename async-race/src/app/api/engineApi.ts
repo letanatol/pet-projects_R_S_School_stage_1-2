@@ -5,7 +5,7 @@ import { ResponseType, objectToUrlParams, parseResponse } from './shared';
 
 const ENDPOINT = 'http://localhost:3000/engine/';
 
-export type EngineStatus = 'started' | 'stopped';
+export type EngineStatus = 'started' | 'stopped' | 'drive';
 
 export type CarEngine = {
   id: number;

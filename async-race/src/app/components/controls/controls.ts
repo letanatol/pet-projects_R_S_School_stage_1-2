@@ -81,6 +81,10 @@ export function createControls(): HTMLElement {
     classNames: ['button', 'button-race'],
     textContent: 'Race',
   });
+  buttonRace.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent(EventTypes.StartRace, { bubbles: true, detail: {} }));
+  });
+
   const buttonReset = createHTMLElement<'button'>({
     tagName: 'button',
     classNames: ['button', 'button-reset'],

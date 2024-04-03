@@ -35,6 +35,7 @@ export type UiState = {
   createHidden?: boolean;
   updateHidden?: boolean;
   generateHidden?: boolean;
+  raceHidden?: boolean;
   prevHidden?: boolean;
   nextHidden?: boolean;
 };
@@ -62,11 +63,12 @@ export type WinnerType = {
   name: string;
   color: string;
   id: number;
-  wins: number;
-  time: number;
+  wins?: number;
+  time?: number;
 };
 
 export type WinnersState = {
+  currentWinner: WinnerType | null;
   winnersArray: WinnerType[];
   countWinners: number;
   countPages: number;
@@ -95,4 +97,5 @@ export enum EventTypes {
   UpdateSelectedCar = 'UpdateSelectedCar',
   UpdateCountPages = 'UpdateCountPages',
   UpdateCountWinners = 'UpdateCountWinners',
+  StartRace = 'StartRace',
 }
