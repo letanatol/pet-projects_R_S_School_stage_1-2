@@ -1,0 +1,57 @@
+@import './styles/vars.scss';
+
+@font-face {
+  font-family: DINP-R;
+  src:
+    url('./assets/fonts/DINPro-Regular.eot?') format('eot'),
+    url('./assets/fonts/DINPro-Regular.woff') format('woff'),
+    url('./assets/fonts/DINPro-Regular.ttf') format('truetype');
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: none;
+}
+
+body {
+  font-family: 'DINP-R', sans-serif;
+  padding: 10px;
+  min-height: 100vh;
+  background-image: url(./assets/images/content/background.jpg);
+}
+
+.button {
+  font-family: 'DINP-R', sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 6px 8px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px $button-shadow;
+  transition:
+    background-color 0.4s ease,
+    box-shadow 0.4s ease;
+  transition: all 0.4s;
+}
+
+.button:hover {
+  transition: all 0.4s;
+}
+
+.button:active {
+  box-shadow: none;
+  transition: all 0.4s;
+}
+
+.button:disabled {
+  background-color: $button-disable;
+}
+
+// .hidden {
+//   display: none;
+// }
