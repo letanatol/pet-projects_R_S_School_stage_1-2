@@ -1,0 +1,32 @@
+@import '../../../styles/vars.scss';
+
+.container_login-page {
+  padding: 10px;
+  align-items: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.form_login-page {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.fieldset_login-page {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-color: $button-color;
+}
+
+.row_login-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}

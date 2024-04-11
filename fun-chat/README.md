@@ -87,12 +87,12 @@
   - [] (+10) The code does not contain magic numbers or strings.
 
 
-  ## Penalties Cross-Check
-(-15) For recurring application errors, a deduction is allowed only once for each distinct type of error.
-(-5) For layout issues where the elements overlap or cover each other, a deduction is allowed only once for each distinct type of issue.
+## Penalties Cross-Check
+- (-15) For recurring application errors, a deduction is allowed only once for each distinct type of error.
+- (-5) For layout issues where the elements overlap or cover each other, a deduction is allowed only once for each distinct type of issue.
 
 ## Penalties Mentor
-(-100%) Use of JavaScript libraries or frameworks such as JQuery, React, Angular, Vue, Lodash, etc.
-(-100%) If the application is not written in TypeScript.
-(-50%) If the entire content of the page is not generated using TypeScript (if index.html contains more than just the body tag).
-(-50) With remarks on code quality, readability.
+- (-100%) Use of JavaScript libraries or frameworks such as JQuery, React, Angular, Vue, Lodash, etc.
+- (-100%) If the application is not written in TypeScript.
+- (-50%) If the entire content of the page is not generated using TypeScript (if index.html contains more than just the body tag).
+- (-50) With remarks on code quality, readability.
