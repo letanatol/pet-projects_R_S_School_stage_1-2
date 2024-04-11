@@ -27,13 +27,13 @@ export class LoginPage extends BaseComponent {
         <div class="row_login-page">
           <label>Name</label>
           <div class="input-wrapper_login-page">
-            <input id="input-name" placeholder="Enter the name" type="text" class="input_login-page">
+            <input id="input-name" placeholder="Enter the name" type="text" class="input_login-page" autocomplete="username">
           </div>
         </div>
         <div class="row_login-page">
           <label>Password</label>
           <div class="input-wrapper_login-page">
-            <input id="input-password" placeholder="Enter the password" type="password" class="input_login-page">
+            <input id="input-password" placeholder="Enter the password" type="password" class="input_login-page" autocomplete="current-password">
           </div>
         </div>
       </fieldset>

@@ -1,5 +1,7 @@
+import { Footer } from '@components/Footer/Footer';
 import './chatPage.scss';
 import BaseComponent from '@components/BaseComponent/BaseComponent';
+import { Header } from '@components/Header/Header';
 
 export class ChatPage extends BaseComponent {
   constructor() {
@@ -11,9 +13,10 @@ export class ChatPage extends BaseComponent {
   protected container: HTMLElement;
 
   protected draw(): HTMLElement {
-    this.container.innerHTML = `
-      <div class="row_chat-page">Привет ChatPage</div>
-`;
+    const headerContainer = new Header().init();
+    const footerContainer = new Footer().init();
+
+    this.container.append(headerContainer, footerContainer);
     return this.container;
   }
 

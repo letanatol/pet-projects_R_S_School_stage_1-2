@@ -1,0 +1,34 @@
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer__list {
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0;
+}
+
+.footer__item {
+  list-style: none;
+  padding: 0 15px;
+}
+
+.footer__link {
+  display: flex;
+  text-decoration: none;
+}
+
+.footer__link:hover {
+  box-shadow: 0 0 2px 2px #0f392f;
+  border-radius: 50px;
+}
+
+.footer__link:active {
+  box-shadow: inset 0 0 2px 2px #0f392f;
+}
