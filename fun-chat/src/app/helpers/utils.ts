@@ -38,3 +38,10 @@ export const getElementByData = <T extends HTMLElement>(root: HTMLElement, dataA
 
   return element;
 };
+
+export const wait = (delay: number): Promise<void> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, delay);
+  });

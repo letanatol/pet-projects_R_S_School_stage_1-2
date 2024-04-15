@@ -10,7 +10,7 @@ export default abstract class BaseComponent implements IComponent {
     return container;
   }
 
-  protected abstract addEventListeners(): void;
-
   protected abstract draw(): HTMLElement;
+
+  protected abstract addEventListeners(): void;
 }

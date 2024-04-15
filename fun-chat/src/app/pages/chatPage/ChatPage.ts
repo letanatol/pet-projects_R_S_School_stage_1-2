@@ -2,6 +2,7 @@ import { Footer } from '@components/Footer/Footer';
 import './chatPage.scss';
 import BaseComponent from '@components/BaseComponent/BaseComponent';
 import { Header } from '@components/Header/Header';
+import { ChatUsers } from '@components/ChatUsers/ChatUsers';
 
 export class ChatPage extends BaseComponent {
   constructor() {
@@ -15,8 +16,11 @@ export class ChatPage extends BaseComponent {
   protected draw(): HTMLElement {
     const headerContainer = new Header().init();
     const footerContainer = new Footer().init();
-
-    this.container.append(headerContainer, footerContainer);
+    const chatUsersContainer = new ChatUsers().init();
+    const chatContent = document.createElement('div');
+    chatContent.classList.add('chat__content');
+    chatContent.append(chatUsersContainer);
+    this.container.append(headerContainer, chatContent, footerContainer);
     return this.container;
   }
 

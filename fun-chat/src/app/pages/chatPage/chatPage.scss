@@ -1,1 +1,11 @@
 @import '../../../styles/vars.scss';
+
+.container_chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+}
+
+.chat__content {
+  flex-grow: 1;
+}

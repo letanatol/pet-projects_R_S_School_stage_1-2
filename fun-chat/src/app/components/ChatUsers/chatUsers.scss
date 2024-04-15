@@ -1,0 +1,31 @@
+@import '../../../styles/vars.scss';
+
+.chat-users {
+  border: 2px solid black;
+  width: 300px;
+  height: 100%;
+  padding: 10px;
+}
+
+.user-status {
+  border: 1px solid;
+  border-radius: 50%;
+  box-sizing: border-box;
+  height: 6px;
+  margin: 0 5% 0 0;
+  width: 6px;
+}
+
+.active {
+  background: $user-status-active;
+}
+
+.inactive {
+  background: $user-status-inactive;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  padding: 2px 0 2px 5px;
+}

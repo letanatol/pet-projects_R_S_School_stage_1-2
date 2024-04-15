@@ -1,10 +1,10 @@
 import { getElementById } from '@helpers/utils';
 import './loginPage.scss';
 import BaseComponent from '@components/BaseComponent/BaseComponent';
+import { sessionStorageService } from '@helpers/sessionStorage';
 import { state } from '@helpers/State/State';
 import { EventTypes } from '@helpers/types';
 import { socket } from 'src/app/api/socket';
-// import { sessionStorageService } from '../../helpers/sessionStorage';
 
 export class LoginPage extends BaseComponent {
   constructor() {
@@ -25,9 +25,9 @@ export class LoginPage extends BaseComponent {
       <fieldset class="fieldset_login-page">
         <legend>Authorization</legend>
         <div class="row_login-page">
-          <label>Name</label>
+          <label>Login</label>
           <div class="input-wrapper_login-page">
-            <input id="input-name" placeholder="Enter the name" type="text" class="input_login-page" autocomplete="username">
+            <input id="input-login" placeholder="Enter the login" type="text" class="input_login-page" autocomplete="inputLogin">
           </div>
         </div>
         <div class="row_login-page">
@@ -46,14 +46,16 @@ export class LoginPage extends BaseComponent {
   protected addEventListeners(): void {
     this.form.addEventListener('submit', (event: Event) => {
       event.preventDefault();
-      const inputName = getElementById<HTMLInputElement>('input-name');
-      const name = inputName.value;
+      const inputLogin = getElementById<HTMLInputElement>('input-login');
+      const login = inputLogin.value;
       const inputPassword = getElementById<HTMLInputElement>('input-password');
       const password = inputPassword.value;
 
-      state.upDateUser(name, password);
+      sessionStorageService.saveData('user', { login, password });
+      state.updatePage('chatPage');
+      state.updateUser(login, password);
 
-      inputName.value = '';
+      inputLogin.value = '';
       inputPassword.value = '';
     });
 
