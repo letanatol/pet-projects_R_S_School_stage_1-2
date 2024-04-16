@@ -3,7 +3,7 @@ import BaseComponent from '@components/BaseComponent/BaseComponent';
 import { sessionStorageService } from '@helpers/sessionStorage';
 import { state } from '@helpers/State/State';
 import { UserType } from '@helpers/types';
-import { socket } from 'src/app/api/socket';
+import { chatApi } from 'src/app/api/socket';
 
 export class Header extends BaseComponent {
   constructor() {
@@ -44,10 +44,10 @@ export class Header extends BaseComponent {
           if (user.payload) {
             user.payload.user.login = userFromStorage.login;
             user.payload.user.password = userFromStorage.password;
+            chatApi.wsSend(JSON.stringify(user));
+            sessionStorageService.clearData();
+            state.updatePage('login');
           }
-          socket.send(JSON.stringify(user));
-          sessionStorageService.clearData();
-          state.updatePage('login');
         }
       } else if (target.classList.contains('header__button-info')) {
         state.updatePage('info');

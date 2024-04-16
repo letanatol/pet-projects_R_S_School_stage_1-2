@@ -3,8 +3,8 @@ import './loginPage.scss';
 import BaseComponent from '@components/BaseComponent/BaseComponent';
 import { sessionStorageService } from '@helpers/sessionStorage';
 import { state } from '@helpers/State/State';
-import { EventTypes } from '@helpers/types';
-import { socket } from 'src/app/api/socket';
+// import { EventTypes } from '@helpers/types';
+import { chatApi } from 'src/app/api/socket';
 
 export class LoginPage extends BaseComponent {
   constructor() {
@@ -52,16 +52,14 @@ export class LoginPage extends BaseComponent {
       const password = inputPassword.value;
 
       sessionStorageService.saveData('user', { login, password });
-      state.updatePage('chatPage');
+      // state.updatePage('chatPage');
       state.updateUser(login, password);
+      const user = state.getUser();
+      user.type = 'USER_LOGIN';
+      chatApi.wsSend(JSON.stringify(user));
 
       inputLogin.value = '';
       inputPassword.value = '';
-    });
-
-    window.addEventListener(EventTypes.UpdateUser, () => {
-      const user = state.getUser();
-      socket.send(JSON.stringify(user));
     });
   }
 }

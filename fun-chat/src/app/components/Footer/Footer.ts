@@ -16,7 +16,7 @@ export class Footer extends BaseComponent {
         <ul class="footer__list">
           <li class="footer__item">
             <a href="https://github.com/letanatol/" target="_blank" class="footer__link">
-              <img src="../../../assets/images/content/github_svg.svg" alt="Logo GitHub" width="60" height="60">
+              <img src="../../../assets/images/content/github_svg.svg" alt="Logo GitHub" width="60" height="60">letanatol
             </a>
           </li>
           <li class="footer__item">

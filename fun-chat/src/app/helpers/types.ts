@@ -3,6 +3,7 @@ export type StateType = {
   user: RequestType;
   usersActive: UserType[] | null;
   usersInactive: UserType[] | null;
+  modalStateHidden: boolean;
 };
 
 export type UserType = {
@@ -33,6 +34,7 @@ export type ServerResponseType = {
   payload: {
     user?: UserType;
     users?: UserType[];
+    error?: string;
   };
 };
 
@@ -51,4 +53,5 @@ export enum EventTypes {
   UpdatePage = 'UpdatePage',
   UpdateUsersActive = 'UpdateUsersActive',
   UpdateUsersInactive = 'UpdateUsersInactive',
+  UpdateModalState = 'UpdateModalState',
 }

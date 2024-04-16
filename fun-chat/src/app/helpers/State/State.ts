@@ -5,7 +5,7 @@ class State {
     page: 'loginPage',
     user: {
       id: '',
-      type: 'USER_LOGIN',
+      type: '',
       payload: {
         user: {
           login: '',
@@ -15,6 +15,13 @@ class State {
     },
     usersActive: [],
     usersInactive: [],
+    modalStateHidden: true,
+  };
+
+  public updateModalState = (state: boolean): void => {
+    this.state.modalStateHidden = state;
+
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateModalState, { bubbles: true, detail: {} }));
   };
 
   public updateUsersActive = (data: ServerResponseType): void => {
@@ -49,6 +56,8 @@ class State {
       window.dispatchEvent(new CustomEvent(EventTypes.UpdateUser, { bubbles: true, detail: {} }));
     }
   };
+
+  public getModalState = (): boolean => this.state.modalStateHidden;
 
   public getUsersActive = (): UserType[] => this.state.usersActive ?? [];
 
