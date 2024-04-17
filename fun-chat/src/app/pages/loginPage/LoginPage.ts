@@ -3,7 +3,6 @@ import './loginPage.scss';
 import BaseComponent from '@components/BaseComponent/BaseComponent';
 import { sessionStorageService } from '@helpers/sessionStorage';
 import { state } from '@helpers/State/State';
-// import { EventTypes } from '@helpers/types';
 import { chatApi } from 'src/app/api/socket';
 
 export class LoginPage extends BaseComponent {
@@ -14,6 +13,7 @@ export class LoginPage extends BaseComponent {
     this.form = document.createElement('form');
     this.form.classList.add('form_login-page');
     this.container.append(this.form);
+    window.location.hash = 'login';
   }
 
   protected container: HTMLElement;
@@ -38,7 +38,7 @@ export class LoginPage extends BaseComponent {
         </div>
       </fieldset>
       <button type="submit" class="submit_login-page">Log in</button>
-      <button type="button" class="info_login-page">Info</button>
+      <button type="button" class="about_login-page">About</button>
 `;
     return this.container;
   }
@@ -52,7 +52,7 @@ export class LoginPage extends BaseComponent {
       const password = inputPassword.value;
 
       sessionStorageService.saveData('user', { login, password });
-      // state.updatePage('chatPage');
+      // state.updatePage('main');
       state.updateUser(login, password);
       const user = state.getUser();
       user.type = 'USER_LOGIN';

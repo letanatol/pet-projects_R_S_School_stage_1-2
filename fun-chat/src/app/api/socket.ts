@@ -33,7 +33,8 @@ class WsApi {
 
     if (data.type === 'USER_LOGIN') {
       if (data.payload.user?.isLogined) {
-        state.updatePage('chatPage');
+        state.updatePage('main');
+        window.location.hash = 'main';
         this.wsSend(JSON.stringify(usersActive));
         this.wsSend(JSON.stringify(usersInactive));
       }
@@ -41,7 +42,8 @@ class WsApi {
 
     if (data.type === 'USER_LOGOUT') {
       if (!data.payload.user?.isLogined) {
-        state.updatePage('loginPage');
+        state.updatePage('login');
+        window.location.hash = 'login';
       }
     }
 

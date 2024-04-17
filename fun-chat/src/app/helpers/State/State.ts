@@ -2,7 +2,7 @@ import { EventTypes, StateType, RequestType, UserType, ServerResponseType } from
 
 class State {
   private state: StateType = {
-    page: 'loginPage',
+    page: 'login',
     user: {
       id: '',
       type: '',
@@ -44,6 +44,8 @@ class State {
 
   public updatePage = (page: string): void => {
     this.state.page = page;
+
+    window.location.hash = page;
 
     window.dispatchEvent(new CustomEvent(EventTypes.UpdatePage, { bubbles: true, detail: {} }));
   };
