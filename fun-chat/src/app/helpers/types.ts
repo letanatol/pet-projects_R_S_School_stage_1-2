@@ -1,6 +1,7 @@
 export type StateType = {
   page: string;
   user: RequestType;
+  userForMessages: UserType;
   usersActive: UserType[] | null;
   usersInactive: UserType[] | null;
   modalStateHidden: boolean;
@@ -50,6 +51,7 @@ export enum SocketTypes {
 
 export enum EventTypes {
   UpdateUser = 'UpdateUser',
+  UpdateUserForMessages = 'UpdateUserForMessages',
   UpdatePage = 'UpdatePage',
   UpdateUsersActive = 'UpdateUsersActive',
   UpdateUsersInactive = 'UpdateUsersInactive',

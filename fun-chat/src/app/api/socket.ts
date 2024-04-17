@@ -1,6 +1,6 @@
 import { state } from '@helpers/State/State';
 import { sessionStorageService } from '@helpers/sessionStorage';
-import { RequestType, ServerResponseType, UserType } from '@helpers/types';
+import { RequestType, ServerResponseType } from '@helpers/types';
 
 const RETRY_INTERVAL = 1000;
 
@@ -80,7 +80,7 @@ class WsApi {
     this.socket.addEventListener('message', this.onMessage);
 
     const user = state.getUser();
-    const userFromStorage = this.getUserFromStorage();
+    const userFromStorage = sessionStorageService.getUserFromStorage('user');
     if (userFromStorage && userFromStorage.password) {
       user.type = 'USER_LOGIN';
       if (user.payload) {
@@ -139,16 +139,6 @@ class WsApi {
 
   private addListeners(): void {
     this.socket.addEventListener('open', this.onOpen);
-  }
-
-  public getUserFromStorage(): UserType | null {
-    const user = sessionStorageService.getData<UserType>('user');
-
-    if (user) {
-      return user;
-    }
-
-    return null;
   }
 
   public getActiveUsers(): void {

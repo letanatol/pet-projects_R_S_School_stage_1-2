@@ -1,6 +1,6 @@
 import './chatUsers.scss';
 import BaseComponent from '@components/BaseComponent/BaseComponent';
-import { EventTypes, UserType } from '@helpers/types';
+import { EventTypes } from '@helpers/types';
 import { state } from '@helpers/State/State';
 import { sessionStorageService } from '@helpers/sessionStorage';
 
@@ -22,36 +22,49 @@ export class ChatUsers extends BaseComponent {
     const usersList = document.createElement('ul');
     usersList.classList.add('users-list');
 
-    const usersActive = state.getUsersActive();
-    const userFromStorage = this.getUserFromStorage();
+    const usersActiveList = state.getUsersActive();
+    const userFromStorage = sessionStorageService.getUserFromStorage('user');
+    const userMessageFromStorage = sessionStorageService.getUserFromStorage('userForMessages');
+    const userForMessages = userMessageFromStorage?.login;
+
     if (!userFromStorage || !userFromStorage.login) {
       return usersList;
     }
-    usersActive.forEach((user) => {
-      const { login } = user;
+    if (!userMessageFromStorage || !userMessageFromStorage.login) {
+      console.log('No active user for message');
+    }
+
+    usersActiveList.forEach((userActive) => {
+      const { login } = userActive;
       if (login !== userFromStorage.login) {
-        const userDiv = document.createElement('li');
-        userDiv.classList.add('user-row');
-        userDiv.innerHTML = `
+        const li = document.createElement('li');
+        li.classList.add('user-row');
+        if (login === userForMessages) {
+          li.classList.add('user__for-message');
+        }
+        li.innerHTML = `
             <div class="user-status active"></div>
             <label class="user-login">${login}</label>
           `;
-        usersList.append(userDiv);
+        usersList.append(li);
       }
     });
 
-    const usersInactive = state.getUsersInactive();
+    const usersInactiveList = state.getUsersInactive();
 
-    usersInactive.forEach((user) => {
-      const { login } = user;
+    usersInactiveList.forEach((userInactive) => {
+      const { login } = userInactive;
       if (login !== userFromStorage.login) {
-        const userDiv = document.createElement('li');
-        userDiv.classList.add('user-row');
-        userDiv.innerHTML = `
+        const li = document.createElement('li');
+        li.classList.add('user-row');
+        if (login === userForMessages) {
+          li.classList.add('user__for-message');
+        }
+        li.innerHTML = `
         <div class="user-status inactive"></div>
         <label class="user-login">${login}</label>
       `;
-        usersList.append(userDiv);
+        usersList.append(li);
       }
     });
 
@@ -67,15 +80,22 @@ export class ChatUsers extends BaseComponent {
     window.addEventListener(EventTypes.UpdateUsersInactive, () => {
       this.draw();
     });
-  }
 
-  private getUserFromStorage(): UserType | null {
-    const user = sessionStorageService.getData<UserType>('user');
-
-    if (user) {
-      return user;
-    }
-
-    return null;
+    this.container.addEventListener('click', (event: Event) => {
+      const target = event.target as HTMLElement;
+      if (!target || !target.classList) return;
+      if (target.classList.contains('user-row')) {
+        const userRows = document.querySelectorAll('.user-row');
+        userRows.forEach((row) => {
+          row.classList.remove('user__for-message');
+        });
+        target.classList.add('user__for-message');
+        const label = target.querySelector('.user-login') as HTMLElement;
+        if (label) {
+          const login = label.textContent;
+          sessionStorageService.saveData('userForMessages', { login });
+        }
+      }
+    });
   }
 }

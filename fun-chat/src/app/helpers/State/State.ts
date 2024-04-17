@@ -13,9 +13,18 @@ class State {
         },
       },
     },
+    userForMessages: {
+      login: '',
+    },
     usersActive: [],
     usersInactive: [],
     modalStateHidden: true,
+  };
+
+  public updateUserForMessages = (user: UserType): void => {
+    this.state.userForMessages = user;
+
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateUserForMessages, { bubbles: true, detail: {} }));
   };
 
   public updateModalState = (state: boolean): void => {
@@ -58,6 +67,8 @@ class State {
       window.dispatchEvent(new CustomEvent(EventTypes.UpdateUser, { bubbles: true, detail: {} }));
     }
   };
+
+  public getUserForMessages = (): UserType => this.state.userForMessages;
 
   public getModalState = (): boolean => this.state.modalStateHidden;
 

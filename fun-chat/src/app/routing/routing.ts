@@ -1,12 +1,11 @@
 import { state } from '@helpers/State/State';
 import { sessionStorageService } from '@helpers/sessionStorage';
-import { UserType } from '@helpers/types';
 import { chatApi } from '../api/socket';
 
 window.addEventListener('hashchange', () => {
   if (window.location.hash === '#login') {
     const user = state.getUser();
-    const userFromStorage = getUserFromStorage();
+    const userFromStorage = sessionStorageService.getUserFromStorage('user');
     if (userFromStorage && userFromStorage.password) {
       user.type = 'USER_LOGOUT';
       if (user.payload) {
@@ -25,13 +24,3 @@ window.addEventListener('hashchange', () => {
     state.updatePage('about');
   }
 });
-
-export function getUserFromStorage(): UserType | null {
-  const user = sessionStorageService.getData<UserType>('user');
-
-  if (user) {
-    return user;
-  }
-
-  return null;
-}

@@ -2,7 +2,7 @@ import { state } from '@helpers/State/State';
 import './mainContainer.scss';
 import BaseComponent from '@components/BaseComponent/BaseComponent';
 import { sessionStorageService } from '@helpers/sessionStorage';
-import { EventTypes, UserType } from '@helpers/types';
+import { EventTypes } from '@helpers/types';
 import { ChatPage } from 'src/app/pages/chatPage/ChatPage';
 import { LoginPage } from 'src/app/pages/loginPage/LoginPage';
 import { chatApi } from 'src/app/api/socket';
@@ -17,7 +17,7 @@ export class MainContainer extends BaseComponent {
 
   protected draw(): HTMLElement {
     this.container.innerHTML = '';
-    const user = this.getUserFromStorage();
+    const user = sessionStorageService.getUserFromStorage('user');
     if (user && user.password) {
       const containerChatPage = new ChatPage().init();
       window.location.hash = 'main';
@@ -48,16 +48,6 @@ export class MainContainer extends BaseComponent {
     return this.container;
   }
 
-  private getUserFromStorage(): UserType | null {
-    const user = sessionStorageService.getData<UserType>('user');
-
-    if (user) {
-      return user;
-    }
-
-    return null;
-  }
-
   protected addEventListeners(): void {
     window.addEventListener(EventTypes.UpdatePage, () => {
       const currentPage = state.getPage();
@@ -81,7 +71,7 @@ export class MainContainer extends BaseComponent {
 
       if (target.classList.contains('header__button-logout')) {
         const user = state.getUser();
-        const userFromStorage = this.getUserFromStorage();
+        const userFromStorage = sessionStorageService.getUserFromStorage('user');
         if (userFromStorage && userFromStorage.password) {
           user.type = 'USER_LOGOUT';
           if (user.payload) {
@@ -113,7 +103,7 @@ export class MainContainer extends BaseComponent {
 
     window.addEventListener('hashchange', () => {
       if (window.location.hash === '#main') {
-        const user = this.getUserFromStorage();
+        const user = sessionStorageService.getUserFromStorage('user');
         if (user && user.password) {
           this.container.innerHTML = '';
           const containerChatPage = new ChatPage().init();

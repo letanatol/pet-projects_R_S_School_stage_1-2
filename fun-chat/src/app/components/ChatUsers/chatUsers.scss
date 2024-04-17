@@ -28,4 +28,9 @@
   display: flex;
   align-items: center;
   padding: 2px 0 2px 5px;
+  border-radius: 5px;
+}
+
+.user__for-message {
+  background-color: $button-color;
 }

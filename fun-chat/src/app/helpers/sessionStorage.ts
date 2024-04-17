@@ -1,3 +1,5 @@
+import { UserType } from './types';
+
 export class SessionStorageService {
   constructor(private storageKeyPrefix: string) {}
 
@@ -15,6 +17,16 @@ export class SessionStorageService {
     const data = sessionStorage.getItem(storageKey);
     const parseData: T | null = data ? (JSON.parse(data) as T) : null;
     return parseData;
+  }
+
+  public getUserFromStorage(key: string): UserType | null {
+    const user = this.getData<UserType>(key);
+
+    if (user) {
+      return user;
+    }
+
+    return null;
   }
 
   public addData(key: string, data: string[]): void {
