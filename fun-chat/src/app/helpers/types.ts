@@ -2,9 +2,25 @@ export type StateType = {
   page: string;
   user: RequestType;
   userForMessages: UserType;
+  message: string;
+  messagesHistory: MessageType[];
+  chatFieldHint: string;
   usersActive: UserType[] | null;
   usersInactive: UserType[] | null;
   modalStateHidden: boolean;
+};
+
+export type MessageType = {
+  id: string;
+  from: string;
+  to: string;
+  text: string;
+  datetime: number;
+  status: {
+    isDelivered: boolean;
+    isReaded: boolean;
+    isEdited: boolean;
+  };
 };
 
 export type UserType = {
@@ -35,6 +51,8 @@ export type ServerResponseType = {
   payload: {
     user?: UserType;
     users?: UserType[];
+    message: MessageType;
+    messages: MessageType[];
     error?: string;
   };
 };
@@ -52,6 +70,8 @@ export enum SocketTypes {
 export enum EventTypes {
   UpdateUser = 'UpdateUser',
   UpdateUserForMessages = 'UpdateUserForMessages',
+  UpdateMessage = 'UpdateMessage',
+  UpdateMessagesHistory = 'UpdateMessagesHistory',
   UpdatePage = 'UpdatePage',
   UpdateUsersActive = 'UpdateUsersActive',
   UpdateUsersInactive = 'UpdateUsersInactive',

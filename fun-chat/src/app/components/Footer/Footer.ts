@@ -16,7 +16,7 @@ export class Footer extends BaseComponent {
         <ul class="footer__list">
           <li class="footer__item">
             <a href="https://github.com/letanatol/" target="_blank" class="footer__link">
-              <img src="../../../assets/images/content/github_svg.svg" alt="Logo GitHub" width="60" height="60">letanatol
+              <img src="../../../assets/images/content/github_svg.svg" alt="Logo GitHub" width="30" height="30">letanatol
             </a>
           </li>
           <li class="footer__item">
@@ -24,7 +24,7 @@ export class Footer extends BaseComponent {
           </li>
           <li class="footer__item">
             <a href="https://rs.school/courses/javascript-mentoring-program" target="_blank" class="footer__link">
-              <img src="../../../assets/images/content/RS_School-svg.svg" alt="Logo RS School" width="100" height="80">
+              <img src="../../../assets/images/content/RS_School-svg.svg" alt="Logo RS School" width="60" height="40">
             </a>
           </li>
         </ul>

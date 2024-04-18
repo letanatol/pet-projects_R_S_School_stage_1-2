@@ -1,17 +1,20 @@
 @import '../../../styles/vars.scss';
 
 .container_chat-page {
-  background: $transparent-background;
-  padding: 10px;
   display: flex;
   flex-direction: column;
   height: 90vh;
+  padding: 10px;
+  background: $transparent-background;
+  border-radius: 10px;
 }
 
 .chat__content {
-  height: 100%;
+  position: relative;
+  height: 83%;
   display: flex;
   gap: 10px;
+  margin-bottom: 10px;
 }
 
 .chat-messages {
@@ -19,4 +22,5 @@
   flex-direction: column;
   width: 65%;
   border: 2px solid black;
+  height: 100%;
 }

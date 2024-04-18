@@ -1,0 +1,11 @@
+.chat-field__form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid;
+  width: 98%;
+  height: 35px;
+  padding: 5px;
+}

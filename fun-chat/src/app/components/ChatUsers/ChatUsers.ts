@@ -80,34 +80,5 @@ export class ChatUsers extends BaseComponent {
     window.addEventListener(EventTypes.UpdateUsersInactive, () => {
       this.draw();
     });
-
-    this.container.addEventListener('click', (event: Event) => {
-      const target = event.target as HTMLElement;
-      if (!target || !target.classList) return;
-      if (target.classList.contains('user-row')) {
-        const userRows = document.querySelectorAll('.user-row');
-        userRows.forEach((row) => {
-          row.classList.remove('user__for-message');
-        });
-        target.classList.add('user__for-message');
-        console.log('target', target);
-        const label = target.querySelector('.user-login') as HTMLElement;
-        const classActive = target.querySelector('.active') as HTMLElement;
-        const classInactive = target.querySelector('.inactive') as HTMLElement;
-        let isLogined = false;
-        if (classActive) {
-          isLogined = true;
-        }
-
-        if (classInactive) {
-          isLogined = false;
-        }
-        if (label) {
-          const login = label.textContent as string;
-          sessionStorageService.saveData('userForMessages', { login, isLogined });
-          state.updateUserForMessages({ login, isLogined });
-        }
-      }
-    });
   }
 }

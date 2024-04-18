@@ -61,5 +61,12 @@ export class LoginPage extends BaseComponent {
       inputLogin.value = '';
       inputPassword.value = '';
     });
+
+    this.form.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        this.form.dispatchEvent(new Event('submit'));
+      }
+    });
   }
 }

@@ -1,0 +1,68 @@
+@import '../../../styles/vars.scss';
+
+.chat-field__messages {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 5px;
+  overflow-y: auto;
+}
+
+.message_container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 5px 0;
+}
+
+.message__content {
+  display: flex;
+  flex-direction: column;
+  background: $message-color;
+  border-radius: 10px;
+  padding: 6px;
+  width: 70%;
+}
+
+.message__header {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 12px;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.message__sender {
+}
+
+.message__right {
+  align-items: flex-end;
+}
+
+.message__left {
+}
+
+.message__data {
+}
+
+.message__text {
+  background: $message-text;
+  border-radius: 10px;
+  padding: 5px;
+  text-align: justify;
+  width: 100%;
+}
+
+.message__footer {
+  display: flex;
+  font-size: 12px;
+  justify-content: space-between;
+}
+
+.message__edit {
+}
+
+.message__read {
+}

@@ -1,4 +1,4 @@
-import { EventTypes, StateType, RequestType, UserType, ServerResponseType } from '@helpers/types';
+import { EventTypes, StateType, RequestType, UserType, ServerResponseType, MessageType } from '@helpers/types';
 
 class State {
   private state: StateType = {
@@ -16,15 +16,35 @@ class State {
     userForMessages: {
       login: '',
     },
+    message: '',
+    messagesHistory: [],
+    chatFieldHint: 'Select the user to send the message...',
     usersActive: [],
     usersInactive: [],
     modalStateHidden: true,
   };
 
+  public updateMessagesHistory = (messages: MessageType[]): void => {
+    this.state.messagesHistory = messages;
+
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateMessagesHistory, { bubbles: true, detail: {} }));
+  };
+
+  public updateMessage = (message: string): void => {
+    this.state.message = message;
+
+    window.dispatchEvent(
+      new CustomEvent(EventTypes.UpdateMessage, {
+        bubbles: true,
+        detail: { message, user: this.state.userForMessages },
+      })
+    );
+  };
+
   public updateUserForMessages = (user: UserType): void => {
     this.state.userForMessages = user;
 
-    window.dispatchEvent(new CustomEvent(EventTypes.UpdateUserForMessages, { bubbles: true, detail: {} }));
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateUserForMessages, { bubbles: true, detail: { user } }));
   };
 
   public updateModalState = (state: boolean): void => {
@@ -67,6 +87,8 @@ class State {
       window.dispatchEvent(new CustomEvent(EventTypes.UpdateUser, { bubbles: true, detail: {} }));
     }
   };
+
+  public getMessagesHistory = (): MessageType[] => this.state.messagesHistory;
 
   public getUserForMessages = (): UserType => this.state.userForMessages;
 

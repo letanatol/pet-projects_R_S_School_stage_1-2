@@ -1,6 +1,6 @@
 import { state } from '@helpers/State/State';
 import { sessionStorageService } from '@helpers/sessionStorage';
-import { RequestType, ServerResponseType } from '@helpers/types';
+import { EventTypes, RequestType, ServerResponseType, UserType } from '@helpers/types';
 
 const RETRY_INTERVAL = 1000;
 
@@ -69,6 +69,16 @@ class WsApi {
       if (data.payload.error) {
         console.log(data.payload.error);
       }
+    }
+
+    if (data.type === 'MSG_FROM_USER') {
+      if (data.payload.messages) {
+        state.updateMessagesHistory(data.payload.messages);
+      }
+    }
+
+    if (data.type === 'MSG_SEND') {
+      // state.updateTemplateMessagesField(JSON.stringify(data.payload.messages));
     }
   };
 
@@ -139,6 +149,39 @@ class WsApi {
 
   private addListeners(): void {
     this.socket.addEventListener('open', this.onOpen);
+
+    window.addEventListener(EventTypes.UpdateUserForMessages, ((event: CustomEvent<{ user: UserType }>) => {
+      const messageHistory = {
+        id: '',
+        type: 'MSG_FROM_USER',
+        payload: {
+          user: {
+            login: '',
+          },
+        },
+      };
+      messageHistory.payload.user.login = event.detail.user.login;
+
+      this.wsSend(JSON.stringify(messageHistory));
+    }) as EventListener);
+
+    window.addEventListener(EventTypes.UpdateMessage, ((event: CustomEvent<{ message: string; user: UserType }>) => {
+      const sendingMessage = {
+        id: '',
+        type: 'MSG_SEND',
+        payload: {
+          message: {
+            to: '',
+            text: '',
+          },
+        },
+      };
+
+      sendingMessage.payload.message.text = event.detail.message;
+      sendingMessage.payload.message.to = event.detail.user.login;
+
+      this.wsSend(JSON.stringify(sendingMessage));
+    }) as EventListener);
   }
 
   public getActiveUsers(): void {
