@@ -44,6 +44,11 @@ export class SessionStorageService {
   public clearData(): void {
     sessionStorage.clear();
   }
+
+  public removeData(key: string): void {
+    const storageKey = this.getStorageKey(key);
+    sessionStorage.removeItem(storageKey);
+  }
 }
 
 export const sessionStorageService = new SessionStorageService('letanatol');

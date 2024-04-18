@@ -1,19 +1,27 @@
 @import '../../../styles/vars.scss';
 
 .chat-users {
+  display: flex;
+  flex-direction: column;
   border: 2px solid black;
-  width: 300px;
+  width: 35%;
   height: 100%;
   padding: 10px;
+}
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  overflow: auto;
 }
 
 .user-status {
   border: 1px solid;
   border-radius: 50%;
-  box-sizing: border-box;
-  height: 6px;
-  margin: 0 5% 0 0;
-  width: 6px;
+  height: 10px;
+  width: 10px;
+  margin-right: 5px;
 }
 
 .active {

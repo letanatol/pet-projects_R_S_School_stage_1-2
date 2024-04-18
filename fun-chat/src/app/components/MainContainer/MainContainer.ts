@@ -11,6 +11,7 @@ export class MainContainer extends BaseComponent {
   constructor() {
     super();
     this.container = document.createElement('main');
+    sessionStorageService.removeData('userForMessages');
   }
 
   protected container: HTMLElement;

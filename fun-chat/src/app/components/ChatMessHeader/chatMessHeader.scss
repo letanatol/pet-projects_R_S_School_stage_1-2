@@ -1,0 +1,17 @@
+@import '../../../styles/vars.scss';
+
+.chat-messages__header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 30px;
+  border-bottom: 1px solid $black;
+}
+
+.user_inactive {
+  color: $user-status-inactive;
+}
+
+.user_active {
+  color: $user-status-active;
+}
