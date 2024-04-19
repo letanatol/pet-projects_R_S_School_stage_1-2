@@ -55,7 +55,7 @@
     "production": "webpack --config configuration/webpack.prod.config.js --mode=production",
     "lint:sass": "stylelint \"**/*.scss\"",
     "lint": "eslint --ext .ts \"src/**/*.ts\" --fix",
-    "deploy": "npm run production && npx gh-pages -d dist -e async-race -m \"feat: update deploy\"",
+    "deploy": "npm run production && npx gh-pages -d dist -e fun-chat -m \"feat: update deploy\"",
     "stats": "webpack --config configuration/webpack.prod.config.js --mode=production --json > dist/stats.json && webpack-bundle-analyzer dist/stats.json",
     "format": "prettier --write \"./src/**/*.ts\"",
     "ci:format": "prettier --check \"./src/**/*.ts\""

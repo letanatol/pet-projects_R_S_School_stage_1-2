@@ -3,6 +3,7 @@ export type StateType = {
   user: RequestType;
   userForMessages: UserType;
   message: string;
+  messageID: string;
   messagesHistory: MessageType[];
   chatFieldHint: string;
   usersActive: UserType[] | null;

@@ -90,10 +90,27 @@ class WsApi {
     if (data.type === 'MSG_FROM_USER') {
       if (data.payload.messages) {
         state.updateMessagesHistory(data.payload.messages);
+        console.log(data.payload.messages, 'data.payload.messages');
       }
     }
 
     if (data.type === 'MSG_SEND') {
+      const currentUser = state.getUserForMessages();
+      const messageHistory = {
+        id: '',
+        type: 'MSG_FROM_USER',
+        payload: {
+          user: {
+            login: '',
+          },
+        },
+      };
+      messageHistory.payload.user.login = currentUser.login;
+
+      this.wsSend(JSON.stringify(messageHistory));
+    }
+
+    if (data.type === 'MSG_DELETE') {
       const currentUser = state.getUserForMessages();
       const messageHistory = {
         id: '',

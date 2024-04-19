@@ -19,11 +19,16 @@ class State {
       isLogined: false,
     },
     message: '',
+    messageID: '',
     messagesHistory: [],
     chatFieldHint: 'Select the user to send the message...',
     usersActive: [],
     usersInactive: [],
     modalStateHidden: true,
+  };
+
+  public updateMessageID = (id: string): void => {
+    this.state.messageID = id;
   };
 
   public updateMessagesHistory = (messages: MessageType[]): void => {
@@ -89,6 +94,8 @@ class State {
       window.dispatchEvent(new CustomEvent(EventTypes.UpdateUser, { bubbles: true, detail: {} }));
     }
   };
+
+  public getMessageID = (): string => this.state.messageID;
 
   public getMessagesHistory = (): MessageType[] => this.state.messagesHistory;
 
