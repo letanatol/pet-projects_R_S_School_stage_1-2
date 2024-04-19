@@ -14,8 +14,8 @@ export class ChatMessForm extends BaseComponent {
 
   protected draw(): HTMLElement {
     this.form.innerHTML = `
-        <input class="chat-field__input" placeholder="Message..." disabled>
-        <button type="submit" class="button chat-field__button" disabled>Send</button>
+        <input class="chat-field__input" id="chat-field__input" placeholder="Message..." disabled>
+        <button type="submit" class="button chat-field__button" id="chat-field__button" disabled>Send</button>
     `;
 
     return this.form;

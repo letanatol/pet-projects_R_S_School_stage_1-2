@@ -4,6 +4,7 @@ import { state } from '@helpers/State/State';
 import { EventTypes } from '@helpers/types';
 import { sessionStorageService } from '@helpers/sessionStorage';
 import { chatApi } from 'src/app/api/socket';
+import { getElementById } from '@helpers/utils';
 
 const LENGTH_MESSAGE = 0;
 
@@ -129,8 +130,6 @@ export class ChatMessField extends BaseComponent {
       if (!target || !target.classList) return;
 
       if (target.classList.contains('delete-message')) {
-        this.contextMenu.style.display = 'none';
-
         const requestDeleteMessage = {
           id: '',
           type: 'MSG_DELETE',
@@ -142,6 +141,23 @@ export class ChatMessField extends BaseComponent {
         };
         requestDeleteMessage.payload.message.id = state.getMessageID();
         chatApi.wsSend(JSON.stringify(requestDeleteMessage));
+      }
+
+      if (target.classList.contains('edit-message')) {
+        const messageId = state.getMessageID();
+        const messageDiv = getElementById(messageId);
+        const textMessage = messageDiv.querySelector('.message__text')?.textContent;
+        const inputChatField = getElementById<HTMLInputElement>('chat-field__input');
+        const buttonChatField = getElementById<HTMLInputElement>('chat-field__button');
+        if (textMessage) {
+          inputChatField.value = textMessage;
+          inputChatField.focus();
+          if (inputChatField.value.trim().length > LENGTH_MESSAGE) {
+            buttonChatField.removeAttribute('disabled');
+          } else {
+            buttonChatField.setAttribute('disabled', 'disabled');
+          }
+        }
       }
     });
 
