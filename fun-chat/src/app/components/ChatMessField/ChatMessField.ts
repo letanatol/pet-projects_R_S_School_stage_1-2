@@ -66,7 +66,7 @@ export class ChatMessField extends BaseComponent {
 
       this.container.appendChild(messageDiv);
     });
-
+    this.container.scrollTop = this.container.scrollHeight;
     return this.container;
   }
 

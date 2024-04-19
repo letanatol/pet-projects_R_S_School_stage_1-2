@@ -61,6 +61,22 @@ class WsApi {
     }
 
     if (data.type === 'USER_EXTERNAL_LOGOUT') {
+      const loginLogout = data.payload.user?.login;
+      const userFromStorage = sessionStorageService.getUserFromStorage('userForMessages');
+      if (loginLogout === userFromStorage?.login) {
+        const updatedUser = {
+          ...userFromStorage,
+          isLogined: false,
+          login: userFromStorage?.login || '',
+        };
+        sessionStorageService.saveData('userForMessages', updatedUser);
+      }
+      const updatedUserForMessages = {
+        ...userFromStorage,
+        isLogined: false,
+        login: userFromStorage?.login || '',
+      };
+      state.updateUserForMessages(updatedUserForMessages);
       this.wsSend(JSON.stringify(usersActive));
       this.wsSend(JSON.stringify(usersInactive));
     }
@@ -78,7 +94,19 @@ class WsApi {
     }
 
     if (data.type === 'MSG_SEND') {
-      // state.updateTemplateMessagesField(JSON.stringify(data.payload.messages));
+      const currentUser = state.getUserForMessages();
+      const messageHistory = {
+        id: '',
+        type: 'MSG_FROM_USER',
+        payload: {
+          user: {
+            login: '',
+          },
+        },
+      };
+      messageHistory.payload.user.login = currentUser.login;
+
+      this.wsSend(JSON.stringify(messageHistory));
     }
   };
 

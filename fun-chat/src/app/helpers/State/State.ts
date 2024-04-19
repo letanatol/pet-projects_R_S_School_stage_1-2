@@ -15,6 +15,8 @@ class State {
     },
     userForMessages: {
       login: '',
+      password: '',
+      isLogined: false,
     },
     message: '',
     messagesHistory: [],
