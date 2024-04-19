@@ -88,3 +88,11 @@
   background: $message-text;
   cursor: pointer;
 }
+
+.message_hint {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}

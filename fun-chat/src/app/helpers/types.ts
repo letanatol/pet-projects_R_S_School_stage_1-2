@@ -4,7 +4,7 @@ export type StateType = {
   userForMessages: UserType;
   message: string;
   messageID: string;
-  messagesHistory: MessageType[];
+  messagesHistory: MessageMap[];
   chatFieldHint: string;
   usersActive: UserType[] | null;
   usersInactive: UserType[] | null;
@@ -24,18 +24,12 @@ export type MessageType = {
   };
 };
 
+export type MessageMap = Record<string, MessageType>;
+
 export type UserType = {
   login: string;
   password?: string;
   isLogined?: boolean;
-};
-
-export type UsersActive = {
-  id: null;
-  type: string;
-  payload: {
-    users: UserType[];
-  };
 };
 
 export type RequestType = {

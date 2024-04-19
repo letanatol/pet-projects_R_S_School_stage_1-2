@@ -2,9 +2,9 @@ import BaseComponent from '@components/BaseComponent/BaseComponent';
 import './chatMessField.scss';
 import { state } from '@helpers/State/State';
 import { EventTypes } from '@helpers/types';
-import { sessionStorageService } from '@helpers/sessionStorage';
 import { chatApi } from 'src/app/api/socket';
 import { getElementById } from '@helpers/utils';
+import { sessionStorageService } from '@helpers/sessionStorage';
 
 const LENGTH_MESSAGE = 0;
 
@@ -20,69 +20,74 @@ export class ChatMessField extends BaseComponent {
 
   protected contextMenu: HTMLUListElement;
 
-  // protected draw(): HTMLElement {
-  //   this.container.innerHTML = '';
-  //   this.container.innerHTML = 'Select the user to send the message...';
-  //   return this.container;
-  // }
-
   protected draw(): HTMLElement {
+    this.container.innerHTML = '';
+    this.container.innerHTML = `<div class="message_hint">Select the user to send the message...</div>`;
+    return this.container;
+  }
+
+  protected drawMessageField(): HTMLElement {
+    console.log('рисую drawMessageField, а перед этим нужно взять историю сообщений');
     this.container.innerHTML = '';
     const currentUser = sessionStorageService.getUserFromStorage('user');
     const messagesHistory = state.getMessagesHistory();
+    console.log(' взяла историю сообщений из State', messagesHistory);
     if (messagesHistory.length === LENGTH_MESSAGE) {
-      this.container.innerHTML = 'Write your first message...';
+      this.container.innerHTML = `<div class="message_hint">Write your first message...</div>`;
     }
 
     messagesHistory.forEach((message) => {
-      const messageDiv = document.createElement('div');
-      messageDiv.classList.add('message_container');
-      messageDiv.id = message.id;
+      Object.keys(message).forEach((key) => {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message_container');
+        messageDiv.id = key;
 
-      const messageContent = document.createElement('div');
-      messageContent.classList.add('message__content');
+        const messageContent = document.createElement('div');
+        messageContent.classList.add('message__content');
 
-      const headerDiv = document.createElement('div');
-      headerDiv.classList.add('message__header');
+        const headerDiv = document.createElement('div');
+        headerDiv.classList.add('message__header');
 
-      const senderLabel = document.createElement('label');
-      senderLabel.classList.add('message__sender');
-      // senderLabel.textContent = message.from === currentUser?.login ? 'You' : message.from;
-      if (message.from === currentUser?.login) {
-        senderLabel.textContent = 'You';
-        messageDiv.classList.add('message__right');
-      } else {
-        senderLabel.textContent = message.from;
-        messageDiv.classList.add('message__left');
-      }
+        const senderLabel = document.createElement('label');
+        senderLabel.classList.add('message__sender');
+        senderLabel.textContent = message[key].from === currentUser?.login ? 'You' : message[key].from;
+        if (message[key].from === currentUser?.login) {
+          senderLabel.textContent = 'You';
+          messageDiv.classList.add('message__right');
+        } else {
+          senderLabel.textContent = message[key].from;
+          messageDiv.classList.add('message__left');
+        }
 
-      const dateLabel = document.createElement('label');
-      dateLabel.classList.add('message__data');
-      const date = new Date(message.datetime);
-      dateLabel.textContent = date.toLocaleString();
-      headerDiv.append(senderLabel, dateLabel);
+        const dateLabel = document.createElement('label');
+        dateLabel.classList.add('message__data');
+        const date = new Date(message[key].datetime);
+        dateLabel.textContent = date.toLocaleString();
+        headerDiv.append(senderLabel, dateLabel);
 
-      const textDiv = document.createElement('div');
-      textDiv.classList.add('message__text');
-      textDiv.textContent = message.text;
+        const textDiv = document.createElement('div');
+        textDiv.classList.add('message__text');
+        textDiv.textContent = message[key].text;
 
-      const footerDiv = document.createElement('div');
-      footerDiv.classList.add('message__footer');
+        const footerDiv = document.createElement('div');
+        footerDiv.classList.add('message__footer');
 
-      const editedLabel = document.createElement('label');
-      editedLabel.classList.add('message__edit');
-      editedLabel.textContent = message.status.isEdited ? 'Edited' : '';
+        const editedLabel = document.createElement('label');
+        editedLabel.classList.add('message__edit');
+        editedLabel.textContent = message[key].status.isEdited ? 'Edited' : '';
 
-      const readLabel = document.createElement('label');
-      readLabel.classList.add('message__read');
-      readLabel.textContent = message.status.isReaded ? 'Readed' : '';
-      footerDiv.append(editedLabel, readLabel);
+        const readLabel = document.createElement('label');
+        readLabel.classList.add('message__read');
+        readLabel.textContent = message[key].status.isReaded ? 'Readed' : '';
+        footerDiv.append(editedLabel, readLabel);
 
-      messageContent.append(headerDiv, textDiv, footerDiv);
-      messageDiv.append(messageContent);
+        messageContent.append(headerDiv, textDiv, footerDiv);
+        messageDiv.append(messageContent);
 
-      this.container.appendChild(messageDiv);
+        this.container.append(messageDiv);
+      });
     });
+
     this.container.scrollTop = this.container.scrollHeight;
 
     this.contextMenu.classList.add('context-menu');
@@ -98,10 +103,6 @@ export class ChatMessField extends BaseComponent {
   }
 
   protected addEventListeners(): void {
-    window.addEventListener(EventTypes.UpdateMessagesHistory, () => {
-      this.draw();
-    });
-
     this.container.addEventListener('contextmenu', (event) => {
       event.preventDefault();
       const target = event.target as HTMLElement;
@@ -160,6 +161,10 @@ export class ChatMessField extends BaseComponent {
         }
       }
     });
+
+    window.addEventListener(EventTypes.UpdateMessagesHistory, (() => {
+      this.drawMessageField();
+    }) as EventListener);
 
     window.addEventListener('click', () => {
       this.contextMenu.style.display = 'none';

@@ -1,6 +1,6 @@
 import { state } from '@helpers/State/State';
 import { sessionStorageService } from '@helpers/sessionStorage';
-import { EventTypes, RequestType, ServerResponseType, UserType } from '@helpers/types';
+import { EventTypes, MessageType, RequestType, ServerResponseType, UserType } from '@helpers/types';
 
 const RETRY_INTERVAL = 1000;
 
@@ -56,6 +56,18 @@ class WsApi {
     }
 
     if (data.type === 'USER_EXTERNAL_LOGIN') {
+      const login = data.payload.user?.login;
+      const userFromStorage = sessionStorageService.getUserFromStorage('userForMessages');
+      if (login === userFromStorage?.login) {
+        const updatedUser = {
+          ...userFromStorage,
+          isLogined: true,
+          login: userFromStorage?.login || '',
+        };
+        sessionStorageService.saveData('userForMessages', updatedUser);
+        console.log('USER_EXTERNAL_LOGIN', 'делаю обновление юзера для сообщений - он разлогинелся');
+        state.updateUserForMessages(updatedUser);
+      }
       this.wsSend(JSON.stringify(usersActive));
       this.wsSend(JSON.stringify(usersInactive));
     }
@@ -70,13 +82,9 @@ class WsApi {
           login: userFromStorage?.login || '',
         };
         sessionStorageService.saveData('userForMessages', updatedUser);
+        console.log('USER_EXTERNAL_LOGOUT', 'делаю обновление юзера для сообщений - он залогинелся');
+        state.updateUserForMessages(updatedUser);
       }
-      const updatedUserForMessages = {
-        ...userFromStorage,
-        isLogined: false,
-        login: userFromStorage?.login || '',
-      };
-      state.updateUserForMessages(updatedUserForMessages);
       this.wsSend(JSON.stringify(usersActive));
       this.wsSend(JSON.stringify(usersInactive));
     }
@@ -89,25 +97,18 @@ class WsApi {
 
     if (data.type === 'MSG_FROM_USER') {
       if (data.payload.messages) {
-        state.updateMessagesHistory(data.payload.messages);
-        console.log(data.payload.messages, 'data.payload.messages');
+        const newArray: { [key: string]: MessageType }[] = data.payload.messages.map((item: MessageType) => ({
+          [item.id]: item,
+        }));
+
+        console.log('MSG_FROM_USER newArray', newArray);
+        state.updateMessagesHistory(newArray);
       }
     }
 
     if (data.type === 'MSG_SEND') {
-      const currentUser = state.getUserForMessages();
-      const messageHistory = {
-        id: '',
-        type: 'MSG_FROM_USER',
-        payload: {
-          user: {
-            login: '',
-          },
-        },
-      };
-      messageHistory.payload.user.login = currentUser.login;
-
-      this.wsSend(JSON.stringify(messageHistory));
+      // const { id } = data.payload.message;
+      console.log(data.payload.message);
     }
 
     if (data.type === 'MSG_DELETE') {

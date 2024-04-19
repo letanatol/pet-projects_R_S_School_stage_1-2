@@ -1,4 +1,4 @@
-import { EventTypes, StateType, RequestType, UserType, ServerResponseType, MessageType } from '@helpers/types';
+import { EventTypes, StateType, RequestType, UserType, ServerResponseType, MessageMap } from '@helpers/types';
 
 class State {
   private state: StateType = {
@@ -31,8 +31,9 @@ class State {
     this.state.messageID = id;
   };
 
-  public updateMessagesHistory = (messages: MessageType[]): void => {
+  public updateMessagesHistory = (messages: MessageMap[]): void => {
     this.state.messagesHistory = messages;
+    console.log('Делаю обновление истории сообщений', this.state.messagesHistory);
 
     window.dispatchEvent(new CustomEvent(EventTypes.UpdateMessagesHistory, { bubbles: true, detail: {} }));
   };
@@ -50,7 +51,7 @@ class State {
 
   public updateUserForMessages = (user: UserType): void => {
     this.state.userForMessages = user;
-
+    console.log('Делаю обновление юзера для сообщений', this.state.userForMessages);
     window.dispatchEvent(new CustomEvent(EventTypes.UpdateUserForMessages, { bubbles: true, detail: { user } }));
   };
 
@@ -97,7 +98,7 @@ class State {
 
   public getMessageID = (): string => this.state.messageID;
 
-  public getMessagesHistory = (): MessageType[] => this.state.messagesHistory;
+  public getMessagesHistory = (): MessageMap[] => this.state.messagesHistory;
 
   public getUserForMessages = (): UserType => this.state.userForMessages;
 

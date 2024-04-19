@@ -53,7 +53,6 @@ export class ChatPage extends BaseComponent {
           row.classList.remove('user__for-message');
         });
         target.classList.add('user__for-message');
-        console.log('target', target);
         const label = target.querySelector('.user-login') as HTMLElement;
         const classActive = target.querySelector('.active') as HTMLElement;
         const classInactive = target.querySelector('.inactive') as HTMLElement;
