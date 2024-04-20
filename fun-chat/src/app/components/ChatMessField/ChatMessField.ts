@@ -27,65 +27,67 @@ export class ChatMessField extends BaseComponent {
   }
 
   protected drawMessageField(): HTMLElement {
-    console.log('рисую drawMessageField, а перед этим нужно взять историю сообщений');
     this.container.innerHTML = '';
     const currentUser = sessionStorageService.getUserFromStorage('user');
     const messagesHistory = state.getMessagesHistory();
-    console.log(' взяла историю сообщений из State', messagesHistory);
-    if (messagesHistory.length === LENGTH_MESSAGE) {
+
+    if (Object.keys(messagesHistory).length === LENGTH_MESSAGE) {
       this.container.innerHTML = `<div class="message_hint">Write your first message...</div>`;
     }
 
-    messagesHistory.forEach((message) => {
-      Object.keys(message).forEach((key) => {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message_container');
-        messageDiv.id = key;
+    const sortedMessages = Object.entries(messagesHistory).sort(
+      ([, messageA], [, messageB]) => messageA.datetime - messageB.datetime
+    );
 
-        const messageContent = document.createElement('div');
-        messageContent.classList.add('message__content');
+    sortedMessages.forEach(([messageId, message]) => {
+      const messageDiv = document.createElement('div');
+      messageDiv.classList.add('message_container');
+      messageDiv.id = messageId;
 
-        const headerDiv = document.createElement('div');
-        headerDiv.classList.add('message__header');
+      const messageContent = document.createElement('div');
+      messageContent.classList.add('message__content');
 
-        const senderLabel = document.createElement('label');
-        senderLabel.classList.add('message__sender');
-        senderLabel.textContent = message[key].from === currentUser?.login ? 'You' : message[key].from;
-        if (message[key].from === currentUser?.login) {
-          senderLabel.textContent = 'You';
-          messageDiv.classList.add('message__right');
-        } else {
-          senderLabel.textContent = message[key].from;
-          messageDiv.classList.add('message__left');
-        }
+      const headerDiv = document.createElement('div');
+      headerDiv.classList.add('message__header');
 
-        const dateLabel = document.createElement('label');
-        dateLabel.classList.add('message__data');
-        const date = new Date(message[key].datetime);
-        dateLabel.textContent = date.toLocaleString();
-        headerDiv.append(senderLabel, dateLabel);
+      const senderLabel = document.createElement('label');
+      senderLabel.classList.add('message__sender');
 
-        const textDiv = document.createElement('div');
-        textDiv.classList.add('message__text');
-        textDiv.textContent = message[key].text;
+      const dateLabel = document.createElement('label');
+      dateLabel.classList.add('message__data');
+      const date = new Date(message.datetime);
+      dateLabel.textContent = date.toLocaleString();
+      headerDiv.append(senderLabel, dateLabel);
 
-        const footerDiv = document.createElement('div');
-        footerDiv.classList.add('message__footer');
+      const textDiv = document.createElement('div');
+      textDiv.classList.add('message__text');
+      textDiv.textContent = message.text;
 
-        const editedLabel = document.createElement('label');
-        editedLabel.classList.add('message__edit');
-        editedLabel.textContent = message[key].status.isEdited ? 'Edited' : '';
+      const footerDiv = document.createElement('div');
+      footerDiv.classList.add('message__footer');
 
-        const readLabel = document.createElement('label');
-        readLabel.classList.add('message__read');
-        readLabel.textContent = message[key].status.isReaded ? 'Readed' : '';
-        footerDiv.append(editedLabel, readLabel);
+      const editedLabel = document.createElement('label');
+      editedLabel.classList.add('message__edit');
+      editedLabel.textContent = message.status.isEdited ? 'Edited' : 'No Edited';
 
-        messageContent.append(headerDiv, textDiv, footerDiv);
-        messageDiv.append(messageContent);
+      const statusLabel = document.createElement('label');
+      statusLabel.classList.add('message__status');
 
-        this.container.append(messageDiv);
-      });
+      if (message.from !== undefined && message.from === currentUser?.login) {
+        senderLabel.textContent = 'You';
+        messageDiv.classList.add('message__right');
+        statusLabel.textContent = message.status.isDelivered ? 'Delivered' : 'Sent';
+      } else {
+        senderLabel.textContent = message.from || '';
+        messageDiv.classList.add('message__left');
+      }
+
+      footerDiv.append(editedLabel, statusLabel);
+
+      messageContent.append(headerDiv, textDiv, footerDiv);
+      messageDiv.append(messageContent);
+
+      this.container.append(messageDiv);
     });
 
     this.container.scrollTop = this.container.scrollHeight;
@@ -94,8 +96,8 @@ export class ChatMessField extends BaseComponent {
     this.contextMenu.id = 'contextMenu';
     this.contextMenu.style.display = 'none';
     this.contextMenu.innerHTML = `
-        <li class="context-menu_item edit-message">Edit</li>
-        <li class="context-menu_item delete-message">Delete</li>
+      <li class="context-menu__item edit-message">Edit</li>
+      <li class="context-menu__item delete-message">Delete</li>
     `;
 
     this.container.append(this.contextMenu);

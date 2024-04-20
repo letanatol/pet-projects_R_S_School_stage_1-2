@@ -68,7 +68,6 @@ export class ChatPage extends BaseComponent {
           const login = label.textContent as string;
           sessionStorageService.saveData('userForMessages', { login, isLogined });
           state.updateUserForMessages({ login, isLogined });
-          // ! Сделать запрос на сервер на переписку с этим user и если пусто, то
         }
 
         inputChatField.removeAttribute('disabled');

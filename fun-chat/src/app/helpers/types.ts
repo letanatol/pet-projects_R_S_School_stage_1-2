@@ -4,7 +4,7 @@ export type StateType = {
   userForMessages: UserType;
   message: string;
   messageID: string;
-  messagesHistory: MessageMap[];
+  messagesHistory: MessageMap;
   chatFieldHint: string;
   usersActive: UserType[] | null;
   usersInactive: UserType[] | null;
@@ -13,8 +13,8 @@ export type StateType = {
 
 export type MessageType = {
   id: string;
-  from: string;
-  to: string;
+  from?: string | null;
+  to?: string;
   text: string;
   datetime: number;
   status: {

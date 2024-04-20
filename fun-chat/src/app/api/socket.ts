@@ -1,6 +1,6 @@
 import { state } from '@helpers/State/State';
 import { sessionStorageService } from '@helpers/sessionStorage';
-import { EventTypes, MessageType, RequestType, ServerResponseType, UserType } from '@helpers/types';
+import { EventTypes, MessageType, ServerResponseType, UserType } from '@helpers/types';
 
 const RETRY_INTERVAL = 1000;
 
@@ -9,7 +9,6 @@ class WsApi {
 
   constructor() {
     this.addListeners();
-
     this.socket.addEventListener('error', (event) => {
       console.log(event);
     });
@@ -65,7 +64,6 @@ class WsApi {
           login: userFromStorage?.login || '',
         };
         sessionStorageService.saveData('userForMessages', updatedUser);
-        console.log('USER_EXTERNAL_LOGIN', 'делаю обновление юзера для сообщений - он разлогинелся');
         state.updateUserForMessages(updatedUser);
       }
       this.wsSend(JSON.stringify(usersActive));
@@ -82,7 +80,6 @@ class WsApi {
           login: userFromStorage?.login || '',
         };
         sessionStorageService.saveData('userForMessages', updatedUser);
-        console.log('USER_EXTERNAL_LOGOUT', 'делаю обновление юзера для сообщений - он залогинелся');
         state.updateUserForMessages(updatedUser);
       }
       this.wsSend(JSON.stringify(usersActive));
@@ -96,19 +93,24 @@ class WsApi {
     }
 
     if (data.type === 'MSG_FROM_USER') {
-      if (data.payload.messages) {
-        const newArray: { [key: string]: MessageType }[] = data.payload.messages.map((item: MessageType) => ({
-          [item.id]: item,
-        }));
-
-        console.log('MSG_FROM_USER newArray', newArray);
-        state.updateMessagesHistory(newArray);
-      }
+      const transformedMessages = data.payload.messages.reduce<{ [key: string]: MessageType }>((acc, message) => {
+        acc[message.id] = message;
+        return acc;
+      }, {});
+      state.updateMessagesHistory(transformedMessages, true);
     }
 
     if (data.type === 'MSG_SEND') {
-      // const { id } = data.payload.message;
-      console.log(data.payload.message);
+      const { id } = data.payload.message;
+      const transformedMessage: { [key: string]: MessageType } = { [id]: data.payload.message };
+      state.updateMessagesHistory(transformedMessage);
+    }
+
+    if (data.type === 'MSG_DELIVER') {
+      const { id } = data.payload.message;
+      const messageHistory = state.getMessagesHistory();
+      messageHistory[id].status.isDelivered = true;
+      state.updateMessagesHistory(messageHistory, true);
     }
 
     if (data.type === 'MSG_DELETE') {
@@ -228,20 +230,6 @@ class WsApi {
 
       this.wsSend(JSON.stringify(sendingMessage));
     }) as EventListener);
-  }
-
-  public getActiveUsers(): void {
-    const userActive = {
-      id: '',
-      type: 'USER_ACTIVE',
-      payload: null,
-    };
-
-    this.wsSend(JSON.stringify(userActive));
-  }
-
-  public loginUser(user: RequestType): void {
-    this.wsSend(JSON.stringify(user));
   }
 }
 

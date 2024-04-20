@@ -1,4 +1,12 @@
-import { EventTypes, StateType, RequestType, UserType, ServerResponseType, MessageMap } from '@helpers/types';
+import {
+  EventTypes,
+  StateType,
+  RequestType,
+  UserType,
+  ServerResponseType,
+  MessageMap,
+  MessageType,
+} from '@helpers/types';
 
 class State {
   private state: StateType = {
@@ -20,7 +28,7 @@ class State {
     },
     message: '',
     messageID: '',
-    messagesHistory: [],
+    messagesHistory: {},
     chatFieldHint: 'Select the user to send the message...',
     usersActive: [],
     usersInactive: [],
@@ -31,9 +39,18 @@ class State {
     this.state.messageID = id;
   };
 
-  public updateMessagesHistory = (messages: MessageMap[]): void => {
-    this.state.messagesHistory = messages;
-    console.log('Делаю обновление истории сообщений', this.state.messagesHistory);
+  public updateMessagesHistory = (messages: { [key: string]: MessageType }, replaceAll: boolean = false): void => {
+    if (replaceAll) {
+      this.state.messagesHistory = messages;
+    } else {
+      const updatedMessagesHistory = { ...this.state.messagesHistory };
+
+      Object.entries(messages).forEach(([messageId, message]) => {
+        updatedMessagesHistory[messageId] = message;
+      });
+
+      this.state.messagesHistory = updatedMessagesHistory;
+    }
 
     window.dispatchEvent(new CustomEvent(EventTypes.UpdateMessagesHistory, { bubbles: true, detail: {} }));
   };
@@ -51,7 +68,6 @@ class State {
 
   public updateUserForMessages = (user: UserType): void => {
     this.state.userForMessages = user;
-    console.log('Делаю обновление юзера для сообщений', this.state.userForMessages);
     window.dispatchEvent(new CustomEvent(EventTypes.UpdateUserForMessages, { bubbles: true, detail: { user } }));
   };
 
@@ -98,7 +114,7 @@ class State {
 
   public getMessageID = (): string => this.state.messageID;
 
-  public getMessagesHistory = (): MessageMap[] => this.state.messagesHistory;
+  public getMessagesHistory = (): MessageMap => this.state.messagesHistory;
 
   public getUserForMessages = (): UserType => this.state.userForMessages;
 
