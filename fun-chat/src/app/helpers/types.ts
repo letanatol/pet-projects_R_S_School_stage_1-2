@@ -36,7 +36,10 @@ export type RequestType = {
   id: string | null;
   type: string;
   payload: {
-    user: UserType;
+    message?: {
+      id: string;
+    };
+    user?: UserType;
   } | null;
 };
 
@@ -71,4 +74,5 @@ export enum EventTypes {
   UpdateUsersActive = 'UpdateUsersActive',
   UpdateUsersInactive = 'UpdateUsersInactive',
   UpdateModalState = 'UpdateModalState',
+  UpdateReadMessages = 'UpdateReadMessages',
 }

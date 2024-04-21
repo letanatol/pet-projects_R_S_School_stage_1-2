@@ -39,18 +39,33 @@ class State {
     this.state.messageID = id;
   };
 
-  public updateMessagesHistory = (messages: { [key: string]: MessageType }, replaceAll: boolean = false): void => {
-    if (replaceAll) {
-      this.state.messagesHistory = messages;
-    } else {
-      const updatedMessagesHistory = { ...this.state.messagesHistory };
+  public updateMessagesHistory = (messages: { [key: string]: MessageType }): void => {
+    const updatedMessagesHistory = { ...this.state.messagesHistory };
 
-      Object.entries(messages).forEach(([messageId, message]) => {
-        updatedMessagesHistory[messageId] = message;
-      });
+    Object.entries(messages).forEach(([messageId, message]) => {
+      updatedMessagesHistory[messageId] = message;
+    });
 
-      this.state.messagesHistory = updatedMessagesHistory;
+    this.state.messagesHistory = updatedMessagesHistory;
+
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateMessagesHistory, { bubbles: true, detail: {} }));
+  };
+
+  public updateMessageHistoryById = (
+    id: string,
+    status: {
+      isDelivered: boolean;
+      isReaded: boolean;
+      isEdited: boolean;
     }
+  ): void => {
+    this.state.messagesHistory[id] = {
+      ...this.state.messagesHistory[id],
+      status: {
+        ...this.state.messagesHistory[id].status,
+        ...status,
+      },
+    };
 
     window.dispatchEvent(new CustomEvent(EventTypes.UpdateMessagesHistory, { bubbles: true, detail: {} }));
   };
@@ -104,7 +119,7 @@ class State {
   };
 
   public updateUser = (login: string, password: string): void => {
-    if (this.state.user.payload !== null) {
+    if (this.state.user.payload !== null && this.state.user.payload.user) {
       this.state.user.payload.user.login = login;
       this.state.user.payload.user.password = password;
 
@@ -115,6 +130,37 @@ class State {
   public getMessageID = (): string => this.state.messageID;
 
   public getMessagesHistory = (): MessageMap => this.state.messagesHistory;
+
+  public getMessageHistoryByCurrentUser = (isRead?: boolean): MessageMap => {
+    const currentLogin = this.getUser().payload?.user?.login;
+    const selectedUser = this.getUserForMessages().login;
+
+    return Object.entries(this.state.messagesHistory)
+      .filter(([, value]) => (isRead ? value.status.isReaded === isRead : true))
+      .filter(
+        ([, value]) =>
+          (value.from === currentLogin && value.to === selectedUser) ||
+          (value.to === currentLogin && value.from === selectedUser)
+      )
+      .sort(([, messageA], [, messageB]) => messageA.datetime - messageB.datetime)
+      .reduce<{ [key: string]: MessageType }>((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {});
+  };
+
+  public getMessageHistoryByCurrentUserNotRead = (): MessageMap => {
+    const currentLogin = this.getUser().payload?.user?.login;
+    const selectedUser = this.getUserForMessages().login;
+
+    return Object.entries(this.state.messagesHistory)
+      .filter(([, value]) => value.status.isReaded === false)
+      .filter(([, value]) => value.to === currentLogin && value.from === selectedUser)
+      .reduce<{ [key: string]: MessageType }>((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {});
+  };
 
   public getUserForMessages = (): UserType => this.state.userForMessages;
 

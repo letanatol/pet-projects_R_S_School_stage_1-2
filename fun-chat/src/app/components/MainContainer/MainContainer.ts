@@ -75,7 +75,7 @@ export class MainContainer extends BaseComponent {
         const userFromStorage = sessionStorageService.getUserFromStorage('user');
         if (userFromStorage && userFromStorage.password) {
           user.type = 'USER_LOGOUT';
-          if (user.payload) {
+          if (user.payload && user.payload.user) {
             user.payload.user.login = userFromStorage.login;
             user.payload.user.password = userFromStorage.password;
             chatApi.wsSend(JSON.stringify(user));

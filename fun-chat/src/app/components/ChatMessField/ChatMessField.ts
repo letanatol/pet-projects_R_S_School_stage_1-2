@@ -29,15 +29,13 @@ export class ChatMessField extends BaseComponent {
   protected drawMessageField(): HTMLElement {
     this.container.innerHTML = '';
     const currentUser = sessionStorageService.getUserFromStorage('user');
-    const messagesHistory = state.getMessagesHistory();
+    const messagesHistory = state.getMessageHistoryByCurrentUser();
 
     if (Object.keys(messagesHistory).length === LENGTH_MESSAGE) {
       this.container.innerHTML = `<div class="message_hint">Write your first message...</div>`;
     }
 
-    const sortedMessages = Object.entries(messagesHistory).sort(
-      ([, messageA], [, messageB]) => messageA.datetime - messageB.datetime
-    );
+    const sortedMessages = Object.entries(messagesHistory);
 
     sortedMessages.forEach(([messageId, message]) => {
       const messageDiv = document.createElement('div');
@@ -68,7 +66,7 @@ export class ChatMessField extends BaseComponent {
 
       const editedLabel = document.createElement('label');
       editedLabel.classList.add('message__edit');
-      editedLabel.textContent = message.status.isEdited ? 'Edited' : 'No Edited';
+      editedLabel.textContent = message.status.isEdited ? 'Edited' : '';
 
       const statusLabel = document.createElement('label');
       statusLabel.classList.add('message__status');
@@ -77,8 +75,12 @@ export class ChatMessField extends BaseComponent {
         senderLabel.textContent = 'You';
         messageDiv.classList.add('message__right');
         statusLabel.textContent = message.status.isDelivered ? 'Delivered' : 'Sent';
+
+        if (message.status.isReaded) {
+          statusLabel.textContent = 'Read';
+        }
       } else {
-        senderLabel.textContent = message.from || '';
+        senderLabel.textContent = message.from ?? '';
         messageDiv.classList.add('message__left');
       }
 
@@ -128,6 +130,20 @@ export class ChatMessField extends BaseComponent {
       }
     });
 
+    this.container.addEventListener('scroll', (event) => {
+      console.log(event);
+    });
+
+    this.container.addEventListener('click', () => {
+      if (state.getUserForMessages().login !== '') {
+        const userMessages = state.getMessageHistoryByCurrentUserNotRead();
+
+        window.dispatchEvent(
+          new CustomEvent(EventTypes.UpdateReadMessages, { bubbles: true, detail: { userMessages } })
+        );
+      }
+    });
+
     this.contextMenu.addEventListener('click', (event: Event) => {
       const target = event.target as HTMLElement;
       if (!target || !target.classList) return;
@@ -164,8 +180,17 @@ export class ChatMessField extends BaseComponent {
       }
     });
 
-    window.addEventListener(EventTypes.UpdateMessagesHistory, (() => {
+    window.addEventListener(EventTypes.UpdateUserForMessages, (() => {
       this.drawMessageField();
+    }) as EventListener);
+
+    window.addEventListener(EventTypes.UpdateMessagesHistory, (() => {
+      if (sessionStorageService.getUserFromStorage('userForMessages')) {
+        this.drawMessageField();
+      }
+      // if (state.getUserForMessages().login !== '') {
+      //   this.drawMessageField();
+      // }
     }) as EventListener);
 
     window.addEventListener('click', () => {
