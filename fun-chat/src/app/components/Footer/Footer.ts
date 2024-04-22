@@ -15,16 +15,14 @@ export class Footer extends BaseComponent {
       <div class="footer__row">
         <ul class="footer__list">
           <li class="footer__item">
-            <a href="https://github.com/letanatol/" target="_blank" class="footer__link">
-              <img src="../../../assets/images/content/github_svg.svg" alt="Logo GitHub" width="30" height="30">letanatol
-            </a>
+            <a href="https://github.com/letanatol/" target="_blank" class="footer__link">letanatol</a>
           </li>
           <li class="footer__item">
             <strong class="contacts__bold">2024</strong>
           </li>
           <li class="footer__item">
             <a href="https://rs.school/courses/javascript-mentoring-program" target="_blank" class="footer__link">
-              <img src="../../../assets/images/content/RS_School-svg.svg" alt="Logo RS School" width="60" height="40">
+             RS School
             </a>
           </li>
         </ul>
