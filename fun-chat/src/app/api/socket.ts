@@ -30,6 +30,16 @@ class WsApi {
       payload: null,
     };
 
+    const messageHistoryForUser = (user: string): RequestType => ({
+      id: '',
+      type: 'MSG_FROM_USER',
+      payload: {
+        user: {
+          login: user,
+        },
+      },
+    });
+
     if (data.type === 'USER_LOGIN') {
       if (data.payload.user?.isLogined) {
         state.updatePage('main');
@@ -45,16 +55,6 @@ class WsApi {
         window.location.hash = 'login';
       }
     }
-
-    const messageHistoryForUser = (user: string): RequestType => ({
-      id: '',
-      type: 'MSG_FROM_USER',
-      payload: {
-        user: {
-          login: user,
-        },
-      },
-    });
 
     if (data.type === 'USER_ACTIVE') {
       state.updateUsersActive(data);

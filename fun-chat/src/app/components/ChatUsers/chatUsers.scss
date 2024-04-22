@@ -35,10 +35,21 @@
 .user-row {
   display: flex;
   align-items: center;
-  padding: 2px 0 2px 5px;
+  padding: 2px 5px;
   border-radius: 5px;
 }
 
 .user__for-message {
   background-color: $button-color;
+}
+
+.user-noRead {
+  margin-left: auto;
+  background-color: $button-color-hover;
+  color: $white;
+  border-radius: 50%;
+  font-size: 11px;
+  min-width: 15px;
+  text-align: center;
+  width: 5%;
 }

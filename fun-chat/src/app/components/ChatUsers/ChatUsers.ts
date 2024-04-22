@@ -30,11 +30,10 @@ export class ChatUsers extends BaseComponent {
     if (!userFromStorage || !userFromStorage.login) {
       return usersList;
     }
-    if (!userMessageFromStorage || !userMessageFromStorage.login) {
-      console.log('No active user for message');
-    }
 
     usersActiveList.forEach((userActive) => {
+      const noRead = state.getMessageHistoryByCurrentUserNotRead(userActive);
+      const numberOfProperties = Object.keys(noRead).length;
       const { login } = userActive;
       if (login !== userFromStorage.login) {
         const li = document.createElement('li');
@@ -42,10 +41,18 @@ export class ChatUsers extends BaseComponent {
         if (login === userForMessages) {
           li.classList.add('user__for-message');
         }
-        li.innerHTML = `
+        if (numberOfProperties) {
+          li.innerHTML = `
+            <div class="user-status active"></div>
+            <label class="user-login">${login}</label>
+            <label class="user-noRead">${numberOfProperties}</label>
+          `;
+        } else {
+          li.innerHTML = `
             <div class="user-status active"></div>
             <label class="user-login">${login}</label>
           `;
+        }
         usersList.append(li);
       }
     });
@@ -78,6 +85,12 @@ export class ChatUsers extends BaseComponent {
       this.draw();
     });
     window.addEventListener(EventTypes.UpdateUsersInactive, () => {
+      this.draw();
+    });
+    window.addEventListener(EventTypes.UpdateMessagesHistory, () => {
+      this.draw();
+    });
+    window.addEventListener(EventTypes.UpdateMessagesHistory, () => {
       this.draw();
     });
   }

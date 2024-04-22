@@ -130,12 +130,17 @@ export class ChatMessField extends BaseComponent {
       }
     });
 
-    this.container.addEventListener('scroll', (event) => {
-      console.log(event);
+    this.container.addEventListener('scroll', () => {
+      if (sessionStorageService.getUserFromStorage('userForMessages')) {
+        const userMessages = state.getMessageHistoryByCurrentUserNotRead();
+        window.dispatchEvent(
+          new CustomEvent(EventTypes.UpdateReadMessages, { bubbles: true, detail: { userMessages } })
+        );
+      }
     });
 
     this.container.addEventListener('click', () => {
-      if (state.getUserForMessages().login !== '') {
+      if (sessionStorageService.getUserFromStorage('userForMessages')) {
         const userMessages = state.getMessageHistoryByCurrentUserNotRead();
 
         window.dispatchEvent(
@@ -188,9 +193,6 @@ export class ChatMessField extends BaseComponent {
       if (sessionStorageService.getUserFromStorage('userForMessages')) {
         this.drawMessageField();
       }
-      // if (state.getUserForMessages().login !== '') {
-      //   this.drawMessageField();
-      // }
     }) as EventListener);
 
     window.addEventListener('click', () => {

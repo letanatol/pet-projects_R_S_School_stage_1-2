@@ -1,7 +1,9 @@
 import BaseComponent from '@components/BaseComponent/BaseComponent';
 import './chatMessForm.scss';
 import { state } from '@helpers/State/State';
-import { getElement } from '@helpers/utils';
+import { getElement, getElementById } from '@helpers/utils';
+import { sessionStorageService } from '@helpers/sessionStorage';
+import { EventTypes } from '@helpers/types';
 
 export class ChatMessForm extends BaseComponent {
   constructor() {
@@ -25,9 +27,22 @@ export class ChatMessForm extends BaseComponent {
     this.form.addEventListener('submit', (event: Event) => {
       event.preventDefault();
       const inputChatField = getElement<HTMLInputElement>(document.body, '.chat-field__input');
-      const message = inputChatField.value;
-      state.updateMessage(message);
-      inputChatField.value = '';
+      const message = inputChatField.value.trim();
+      if (message !== '') {
+        state.updateMessage(message);
+        inputChatField.value = '';
+
+        const buttonChatField = getElementById<HTMLInputElement>('chat-field__button');
+        buttonChatField.setAttribute('disabled', 'disabled');
+      }
+
+      if (sessionStorageService.getUserFromStorage('userForMessages')) {
+        const userMessages = state.getMessageHistoryByCurrentUserNotRead();
+
+        window.dispatchEvent(
+          new CustomEvent(EventTypes.UpdateReadMessages, { bubbles: true, detail: { userMessages } })
+        );
+      }
     });
 
     this.form.addEventListener('keydown', (event: KeyboardEvent) => {

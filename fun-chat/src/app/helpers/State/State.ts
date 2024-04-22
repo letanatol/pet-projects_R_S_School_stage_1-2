@@ -149,9 +149,9 @@ class State {
       }, {});
   };
 
-  public getMessageHistoryByCurrentUserNotRead = (): MessageMap => {
+  public getMessageHistoryByCurrentUserNotRead = (user?: UserType): MessageMap => {
     const currentLogin = this.getUser().payload?.user?.login;
-    const selectedUser = this.getUserForMessages().login;
+    const selectedUser = user ? user.login : this.getUserForMessages().login;
 
     return Object.entries(this.state.messagesHistory)
       .filter(([, value]) => value.status.isReaded === false)
