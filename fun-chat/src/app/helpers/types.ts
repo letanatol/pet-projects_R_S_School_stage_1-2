@@ -2,6 +2,7 @@ export type StateType = {
   page: string;
   user: RequestType;
   userForMessages: UserType;
+  searchUser: string;
   message: string;
   messageID: string;
   messagesHistory: MessageMap;
@@ -75,4 +76,5 @@ export enum EventTypes {
   UpdateUsersInactive = 'UpdateUsersInactive',
   UpdateModalState = 'UpdateModalState',
   UpdateReadMessages = 'UpdateReadMessages',
+  UpdateSearchUser = 'UpdateSearchUser',
 }

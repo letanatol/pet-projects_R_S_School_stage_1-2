@@ -7,13 +7,17 @@ import { getElementById } from '@helpers/utils';
 import { sessionStorageService } from '@helpers/sessionStorage';
 
 const LENGTH_MESSAGE = 0;
+const ZERO_LENGTH = 0;
 
 export class ChatMessField extends BaseComponent {
+  private dividerSpan = document.createElement('span');
+
   constructor() {
     super();
     this.container = document.createElement('div');
     this.container.classList.add('chat-field__messages');
     this.contextMenu = document.createElement('ul');
+    this.dividerSpan.textContent = '______________________ New messages __________________';
   }
 
   protected container: HTMLElement;
@@ -36,8 +40,16 @@ export class ChatMessField extends BaseComponent {
     }
 
     const sortedMessages = Object.entries(messagesHistory);
+    const sortedReadMessages = sortedMessages.filter(
+      ([, message]) =>
+        message.status.isReaded === true || (message.from !== undefined && message.from === currentUser?.login)
+    );
+    const sortedUnreadMessages = sortedMessages.filter(
+      ([, message]) =>
+        message.status.isReaded === false && message.from !== undefined && message.from !== currentUser?.login
+    );
 
-    sortedMessages.forEach(([messageId, message]) => {
+    sortedReadMessages.forEach(([messageId, message]) => {
       const messageDiv = document.createElement('div');
       messageDiv.classList.add('message_container');
       messageDiv.id = messageId;
@@ -92,7 +104,76 @@ export class ChatMessField extends BaseComponent {
       this.container.append(messageDiv);
     });
 
-    this.container.scrollTop = this.container.scrollHeight;
+    if (sortedUnreadMessages.length === ZERO_LENGTH) {
+      this.dividerSpan.className = 'divider-hide';
+    }
+
+    if (sortedUnreadMessages.length > ZERO_LENGTH) {
+      this.dividerSpan.className = 'divider-show';
+
+      this.container.append(this.dividerSpan);
+
+      sortedUnreadMessages.forEach(([messageId, message]) => {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message_container');
+        messageDiv.id = messageId;
+
+        const messageContent = document.createElement('div');
+        messageContent.classList.add('message__content');
+
+        const headerDiv = document.createElement('div');
+        headerDiv.classList.add('message__header');
+
+        const senderLabel = document.createElement('label');
+        senderLabel.classList.add('message__sender');
+
+        const dateLabel = document.createElement('label');
+        dateLabel.classList.add('message__data');
+        const date = new Date(message.datetime);
+        dateLabel.textContent = date.toLocaleString();
+        headerDiv.append(senderLabel, dateLabel);
+
+        const textDiv = document.createElement('div');
+        textDiv.classList.add('message__text');
+        textDiv.textContent = message.text;
+
+        const footerDiv = document.createElement('div');
+        footerDiv.classList.add('message__footer');
+
+        const editedLabel = document.createElement('label');
+        editedLabel.classList.add('message__edit');
+        editedLabel.textContent = message.status.isEdited ? 'Edited' : '';
+
+        const statusLabel = document.createElement('label');
+        statusLabel.classList.add('message__status');
+
+        if (message.from !== undefined && message.from === currentUser?.login) {
+          senderLabel.textContent = 'You';
+          messageDiv.classList.add('message__right');
+          statusLabel.textContent = message.status.isDelivered ? 'Delivered' : 'Sent';
+
+          if (message.status.isReaded) {
+            statusLabel.textContent = 'Read';
+          }
+        } else {
+          senderLabel.textContent = message.from ?? '';
+          messageDiv.classList.add('message__left');
+        }
+
+        footerDiv.append(editedLabel, statusLabel);
+
+        messageContent.append(headerDiv, textDiv, footerDiv);
+        messageDiv.append(messageContent);
+
+        this.container.append(messageDiv);
+      });
+    }
+
+    if (this.dividerSpan.className === 'divider-show') {
+      this.dividerSpan.scrollIntoView();
+    } else {
+      this.container.scrollTop = this.container.scrollHeight;
+    }
 
     this.contextMenu.classList.add('context-menu');
     this.contextMenu.id = 'contextMenu';
@@ -114,9 +195,11 @@ export class ChatMessField extends BaseComponent {
       const messageSender = target.closest('.message_container')?.querySelector('.message__sender');
       if (messageSender && messageSender.textContent === 'You') {
         this.contextMenu.style.display = 'block';
-        const rect = this.container.getBoundingClientRect();
-        const offsetX = event.pageX - rect.left;
-        const offsetY = event.pageY - rect.top;
+        this.contextMenu.style.position = 'absolute';
+        this.contextMenu.style.zIndex = '10';
+
+        const offsetX = event.clientX - 200;
+        const offsetY = event.clientY - 120;
         this.contextMenu.style.left = `${offsetX}px`;
         this.contextMenu.style.top = `${offsetY}px`;
 
@@ -130,7 +213,7 @@ export class ChatMessField extends BaseComponent {
       }
     });
 
-    this.container.addEventListener('scroll', () => {
+    this.container.addEventListener('wheel', () => {
       if (sessionStorageService.getUserFromStorage('userForMessages')) {
         const userMessages = state.getMessageHistoryByCurrentUserNotRead();
         window.dispatchEvent(
@@ -164,6 +247,7 @@ export class ChatMessField extends BaseComponent {
           },
         };
         requestDeleteMessage.payload.message.id = state.getMessageID();
+        state.updateMessageID('');
         chatApi.wsSend(JSON.stringify(requestDeleteMessage));
       }
 

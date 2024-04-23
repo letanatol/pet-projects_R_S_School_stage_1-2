@@ -26,6 +26,7 @@ class State {
       password: '',
       isLogined: false,
     },
+    searchUser: '',
     message: '',
     messageID: '',
     messagesHistory: {},
@@ -54,10 +55,11 @@ class State {
   public updateMessageHistoryById = (
     id: string,
     status: {
-      isDelivered: boolean;
-      isReaded: boolean;
-      isEdited: boolean;
-    }
+      isDelivered?: boolean;
+      isReaded?: boolean;
+      isEdited?: boolean;
+    },
+    message?: string
   ): void => {
     this.state.messagesHistory[id] = {
       ...this.state.messagesHistory[id],
@@ -65,6 +67,7 @@ class State {
         ...this.state.messagesHistory[id].status,
         ...status,
       },
+      text: message || this.state.messagesHistory[id].text,
     };
 
     window.dispatchEvent(new CustomEvent(EventTypes.UpdateMessagesHistory, { bubbles: true, detail: {} }));
@@ -77,6 +80,17 @@ class State {
       new CustomEvent(EventTypes.UpdateMessage, {
         bubbles: true,
         detail: { message, user: this.state.userForMessages },
+      })
+    );
+  };
+
+  public updateMessageById = (message: string, id: string): void => {
+    this.state.message = message;
+
+    window.dispatchEvent(
+      new CustomEvent(EventTypes.UpdateMessage, {
+        bubbles: true,
+        detail: { message, id, user: this.state.userForMessages },
       })
     );
   };
@@ -127,6 +141,14 @@ class State {
     }
   };
 
+  public updateSearchUser = (str: string): void => {
+    this.state.searchUser = str;
+
+    window.dispatchEvent(new CustomEvent(EventTypes.UpdateSearchUser, { bubbles: true, detail: {} }));
+  };
+
+  public getSearchUser = (): string => this.state.searchUser;
+
   public getMessageID = (): string => this.state.messageID;
 
   public getMessagesHistory = (): MessageMap => this.state.messagesHistory;
@@ -174,9 +196,9 @@ class State {
 
   public getUser = (): RequestType => this.state.user;
 
-  public getState = (): void => {
-    console.log(this.state);
-  };
+  // public getState = (): void => {
+  //   console.log(this.state);
+  // };
 }
 
 const state = new State();

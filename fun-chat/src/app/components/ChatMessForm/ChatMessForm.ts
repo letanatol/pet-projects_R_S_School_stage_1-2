@@ -28,8 +28,16 @@ export class ChatMessForm extends BaseComponent {
       event.preventDefault();
       const inputChatField = getElement<HTMLInputElement>(document.body, '.chat-field__input');
       const message = inputChatField.value.trim();
+      const messageId = state.getMessageID();
+
       if (message !== '') {
-        state.updateMessage(message);
+        if (messageId) {
+          state.updateMessageById(message, messageId);
+          state.updateMessageID('');
+        } else {
+          state.updateMessage(message);
+        }
+
         inputChatField.value = '';
 
         const buttonChatField = getElementById<HTMLInputElement>('chat-field__button');

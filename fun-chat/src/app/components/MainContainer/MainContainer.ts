@@ -103,12 +103,14 @@ export class MainContainer extends BaseComponent {
     });
 
     window.addEventListener('hashchange', () => {
-      if (window.location.hash === '#main') {
+      if (['#login', '#main'].includes(window.location.hash)) {
         const user = sessionStorageService.getUserFromStorage('user');
+
         if (user && user.password) {
           this.container.innerHTML = '';
           const containerChatPage = new ChatPage().init();
           this.container.append(containerChatPage);
+          window.location.hash = 'main';
         } else {
           this.container.innerHTML = '';
           const containerLoginPage = new LoginPage().init();

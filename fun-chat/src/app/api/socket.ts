@@ -130,6 +130,12 @@ class WsApi {
       state.updateMessageHistoryById(id, status);
     }
 
+    if (data.type === 'MSG_EDIT') {
+      const { id, text } = data.payload.message;
+
+      state.updateMessageHistoryById(id, { isEdited: true }, text);
+    }
+
     if (data.type === 'MSG_DELIVER') {
       const { id } = data.payload.message;
       const messageHistory = state.getMessagesHistory();
@@ -242,22 +248,44 @@ class WsApi {
       Object.entries(event.detail.userMessages).forEach(([key]) => this.wsSend(JSON.stringify(messageRead(key))));
     }) as EventListener);
 
-    window.addEventListener(EventTypes.UpdateMessage, ((event: CustomEvent<{ message: string; user: UserType }>) => {
-      const sendingMessage = {
+    window.addEventListener(EventTypes.UpdateMessage, ((
+      event: CustomEvent<{ message: string; user: UserType; id?: string }>
+    ) => {
+      if (!event.detail.id) {
+        const sendingMessage = {
+          id: '',
+          type: 'MSG_SEND',
+          payload: {
+            message: {
+              to: '',
+              text: '',
+            },
+          },
+        };
+
+        sendingMessage.payload.message.text = event.detail.message;
+        sendingMessage.payload.message.to = event.detail.user.login;
+
+        this.wsSend(JSON.stringify(sendingMessage));
+
+        return;
+      }
+
+      const editingMessage = {
         id: '',
-        type: 'MSG_SEND',
+        type: 'MSG_EDIT',
         payload: {
           message: {
-            to: '',
+            id: '',
             text: '',
           },
         },
       };
 
-      sendingMessage.payload.message.text = event.detail.message;
-      sendingMessage.payload.message.to = event.detail.user.login;
+      editingMessage.payload.message.id = event.detail.id;
+      editingMessage.payload.message.text = event.detail.message;
 
-      this.wsSend(JSON.stringify(sendingMessage));
+      this.wsSend(JSON.stringify(editingMessage));
     }) as EventListener);
   }
 }
