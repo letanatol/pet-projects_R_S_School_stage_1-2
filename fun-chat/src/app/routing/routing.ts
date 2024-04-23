@@ -1,23 +1,13 @@
 import { state } from '@helpers/State/State';
 import { sessionStorageService } from '@helpers/sessionStorage';
-import { chatApi } from '../api/socket';
+// import { chatApi } from '../api/socket';
 
 window.addEventListener('hashchange', () => {
-  if (window.location.hash === '#login') {
-    const user = state.getUser();
+  if (['#login', '#main'].includes(window.location.hash)) {
     const userFromStorage = sessionStorageService.getUserFromStorage('user');
     if (userFromStorage && userFromStorage.password) {
-      user.type = 'USER_LOGOUT';
-      if (user.payload && user.payload.user) {
-        user.payload.user.login = userFromStorage.login;
-        user.payload.user.password = userFromStorage.password;
-        chatApi.wsSend(JSON.stringify(user));
-        sessionStorageService.clearData();
-        state.updatePage('login');
-      }
+      state.updatePage('main');
     }
-    sessionStorageService.clearData();
-    state.updatePage('login');
   }
 
   if (window.location.hash === '#about') {
