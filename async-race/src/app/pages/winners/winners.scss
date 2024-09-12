@@ -1,0 +1,39 @@
+@import '../../../styles/vars.scss';
+
+.container-table {
+  width: 100%;
+  margin-bottom: 20px;
+  border: 1px solid #dddddd;
+  border-collapse: collapse;
+}
+
+.table-header,
+.table-row {
+  display: flex;
+  gap: 5px;
+  padding: 3px;
+}
+
+.th {
+  width: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 5px 10px;
+  background: $background-color;
+  border: 1px solid $button-header;
+}
+
+.th-name,
+.td-name {
+  flex-grow: 1;
+}
+
+.td {
+  width: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 5px 10px;
+  padding: 5px;
+  background: $background-color-table;
+  border: 1px solid $button-header;
+}

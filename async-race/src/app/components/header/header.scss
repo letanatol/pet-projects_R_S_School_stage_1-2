@@ -1,0 +1,20 @@
+@import '../../../styles/vars.scss';
+
+.header {
+  display: flex;
+  gap: 20px;
+  padding: 5px;
+  border-bottom: 1px solid $button-header;
+}
+
+.button__to-garage,
+.button__to-winners {
+  background-color: $button-header;
+  color: $white;
+}
+
+.button__to-garage:hover,
+.button__to-winners:hover {
+  background-color: #1a0239;
+  transition: all 0.4s;
+}
