@@ -1,0 +1,96 @@
+body {
+  background-image: url(../assets/images/background.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  min-height: 100vh;
+}
+
+input {
+  display: block;
+  border: none;
+  outline: none;
+  position: relative;
+  width: 200px;
+  height: 20px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  padding: 20px;
+  max-width: 1400px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.title_login {
+  font-size: 22px;
+  padding: 20px;
+  letter-spacing: 2px;
+}
+
+.form_login {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 50px;
+}
+
+.input_wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  background-color: #5108d8;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.button:hover {
+  background-color: rgb(26, 2, 57);
+  transition: all 0.4s;
+}
+
+.error {
+  border: 2px solid #ff0000;
+}
+
+input.error::placeholder {
+  color: red;
+}
+
+input.error::after {
+  content: 'Invalid input';
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: red;
+  font-size: 12px;
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+}
