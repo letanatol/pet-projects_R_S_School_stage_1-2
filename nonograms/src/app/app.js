@@ -1,0 +1,25 @@
+import '../scss/app.scss';
+import './templates.js';
+import './render-gameBox.js';
+import './renderStopWatch.js';
+import './render-manePage.js';
+import './renderListTemplates.js';
+import './renderRandomSection.js';
+import './renderButtonsSection.js';
+import './renderButtonTheme.js';
+
+import './startGame/selectLevel.js';
+import './startGame/selectTemplate.js';
+import './startGame/paintCell.js';
+import './startGame/saveGame.js';
+import './startGame/localStorage.js';
+import './startGame/userAnswers.js';
+import './startGame/checkAnswer.js';
+import './startGame/renderModal.js';
+import './startGame/showSolution.js';
+import './startGame/showUserAnswer.js';
+import './startGame/resetGame.js';
+import './startGame/randomGame.js';
+import './startGame/continueGame.js';
+import './startGame/winResults.js';
+import './renderResultGame.js';

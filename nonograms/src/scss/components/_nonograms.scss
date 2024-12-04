@@ -1,0 +1,351 @@
+:root {
+  --background-color: #fe8d15;
+  --background-color-container: #ffffff;
+  --background-color-paint: #000000;
+  --background-color-circle: #edcdaa;
+  --border-color: #c9b5a6;
+  --color-text: #ffffff;
+  --color-text-option: #fe8d15;
+}
+
+.theme-dark {
+  --background-color: #ad5a00;
+  --background-color-container: #000000;
+  --background-color-paint: #ffffff;
+  --background-color-circle: #000000;
+  --border-color: #c9b5a6;
+  --color-text: #000000;
+  --color-text-option: #ad5a00;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+input {
+  border: none;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--background-color-container);
+  border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+  .container {
+    gap: 5px;
+    flex-direction: column;
+    padding: 10px;
+  }
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.field {
+  display: flex;
+  justify-content: center;
+  min-width: 400px;
+}
+
+.section {
+  border-radius: 10px;
+  padding: 5px;
+  background-color: var(--background-color);
+  color: var(--color-text);
+}
+
+.stop-watch__time {
+  margin: 0 10px;
+  text-align: center;
+}
+
+.levels__wrapper {
+  display: flex;
+}
+
+.levels__label {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 10px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.levels__input {
+  display: none;
+}
+
+.circle {
+  position: relative;
+  width: 14px;
+  height: 14px;
+  background-color: var(--background-color-circle);
+  border-radius: 50%;
+}
+
+.circle::before {
+  position: absolute;
+  content: '';
+  height: 6px;
+  width: 6px;
+  background-color: var(--background-color);
+  left: 4px;
+  top: 4px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  transition: 0.4s;
+}
+
+#easy:checked ~ .levels__label-easy .circle::before,
+#medium:checked ~ .levels__label-medium .circle::before,
+#hard:checked ~ .levels__label-hard .circle::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.label-templates {
+  padding-right: 10px;
+}
+
+select {
+  appearance: none;
+  background-color: var(--background-color-container);
+  border: none;
+  color: var(--color-text-option);
+  cursor: pointer;
+}
+
+option {
+  background-color: var(--background-color-container);
+  color: var(--color-text-option);
+}
+
+.game-box__hint-row {
+  display: grid;
+  grid-template-columns: repeat(5, 20px);
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.game-box__hint-column {
+  display: grid;
+  grid-template-rows: repeat(5, 20px);
+  justify-items: end;
+  align-items: center;
+}
+
+.hint-cell__wrap-row {
+  display: flex;
+}
+
+.hint-cell__wrap-column {
+  display: grid;
+  grid-template-rows: repeat(1, minmax(auto, 20px));
+}
+
+.hint-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  border: 1px solid var(--border-color);
+}
+
+.hint-cell[data-col='4'],
+.hint-cell[data-col='9'],
+.hint-cell[data-col='14'],
+.hint-cell__wrap-column .hint-cell[data-row='4'],
+.hint-cell__wrap-column .hint-cell[data-row='9'],
+.hint-cell__wrap-column .hint-cell[data-row='14'] {
+  border-right: 2.5px solid var(--border-color);
+}
+
+.game-box__row-2 {
+  display: flex;
+}
+
+.game-box__field {
+  display: grid;
+  grid-template: repeat(5, 20px) / repeat(5, 20px);
+  background-color: var(--background-color-container);
+}
+
+.grid__item {
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.paint {
+  background-color: var(--background-color-paint);
+}
+
+.cleanCell {
+  background-color: var(--background-color-container);
+}
+
+.mark {
+  background-image: url('../assets/images/gameBox/cross.gif');
+}
+
+span[data-row='4'],
+span[data-row='9'],
+span[data-row='14'],
+.hint-cell__wrap-row .hint-cell[data-row='4'],
+.hint-cell__wrap-row .hint-cell[data-row='9'],
+.hint-cell__wrap-row .hint-cell[data-row='14'] {
+  border-bottom: 2.5px solid var(--border-color);
+}
+
+span[data-row='0'] {
+  border-top: 2.5px solid var(--border-color);
+}
+
+span[data-col='4'],
+span[data-col='9'],
+span[data-col='14'] {
+  border-right: 2.5px solid var(--border-color);
+}
+
+span[data-col='0'] {
+  border-left: 2.5px solid var(--border-color);
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  border: none;
+  background-color: var(--background-color);
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.game-modal {
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  background: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.4s ease;
+}
+
+.game-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.game-modal .content {
+  background-color: var(--background-color);
+  color: var(--color-text);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  border-radius: 10px;
+  padding: 30px;
+}
+
+@media (max-width: 480px) {
+  .game-modal .content {
+    max-width: 320px;
+  }
+}
+
+.game-modal p {
+  font-size: 1.15rem;
+  margin: 15px 0 30px;
+  font-weight: 500;
+}
+
+.game-modal button {
+  padding: 12px 23px;
+  border-radius: 10px;
+  background-color: var(--color-text);
+  color: var(--background-color);
+  border: none;
+  cursor: pointer;
+}
+
+.result-game {
+  background-color: var(--background-color);
+  border-radius: 10px;
+}
+
+.result-game__title {
+  text-align: center;
+  color: var(--color-text);
+  padding: 5px;
+}
+
+.game {
+  display: flex;
+  padding: 0 10px;
+  gap: 10px;
+  color: var(--color-text);
+}
+
+.name__game {
+  width: 80px;
+}
+
+.level__game {
+  width: 50px;
+}
+
+.buttons__sound {
+  background: url('../assets/images/buttonSound/sound-on.svg') no-repeat center/cover;
+  width: 20px;
+  height: 20px;
+}
+
+.theme-dark .buttons__sound {
+  background: url('../assets/images/buttonSound/sound-onDark.svg') no-repeat center/cover;
+  width: 20px;
+  height: 20px;
+}
+
+.sound-off {
+  background: url('../assets/images/buttonSound/sound-off.svg') no-repeat center/cover;
+}
+
+.theme-dark .sound-off {
+  background: url('../assets/images/buttonSound/sound-offDark.svg') no-repeat center/cover;
+}
