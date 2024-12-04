@@ -1,0 +1,21 @@
+.wrapper_source {
+  display: flex;
+  width: 100%;
+}
+
+.wrapper_word {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  cursor: pointer;
+  text-align: center;
+  padding: 6px;
+}
+
+.wrapper_word:hover {
+  background-color: #bea7e5;
+  border: 1px solid #312593;
+}
+
+.wrapper_word:active {
+  color: rgb(120, 9, 247);
+}
